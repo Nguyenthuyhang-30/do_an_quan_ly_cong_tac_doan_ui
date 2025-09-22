@@ -4,51 +4,51 @@
 
 ```
 src/
-├── components/           # Reusable components
-│   ├── ui/              # Basic UI components
-│   ├── layout/          # Layout components
-│   ├── forms/           # Form components
-│   └── common/          # Common components
-├── pages/               # Page components
+├── components/           # Các component tái sử dụng
+│   ├── ui/              # Component UI cơ bản
+│   ├── layout/          # Component bố cục
+│   ├── forms/           # Component form
+│   └── common/          # Component dùng chung
+├── pages/               # Các trang
 ├── hooks/               # Custom hooks
 ├── services/            # API services
-├── utils/               # Utility functions
-├── constants/           # App constants
-├── types/               # TypeScript types
-├── stores/              # State management
-├── assets/              # Static assets
-└── styles/              # Global styles
+├── utils/               # Các hàm tiện ích
+├── constants/           # Các hằng số của ứng dụng
+├── types/               # Kiểu dữ liệu TypeScript
+├── stores/              # Quản lý trạng thái
+├── assets/              # Tài nguyên tĩnh
+└── styles/              # Styles toàn cục
 ```
 
 ---
 
-## Config & Setup
+## Cấu hình & Cài đặt
 
-- **Prettier & ESLint:** Code style enforced by `.prettierrc`, `.eslintrc.js`, `.editorconfig`
-- **Path Aliases:** Configured in `tsconfig.json` and `vite.config.ts`
-- **TailwindCSS:** Rapid utility-first styling. Config in `tailwind.config.js`
-- **SCSS Support:** Use `.scss` files for custom styles and variables
-- **Redux Toolkit:** State management in `src/stores/`
-- **React Router:** Routing system and lazy-loading page components
-- **Environment Variables:** All envs must use the `VITE_` prefix
+- **Prettier & ESLint:** Quy tắc code được định nghĩa trong `.prettierrc`, `.eslintrc.js`, `.editorconfig`
+- **Path Aliases:** Được cấu hình trong `tsconfig.json` và `vite.config.ts`
+- **TailwindCSS:** Hỗ trợ viết CSS nhanh với utility-first. Cấu hình trong `tailwind.config.js`
+- **SCSS Support:** Sử dụng file `.scss` cho styles tùy chỉnh và biến
+- **Redux Toolkit:** Quản lý state trong `src/stores/`
+- **React Router:** Hệ thống định tuyến và lazy-loading cho các trang
+- **Biến môi trường:** Tất cả biến môi trường phải bắt đầu bằng tiền tố `VITE_`
 
 ---
 
-## Getting Started
+## Bắt đầu
 
-### 1. Install dependencies
+### 1. Cài đặt dependencies
 
 ```bash
 npm install
 ```
 
-### 2. Run the app in development
+### 2. Chạy ứng dụng ở môi trường phát triển
 
 ```bash
 npm run dev
 ```
 
-### 3. Build for production
+### 3. Build cho môi trường production
 
 ```bash
 npm run build
@@ -56,65 +56,64 @@ npm run build
 
 ---
 
-## Environment Variables
+## Biến môi trường
 
-Add your variables in `.env`, `.env.development`, `.env.production`, etc.
+Thêm biến vào file `.env`, `.env.development`, `.env.production`, v.v.
 
-Example:
+Ví dụ:
 
 ```
 VITE_API_URL=https://api.example.com
 VITE_FEATURE_FLAG_EXPERIMENTAL=true
 ```
 
-> **All env variables used in code must start with `VITE_`.**
+> **Tất cả biến môi trường sử dụng trong code phải bắt đầu với `VITE_`.**
 
 ---
 
-## Validate Environment Variables
+## Xác thực biến môi trường
 
-The project uses [zod](https://zod.dev/) to validate required environment variables at startup.  
-Validation schema is in `src/constants/env.ts`.  
-If a variable is missing or has the wrong format, the app will throw an error and stop.
+Dự án sử dụng [zod](https://zod.dev/) để xác thực các biến môi trường cần thiết khi khởi động.  
+Schema được định nghĩa trong `src/constants/env.ts`.  
+Nếu thiếu biến hoặc sai định dạng, ứng dụng sẽ báo lỗi và dừng chạy.
 
 ---
 
-## Base Components & Utilities
+## Các Component & Tiện ích cơ bản
 
-- **UI Components:** Button, Input, Modal, Toast, Spinner, Table, etc.
+- **UI Components:** Button, Input, Modal, Toast, Spinner, Table, v.v.
 - **Layout:** Header, Sidebar, Container, Grid, ...
 - **Hooks:** `useApi`, `useLocalStorage`, `useDebounce`, `useForm`, ...
-- **API Service Layer:** Axios instance with interceptors, error handling, request cancel, etc.
-- **Auth:** JWT management, protected route, session, logout
-- **Testing:** Pre-configured Jest + React Testing Library (see upcoming docs)
+- **API Service Layer:** Axios instance với interceptors, xử lý lỗi, hủy request, v.v.
+- **Auth:** Quản lý JWT, route bảo vệ, session, logout
+- **Testing:** Đã cấu hình sẵn Jest + React Testing Library (sẽ có tài liệu sắp tới)
 
 ---
 
-## Documentation
+## Tài liệu
 
-- **Component docs:** _Coming soon with Storybook integration_
-- **API docs:** _Coming soon_
-- **Contributing:** PRs welcome! Please follow the code style and structure guidelines.
+- **Tài liệu component:** _Sắp có cùng với Storybook_
+- **API docs:** _Sắp có_
+- **Đóng góp:** PRs được hoan nghênh! Vui lòng tuân theo quy tắc code và cấu trúc dự án.
 
 ---
 
-## Tips
+## Mẹo
 
-- Use absolute imports with aliases:  
+- Sử dụng import tuyệt đối với alias:  
   `import Button from '@components/ui/Button';`
-- Global styles: `src/styles/global.scss`
-- Utility functions: `src/utils/`
-- App constants: `src/constants/`
+- Styles toàn cục: `src/styles/global.scss`
+- Hàm tiện ích: `src/utils/`
+- Hằng số ứng dụng: `src/constants/`
 
 ---
 
-## Contributors
+## Người đóng góp
 
 - [HuyHoangDevVN](https://github.com/HuyHoangDevVN)
-- Your name here!
 
 ---
 
-## License
+## Giấy phép
 
 MIT
