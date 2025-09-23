@@ -2,7 +2,7 @@ export interface BasePaginatedResponse<T> {
   code: number;
   message: string;
   data: {
-    lists: T[];
+    list: T[];
     pagination: {
       currentPage: number;
       totalPages: number;

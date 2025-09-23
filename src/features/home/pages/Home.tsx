@@ -1,16 +1,16 @@
-import { Button, Card, Badge, Typography, Row, Col, Tag } from 'antd';
 import {
-  CalendarOutlined,
-  TeamOutlined,
   BellOutlined,
-  RightOutlined,
-  UserOutlined,
-  TrophyOutlined,
+  CalendarOutlined,
   HeartOutlined,
-  StarOutlined,
-  ThunderboltOutlined,
+  RightOutlined,
   RocketOutlined,
+  StarOutlined,
+  TeamOutlined,
+  ThunderboltOutlined,
+  TrophyOutlined,
+  UserOutlined,
 } from '@ant-design/icons';
+import { Button, Card, Col, Row, Typography } from 'antd';
 
 const { Title, Text, Paragraph } = Typography;
 
@@ -75,7 +75,6 @@ const Home = () => {
         minHeight: '100vh',
       }}
     >
-      {/* Hero Section với illustration */}
       <div
         className="relative overflow-hidden"
         style={{
@@ -84,7 +83,6 @@ const Home = () => {
           paddingBottom: '80px',
         }}
       >
-        {/* Decorative background elements */}
         <div className="absolute inset-0 opacity-5">
           <div
             className="absolute top-10 left-10 w-16 h-16 border-2 border-primary rounded-full animate-pulse"
@@ -110,7 +108,6 @@ const Home = () => {
 
         <div className="container mx-auto px-6 relative z-10">
           <div className="text-center">
-            {/* Logo/Icon chính */}
             <div className="flex justify-center mb-6">
               <div
                 className="p-4 rounded-full"
@@ -129,7 +126,6 @@ const Home = () => {
               </div>
             </div>
 
-            {/* Tiêu đề chính */}
             <Title
               level={1}
               className="mb-4"
@@ -144,7 +140,6 @@ const Home = () => {
               Quản lý công tác Đoàn Thanh Niên
             </Title>
 
-            {/* Mô tả */}
             <Paragraph
               className="mb-6 max-w-2xl mx-auto"
               style={{
@@ -160,7 +155,6 @@ const Home = () => {
               </span>
             </Paragraph>
 
-            {/* Badge */}
             <div
               className="inline-flex items-center px-4 py-2 rounded-full text-sm font-semibold"
               style={{
@@ -176,10 +170,8 @@ const Home = () => {
         </div>
       </div>
 
-      {/* Main Action Buttons Section */}
       <div className="container mx-auto px-6 -mt-8 relative z-20">
         <Row gutter={[24, 24]} justify="center" className="mb-12">
-          {/* Button 1: Theo dõi hoạt động Đoàn */}
           <Col xs={24} sm={24} md={12} lg={10} xl={8}>
             <Card
               className="main-action-card group cursor-pointer transition-all duration-300 hover:shadow-2xl hover:-translate-y-2 border-0"
@@ -194,7 +186,6 @@ const Home = () => {
               hoverable
             >
               <div className="text-center">
-                {/* Icon với gradient */}
                 <div
                   className="inline-flex items-center justify-center mb-6 transition-all duration-300 group-hover:scale-110 group-hover:rotate-3"
                   style={{
@@ -209,7 +200,6 @@ const Home = () => {
                   <CalendarOutlined style={{ fontSize: '36px', color: 'white' }} />
                 </div>
 
-                {/* Tiêu đề */}
                 <Title
                   level={3}
                   style={{
@@ -222,7 +212,6 @@ const Home = () => {
                   Theo dõi hoạt động Đoàn
                 </Title>
 
-                {/* Mô tả */}
                 <Paragraph
                   style={{
                     color: 'var(--text-secondary)',
@@ -235,7 +224,6 @@ const Home = () => {
                   tiến độ.
                 </Paragraph>
 
-                {/* Button */}
                 <Button
                   type="primary"
                   size="large"
@@ -257,7 +245,6 @@ const Home = () => {
             </Card>
           </Col>
 
-          {/* Button 2: Quản lý liên chi đoàn */}
           <Col xs={24} sm={24} md={12} lg={10} xl={8}>
             <Card
               className="main-action-card group cursor-pointer transition-all duration-300 hover:shadow-2xl hover:-translate-y-2 border-0"
@@ -272,7 +259,6 @@ const Home = () => {
               hoverable
             >
               <div className="text-center">
-                {/* Icon với gradient */}
                 <div
                   className="inline-flex items-center justify-center mb-6 transition-all duration-300 group-hover:scale-110 group-hover:rotate-3"
                   style={{
@@ -286,7 +272,6 @@ const Home = () => {
                   <TeamOutlined style={{ fontSize: '36px', color: 'white' }} />
                 </div>
 
-                {/* Tiêu đề */}
                 <Title
                   level={3}
                   style={{
@@ -299,7 +284,6 @@ const Home = () => {
                   Quản lý liên chi đoàn khoa CNTT
                 </Title>
 
-                {/* Mô tả */}
                 <Paragraph
                   style={{
                     color: 'var(--text-secondary)',
@@ -312,7 +296,6 @@ const Home = () => {
                   động.
                 </Paragraph>
 
-                {/* Button */}
                 <Button
                   type="primary"
                   size="large"
@@ -336,7 +319,6 @@ const Home = () => {
         </Row>
       </div>
 
-      {/* Quick Stats */}
       <div className="container mx-auto px-6 mb-16">
         <Row gutter={[16, 16]} justify="center">
           <Col xs={12} sm={6} md={6} lg={6}>
@@ -411,9 +393,7 @@ const Home = () => {
         </Row>
       </div>
 
-      {/* News & Notifications Section */}
       <div className="container mx-auto px-6 mb-16">
-        {/* Header của section */}
         <div className="text-center mb-12">
           <div className="flex justify-center mb-4">
             <div className="p-3 rounded-full" style={{ backgroundColor: 'rgba(21, 26, 166, 0.1)' }}>
@@ -435,7 +415,6 @@ const Home = () => {
           </Text>
         </div>
 
-        {/* Cards tin tức */}
         <Row gutter={[24, 24]}>
           {newsData?.map((news) => {
             const badge = getTypeBadge(news.type);
@@ -452,7 +431,6 @@ const Home = () => {
                   bodyStyle={{ padding: '18px' }} // slightly tighter
                   hoverable
                 >
-                  {/* Header của card */}
                   <div className="flex items-center justify-between mb-3">
                     <div
                       className="flex items-center justify-center flex-shrink-0"
@@ -469,7 +447,6 @@ const Home = () => {
                       {news.icon}
                     </div>
 
-                    {/* custom badge to ensure vertical centering */}
                     <div
                       style={{
                         display: 'inline-flex',
@@ -491,7 +468,6 @@ const Home = () => {
                     </div>
                   </div>
 
-                  {/* Tiêu đề */}
                   <Title
                     level={5}
                     style={{
@@ -511,7 +487,6 @@ const Home = () => {
                     {news.title}
                   </Title>
 
-                  {/* Nội dung */}
                   <Paragraph
                     style={{
                       color: 'var(--text-secondary)',
@@ -528,7 +503,6 @@ const Home = () => {
                     {news.summary}
                   </Paragraph>
 
-                  {/* Footer */}
                   <div className="flex items-center justify-between">
                     <Text style={{ color: 'var(--text-secondary)', fontSize: '11px' }}>
                       {news.time}
@@ -548,7 +522,6 @@ const Home = () => {
           })}
         </Row>
 
-        {/* Button xem tất cả */}
         <div className="text-center mt-8">
           <Button
             size="large"
@@ -568,7 +541,6 @@ const Home = () => {
         </div>
       </div>
 
-      {/* Motivation Footer Banner */}
       <div className="container mx-auto px-6 mb-8">
         <div
           className="text-center p-8 rounded-2xl relative overflow-hidden"
@@ -596,7 +568,6 @@ const Home = () => {
             </Paragraph>
           </div>
 
-          {/* Decorative elements */}
           <div className="absolute top-2 left-2 opacity-20">
             <ThunderboltOutlined style={{ fontSize: '16px' }} />
           </div>

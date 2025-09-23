@@ -20,7 +20,7 @@ const HeaderClient = () => {
               <StarOutlined
                 className="text-lg"
                 style={{
-                  color: 'var(--accent-color)',
+                  color: 'var(--primary-light)',
                   filter: 'drop-shadow(0 0 3px rgba(255, 215, 0, 0.5))',
                 }}
               />
@@ -28,8 +28,8 @@ const HeaderClient = () => {
 
             <div className="min-w-0 flex-1">
               <Title
-                level={2}
-                className="text-lg sm:text-xl lg:text-xl font-bold tracking-tight text-white truncate"
+                level={3}
+                className="text-xl sm:text-xl lg:text-xl font-bold tracking-tight text-white truncate"
                 style={{ margin: 0, color: 'var(--text-white)' }}
               >
                 Quản lý công tác Đoàn Thanh Niên
@@ -41,8 +41,7 @@ const HeaderClient = () => {
                   style={{ backgroundColor: 'var(--accent-color)', color: 'var(--primary-color)' }}
                 >
                   <span className="mr-1">⭐</span>
-                  <span className="hidden sm:inline">Đoàn TNCS HCM</span>
-                  <span className="sm:hidden">Đoàn</span>
+                  <span className="sm:inline">Khoa CNTT</span>
                 </span>
               </div>
             </div>
