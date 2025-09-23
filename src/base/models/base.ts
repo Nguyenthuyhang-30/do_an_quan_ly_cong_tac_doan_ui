@@ -1,8 +1,5 @@
 export interface BaseResponse<T> {
+  code: number;
+  message: string;
   data: T;
-  meta: {
-    total: number;
-    page: number;
-    pageSize: number;
-  };
 }

@@ -1,23 +1,11 @@
 import HeaderClient from '@components/headers/client/HeaderClient';
-import { SidebarAdmin } from '@components/sidebars/admin/SidebarAdmin';
 import { Outlet } from '@tanstack/react-router';
 import { Layout } from 'antd';
 import { Content, Header } from 'antd/es/layout/layout';
-import Sider from 'antd/es/layout/Sider';
 
 const MainLayout = () => {
   return (
     <Layout style={{ minHeight: '100vh' }}>
-      <Sider
-        collapsible
-        width={220}
-        style={{
-          background: '#001529',
-          boxShadow: '2px 0 8px rgba(0,0,0,0.05)',
-        }}
-      >
-        <SidebarAdmin collapsed={false} />
-      </Sider>
       <Layout>
         <Header
           style={{

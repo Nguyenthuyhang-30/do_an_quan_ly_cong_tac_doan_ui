@@ -1,8 +1,13 @@
 export interface BasePaginatedResponse<T> {
-  data: T[];
-  meta: {
-    total: number;
-    page: number;
-    pageSize: number;
+  code: number;
+  message: string;
+  data: {
+    lists: T[];
+    pagination: {
+      currentPage: number;
+      totalPages: number;
+      totalItems: number;
+      itemsPerPage: number;
+    };
   };
 }
