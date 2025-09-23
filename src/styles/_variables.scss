@@ -1,2 +1,11 @@
-$color-primary: #2563eb;
-$color-secondary: #64748b;
+$color-primary: var(--primary-color);
+$color-primary-light: var(--primary-light);
+$color-primary-dark: var(--primary-dark);
+$color-secondary: var(--secondary-color);
+$accent-color: var(--accent-color);
+$background-color: var(--background-color);
+$card-background: var(--card-background);
+$text-primary: var(--text-primary);
+$text-secondary: var(--text-secondary);
+$border-color: var(--border-color);
+$success-color: var(--success-color);

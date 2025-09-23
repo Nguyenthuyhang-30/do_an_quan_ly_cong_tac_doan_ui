@@ -32,7 +32,7 @@ export const SidebarAdmin = ({ collapsed }: SidebarAdminProps) => {
     if (path.includes('/dashboard/analytics')) return ['analytics'];
     if (path.includes('/dashboard/reports')) return ['reports'];
     if (path.includes('/dashboard/charts')) return ['charts'];
-    if (path.includes('/dashboard')) return ['dashboard'];
+    if (path.includes('/dashboard/overview')) return ['dashboard'];
 
     // User Management submenu
     if (path.includes('/users/list')) return ['user-list'];
@@ -68,15 +68,13 @@ export const SidebarAdmin = ({ collapsed }: SidebarAdminProps) => {
   const handleMenuClick = ({ key }: { key: string }) => {
     const routeMap: Record<string, string> = {
       // Dashboard routes
-      dashboard: '/admin/dashboard',
+      dashboard: '/admin/dashboard/overview',
       analytics: '/admin/dashboard/analytics',
       reports: '/admin/dashboard/reports',
       charts: '/admin/dashboard/charts',
 
       // User Management routes
-      users: '/admin/users',
-      'user-list': '/admin/users/list',
-      'user-add': '/admin/users/add',
+      users: '/admin/users/list',
       'user-roles': '/admin/users/roles',
 
       // General Category routes
@@ -145,16 +143,6 @@ export const SidebarAdmin = ({ collapsed }: SidebarAdminProps) => {
             key: 'users',
             icon: <TeamOutlined />,
             label: 'All Users',
-          },
-          {
-            key: 'user-list',
-            icon: <TeamOutlined />,
-            label: 'User List',
-          },
-          {
-            key: 'user-add',
-            icon: <UserAddOutlined />,
-            label: 'Add User',
           },
           {
             key: 'user-roles',

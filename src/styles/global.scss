@@ -1,6 +1,31 @@
 @use './variables' as *;
 
 :root {
-    --color-primary: #{$color-primary};
-    --color-secondary: #{$color-secondary};
+    --primary-color: #151AA6;
+    /* Xanh Đoàn */
+    --primary-light: #4a4fb8;
+    --primary-dark: #0d1285;
+    --secondary-color: #FF0000;
+    /* Đỏ quốc kỳ */
+    --secondary-light: #ff4444;
+    --secondary-dark: #cc0000;
+    --accent-color: #FFD700;
+    /* Vàng ngôi sao */
+    --accent-light: #fff44f;
+    --accent-dark: #ccac00;
+    --background-color: #F7F7F7;
+    /* Trắng nền */
+    --card-background: #ffffff;
+    --success-color: #10b981;
+    --text-primary: #1f2937;
+    --text-secondary: #6b7280;
+    --border-color: #e5e7eb;
+    --shadow-light: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+    --shadow-medium: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    --shadow-large: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+
+    --text-white: #ffffff;
 }
+
+/* Import optimized table styles */
+@import './BaseAntTable.scss';

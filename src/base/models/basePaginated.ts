@@ -1,8 +1,9 @@
 export interface BasePaginatedResponse<T> {
   code: number;
+  success: boolean;
   message: string;
   data: {
-    lists: T[];
+    list: T[];
     pagination: {
       currentPage: number;
       totalPages: number;
