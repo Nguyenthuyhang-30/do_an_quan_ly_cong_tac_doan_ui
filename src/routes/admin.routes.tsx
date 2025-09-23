@@ -1,7 +1,10 @@
+import AdminLayout from '@components/layout/admin/AdminLayout';
+import { dashboardRouteAdmin } from '@features/admin/routes/dashboard.route';
+import { homeRouteAdmin } from '@features/admin/routes/home.route';
+import { settingRouteAdmin } from '@features/admin/routes/setting.route';
+import { userRouteAdmin } from '@features/admin/routes/users.route';
 import { createRoute } from '@tanstack/react-router';
 import { rootRoutes } from './routes';
-import AdminLayout from '@components/layout/admin/AdminLayout';
-import { homeRouteAdmin } from '@features/admin/routes/home.route';
 
 const adminRoute = createRoute({
   getParentRoute: () => rootRoutes,
@@ -9,6 +12,11 @@ const adminRoute = createRoute({
   component: AdminLayout,
 });
 
-const adminTree = adminRoute.addChildren([homeRouteAdmin]);
+const adminTree = adminRoute.addChildren([
+  homeRouteAdmin,
+  dashboardRouteAdmin,
+  userRouteAdmin,
+  settingRouteAdmin,
+]);
 
-export { adminTree, adminRoute };
+export { adminRoute, adminTree };
