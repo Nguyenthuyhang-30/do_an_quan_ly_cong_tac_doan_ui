@@ -15,7 +15,6 @@ const cohortCategoryRouteAdmin = createRoute({
   component: CohortCategory,
 });
 
-// Tree with all children
 const generalCategoryTree = generalCategoryRouteAdmin.addChildren([cohortCategoryRouteAdmin]);
 
 export { cohortCategoryRouteAdmin, generalCategoryRouteAdmin, generalCategoryTree };
