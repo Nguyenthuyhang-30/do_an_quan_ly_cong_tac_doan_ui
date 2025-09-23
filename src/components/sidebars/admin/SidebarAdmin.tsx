@@ -17,6 +17,7 @@ import {
 } from '@ant-design/icons';
 import { useNavigate, useLocation } from '@tanstack/react-router';
 import { useMemo } from 'react';
+import { RiTeamFill } from 'react-icons/ri';
 
 interface SidebarAdminProps {
   collapsed: boolean;
@@ -80,6 +81,7 @@ export const SidebarAdmin = ({ collapsed }: SidebarAdminProps) => {
       // General Category routes
       'general-category': '/admin/general-category',
       cohorts: '/admin/general-category/cohorts',
+      branches: '/admin/general-category/branches',
 
       // Settings routes
       settings: '/admin/settings',
@@ -131,6 +133,11 @@ export const SidebarAdmin = ({ collapsed }: SidebarAdminProps) => {
             key: 'cohorts',
             icon: <TeamOutlined />,
             label: 'Cohorts',
+          },
+          {
+            key: 'branches',
+            icon: <RiTeamFill />,
+            label: 'Branches',
           },
         ],
       },

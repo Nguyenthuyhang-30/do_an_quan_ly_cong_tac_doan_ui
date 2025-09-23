@@ -21,13 +21,15 @@ import {
 } from 'antd';
 import type { ColumnsType, TablePaginationConfig } from 'antd/es/table';
 import React, { useCallback, useEffect, useState } from 'react';
-import { BaseAntTable } from '../../../../components/tables/BaseAntTable';
-import cohortService from '../../../../services/api/cohort.service';
-import type { Cohort } from '../../../../types/general-category/cohort';
+import { BaseAntTable } from '../../../../../components/tables/BaseAntTable';
+import cohortService from '../../../../../services/api/cohort.service';
+import type { Cohort } from '../../../../../types/general-category/cohort';
 import CreateCohortModal from './CreateCohortModal';
 import DeleteCohortModal from './DeleteCohortModal';
 import UpdateCohortModal from './UpdateCohortModal';
 import ViewCohortModal from './ViewCohortModal';
+
+
 
 const { Title } = Typography;
 const { Search } = Input;

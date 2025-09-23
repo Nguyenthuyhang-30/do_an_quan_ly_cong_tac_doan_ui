@@ -1,7 +1,7 @@
 import { Form, Input, InputNumber, message, Modal } from 'antd';
 import React from 'react';
-import cohortService from '../../../../services/api/cohort.service';
-import type { CreateCohortRequest } from '../../../../types/general-category/cohort';
+import cohortService from '../../../../../services/api/cohort.service';
+import type { CreateCohortRequest } from '../../../../../types/general-category/cohort';
 
 interface CreateCohortModalProps {
   visible: boolean;

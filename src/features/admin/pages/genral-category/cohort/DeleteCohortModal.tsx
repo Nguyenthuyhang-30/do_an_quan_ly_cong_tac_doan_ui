@@ -1,7 +1,7 @@
 import { ExclamationCircleOutlined, WarningOutlined } from '@ant-design/icons';
 import { message, Modal, Typography } from 'antd';
 import React from 'react';
-import cohortService from '../../../../services/api/cohort.service';
+import cohortService from '../../../../../services/api/cohort.service';
 
 const { Text } = Typography;
 

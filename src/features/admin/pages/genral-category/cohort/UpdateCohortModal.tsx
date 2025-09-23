@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { Modal, Form, Input, InputNumber, message } from 'antd';
-import type { Cohort, UpdateCohortRequest } from '../../../../types/general-category/cohort';
-import cohortService from '../../../../services/api/cohort.service';
+import type { Cohort, UpdateCohortRequest } from '../../../../../types/general-category/cohort';
+import cohortService from '../../../../../services/api/cohort.service';
 
 interface UpdateCohortModalProps {
   visible: boolean;

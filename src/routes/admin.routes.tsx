@@ -1,5 +1,5 @@
 import AdminLayout from '@components/layout/admin/AdminLayout';
-import { dashboardRouteAdmin } from '@features/admin/routes/dashboard.route';
+import { dashboardRouteAdmin, dashboardTree } from '@features/admin/routes/dashboard.route';
 import { homeRouteAdmin } from '@features/admin/routes/home.route';
 import { settingRouteAdmin } from '@features/admin/routes/setting.route';
 import { userRouteAdmin } from '@features/admin/routes/users.route';
@@ -15,10 +15,10 @@ const adminRoute = createRoute({
 
 const adminTree = adminRoute.addChildren([
   homeRouteAdmin,
-  dashboardRouteAdmin,
   userRouteAdmin,
   settingRouteAdmin,
   generalCategoryTree,
+  dashboardTree
 ]);
 
 
