@@ -21,7 +21,7 @@ const CreateCohortModal: React.FC<CreateCohortModalProps> = ({ visible, onCancel
         created_by: 1,
       });
 
-      if (response.code === 200) {
+      if (response.success) {
         message.success('Tạo khóa học thành công');
         form.resetFields();
         onSuccess();

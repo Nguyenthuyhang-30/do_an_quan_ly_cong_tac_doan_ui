@@ -40,7 +40,7 @@ const UpdateCohortModal: React.FC<UpdateCohortModalProps> = ({
         modified_by: 1,
       });
 
-      if (response.code === 200) {
+      if (response.success) {
         message.success('Cập nhật khóa học thành công');
         form.resetFields();
         onSuccess();
