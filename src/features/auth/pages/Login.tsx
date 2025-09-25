@@ -168,7 +168,7 @@ export const Login: React.FC = () => {
       className="login-form"
     >
       <Form.Item
-        label="Tài khoản Admin"
+        label="Tài khoản"
         name="username"
         hasFeedback
         rules={[{ required: true, message: 'Vui lòng nhập tài khoản admin!' }]}
