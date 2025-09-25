@@ -1,5 +1,5 @@
+import { StarOutlined, UserOutlined } from '@ant-design/icons';
 import { Avatar, Typography } from 'antd';
-import { FlagOutlined, StarOutlined, UserOutlined } from '@ant-design/icons';
 
 const { Title, Text } = Typography;
 
@@ -54,7 +54,7 @@ const HeaderClient = () => {
                 className="text-xs text-white text-opacity-75"
                 style={{ color: 'var(--text-white)' }}
               >
-                Bí thư Đoàn khoa
+                Phó bí thư Đoàn khoa CNTT
               </Text>
             </div>
 
