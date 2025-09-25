@@ -1,0 +1,871 @@
+
+.login-container {
+  min-height: 100vh;
+  background: #f8fafc;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+
+  .login-row {
+    min-height: 100vh;
+    margin: 0;
+  }
+
+  
+  .illustration-section {
+    background: linear-gradient(135deg, #3b82f6 0%, #1e40af 30%, #0ea5e9 70%, #06b6d4 100%);
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+
+    .floating-shapes {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      top: 0;
+      left: 0;
+
+      .shape {
+        position: absolute;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.1);
+        animation: float 6s ease-in-out infinite;
+
+        &.shape-1 {
+          width: 80px;
+          height: 80px;
+          top: 10%;
+          left: 10%;
+          animation-delay: 0s;
+        }
+
+        &.shape-2 {
+          width: 64px;
+          height: 64px;
+          top: 32%;
+          right: 20%;
+          animation-delay: 2s;
+        }
+
+        &.shape-3 {
+          width: 48px;
+          height: 48px;
+          bottom: 20%;
+          left: 25%;
+          animation-delay: 4s;
+        }
+
+        &.shape-4 {
+          width: 96px;
+          height: 96px;
+          bottom: 32%;
+          right: 10%;
+          animation-delay: 1s;
+        }
+
+        &.shape-5 {
+          width: 56px;
+          height: 56px;
+          top: 50%;
+          left: 33%;
+          animation-delay: 3s;
+        }
+      }
+    }
+
+    .volunteer-illustration {
+      position: relative;
+      z-index: 10;
+      text-align: center;
+      max-width: 450px;
+
+      .illustration-content {
+        .main-illustration {
+          width: 320px;
+          height: 320px;
+          margin: 0 auto 2rem;
+        }
+
+        .illustration-title {
+          font-size: 2rem;
+          font-weight: bold;
+          color: white;
+          margin-bottom: 1rem;
+        }
+
+        .illustration-subtitle {
+          color: rgba(191, 219, 254, 1);
+          font-size: 1.125rem;
+          line-height: 1.6;
+          margin-bottom: 2rem;
+        }
+
+        .features-list {
+          .feature-item {
+            display: flex;
+            align-items: center;
+            color: white;
+            margin-bottom: 1rem;
+            font-size: 1rem;
+
+            .feature-icon {
+              width: 32px;
+              height: 32px;
+              border-radius: 50%;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              margin-right: 0.75rem;
+              font-size: 1rem;
+
+              &.green {
+                background: #22c55e;
+              }
+
+              &.orange {
+                background: #f97316;
+              }
+
+              &.yellow {
+                background: #eab308;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+
+  
+  .form-section {
+    background: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+
+    .form-container {
+      width: 100%;
+      max-width: 448px;
+
+      .header-section {
+        text-align: center;
+        margin-bottom: 2rem;
+
+        .youth-logo {
+          width: 60px;
+          height: 60px;
+          background: linear-gradient(45deg, #dc2626, #b91c1c);
+          border-radius: 50%;
+          position: relative;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          margin: 0 auto 1.5rem;
+
+          .youth-star {
+            width: 35px;
+            height: 35px;
+            background: #fbbf24;
+            clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
+          }
+        }
+
+        .main-title {
+          font-size: 2.5rem;
+          font-weight: bold;
+          color: #1f2937;
+          margin-bottom: 0.5rem;
+        }
+
+        .subtitle {
+          font-size: 1.125rem;
+          color: #6b7280;
+          font-weight: 500;
+          margin-bottom: 1rem;
+        }
+
+        .divider {
+          width: 64px;
+          height: 4px;
+          background: linear-gradient(to right, #3b82f6, #f97316);
+          margin: 0 auto;
+          border-radius: 2px;
+        }
+      }
+
+      .tabs-container {
+        .login-tabs {
+          .ant-tabs-nav {
+            background: #f1f5f9;
+            border-radius: 0.75rem;
+            padding: 4px;
+            margin-bottom: 1.5rem;
+
+            .ant-tabs-nav-wrap {
+              .ant-tabs-nav-list {
+                width: 100%;
+
+                .ant-tabs-tab {
+                  flex: 1;
+                  text-align: center;
+                  margin: 0 2px;
+                  padding: 0.75rem 1rem;
+                  font-weight: 600;
+                  font-size: 0.875rem;
+                  transition: all 0.3s ease;
+                  background: transparent;
+                  border: none;
+
+                  &:not(.ant-tabs-tab-active) {
+                    color: #64748b;
+                    background: transparent;
+                  }
+
+                  &.ant-tabs-tab-active {
+                    color: linear-gradient(135deg, #3b82f6, #1d4ed8);
+                  }
+                }
+              }
+            }
+          }
+
+          .ant-tabs-content-holder {
+            .ant-tabs-content {
+              .ant-tabs-tabpane {
+                animation: slideIn 0.5s ease-out;
+              }
+            }
+          }
+        }
+
+        .login-form {
+          .ant-form-item {
+            margin-bottom: 1.5rem;
+
+            &:last-child {
+              margin-bottom: 0;
+            }
+          }
+
+          .ant-form-item-label {
+            padding-bottom: 0.5rem;
+
+            label {
+              color: #374151;
+              font-weight: 600;
+              font-size: 0.875rem;
+              line-height: 1.5;
+              position: relative;
+
+              &::after {
+                display: none; 
+              }
+            }
+          }
+
+          
+          .modern-input,
+          .ant-input-password {
+            height: 52px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            border: 2px solid #e2e8f0;
+            background: #f8fafc;
+            border-radius: 0.75rem;
+            font-size: 1rem;
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+
+            &:hover {
+              border-color: #3b82f6;
+              background: white;
+              box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            }
+
+            &:focus,
+            &.ant-input-focused,
+            &.ant-input-password-focused {
+              border-color: #3b82f6;
+              background: white;
+              box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.12), 0 2px 4px rgba(0, 0, 0, 0.1);
+              outline: none;
+            }
+
+            .ant-input {
+              padding: 0 1rem 0 0;
+              border: none;
+              background: transparent;
+              font-size: 1rem;
+              line-height: 1.5;
+
+              &:focus {
+                box-shadow: none;
+                border: none;
+              }
+
+              &::placeholder {
+                color: #9ca3af;
+                font-size: 0.95rem;
+              }
+            }
+
+            .ant-input-prefix {
+              margin-right: 0.75rem;
+              margin-left: 1rem;
+
+              .site-form-item-icon {
+                color: #6b7280;
+                font-size: 1.125rem;
+                transition: color 0.3s ease;
+              }
+            }
+
+            .ant-input-suffix {
+              margin-right: 1rem;
+
+              .anticon {
+                color: #6b7280;
+                font-size: 1rem;
+                transition: all 0.3s ease;
+                cursor: pointer;
+
+                &:hover {
+                  color: #3b82f6;
+                  transform: scale(1.1);
+                }
+              }
+            }
+
+            
+            &.ant-input {
+              padding: 0 1rem 0 0;
+              
+              &::placeholder {
+                color: #9ca3af;
+                font-size: 0.95rem;
+              }
+            }
+          }
+
+          
+          .ant-input-password {
+            &.ant-input-password-focused {
+              .ant-input-prefix .site-form-item-icon {
+                color: #3b82f6;
+              }
+            }
+          }
+
+          .modern-input {
+            &.ant-input-focused {
+              .ant-input-prefix .site-form-item-icon {
+                color: #3b82f6;
+              }
+            }
+          }
+
+          .info-box {
+            padding: 1rem;
+            background: #eff6ff;
+            border-radius: 0.75rem;
+            border-left: 4px solid #3b82f6;
+            display: flex;
+            align-items: center;
+            margin-bottom: 1.5rem;
+
+            .info-icon {
+              color: #3b82f6;
+              margin-right: 0.75rem;
+              font-size: 1.25rem;
+            }
+
+            span {
+              color: #1e40af;
+              font-weight: 500;
+              font-size: 0.875rem;
+            }
+          }
+
+          .form-options {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+
+            .remember-checkbox {
+              color: #6b7280;
+              font-size: 0.875rem;
+              font-weight: 500;
+              
+              .ant-checkbox {
+                .ant-checkbox-inner {
+                  border-radius: 0.375rem;
+                  border-width: 2px;
+                  transition: all 0.3s ease;
+                }
+
+                &.ant-checkbox-checked {
+                  .ant-checkbox-inner {
+                    background-color: #3b82f6;
+                    border-color: #3b82f6;
+                  }
+                }
+              }
+
+              &:hover .ant-checkbox .ant-checkbox-inner {
+                border-color: #3b82f6;
+              }
+            }
+
+            .forgot-password {
+              color: #3b82f6;
+              font-weight: 500;
+              font-size: 0.875rem;
+              transition: all 0.3s ease;
+              background: none;
+              border: none;
+              cursor: pointer;
+              padding: 0;
+              text-decoration: none;
+              border-radius: 0.25rem;
+              padding: 0.25rem 0.5rem;
+
+              &:hover {
+                color: #1d4ed8;
+                background-color: rgba(59, 130, 246, 0.1);
+              }
+
+              &.admin-link {
+                color: #dc2626;
+
+                &:hover {
+                  color: #b91c1c;
+                  background-color: rgba(220, 38, 38, 0.1);
+                }
+              }
+            }
+          }
+
+          .login-button {
+            height: 60px;
+            border-radius: 0.75rem;
+            font-weight: 600;
+            font-size: 1.125rem;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+
+            &.primary-btn {
+              background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+              border: none;
+
+              &:hover:not(:disabled) {
+                transform: translateY(-2px);
+                box-shadow: 0 10px 25px rgba(59, 130, 246, 0.4);
+              }
+            }
+
+            &.admin-btn {
+              background: linear-gradient(135deg, #dc2626, #b91c1c);
+              border: none;
+
+              &:hover:not(:disabled) {
+                transform: translateY(-2px);
+                box-shadow: 0 10px 25px rgba(220, 38, 38, 0.4);
+              }
+            }
+          }
+        }
+      }
+
+      .footer-section {
+        text-align: center;
+        margin-top: 2rem;
+
+        .back-home {
+          display: inline-flex;
+          align-items: center;
+          color: #6b7280;
+          font-weight: 500;
+          font-size: 0.875rem;
+          transition: color 0.3s ease;
+          text-decoration: none;
+          background: none;
+          border: none;
+          cursor: pointer;
+          padding: 0;
+
+          &:hover {
+            color: #3b82f6;
+
+            .back-icon {
+              transform: translateX(-4px);
+            }
+          }
+
+          .back-icon {
+            width: 1rem;
+            height: 1rem;
+            margin-right: 0.5rem;
+            transition: transform 0.3s ease;
+          }
+        }
+
+        .copyright {
+          color: #9ca3af;
+          font-size: 0.75rem;
+          margin-top: 1rem;
+          margin-bottom: 0;
+        }
+      }
+    }
+  }
+}
+
+
+@keyframes float {
+  0%, 100% { 
+    transform: translateY(0px) rotate(0deg); 
+  }
+  50% { 
+    transform: translateY(-20px) rotate(180deg); 
+  }
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+
+@media (max-width: 992px) {
+  .login-container {
+    .illustration-section {
+      .volunteer-illustration {
+        .illustration-content {
+          .main-illustration {
+            width: 280px;
+            height: 280px;
+          }
+
+          .illustration-title {
+            font-size: 1.75rem;
+          }
+
+          .illustration-subtitle {
+            font-size: 1rem;
+          }
+        }
+      }
+    }
+
+    .form-section {
+      .form-container {
+        max-width: 400px;
+
+        .header-section {
+          .main-title {
+            font-size: 2.25rem;
+          }
+
+          .subtitle {
+            font-size: 1rem;
+          }
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .login-container {
+    .illustration-section {
+      min-height: 250px;
+      padding: 1.5rem;
+
+      .volunteer-illustration {
+        .illustration-content {
+          .main-illustration {
+            width: 240px;
+            height: 240px;
+          }
+
+          .illustration-title {
+            font-size: 1.5rem;
+            margin-bottom: 0.75rem;
+          }
+
+          .illustration-subtitle {
+            font-size: 0.95rem;
+            margin-bottom: 1.5rem;
+          }
+
+          .features-list {
+            .feature-item {
+              font-size: 0.9rem;
+              margin-bottom: 0.75rem;
+
+              .feature-icon {
+                width: 28px;
+                height: 28px;
+                font-size: 0.9rem;
+              }
+            }
+          }
+        }
+      }
+    }
+
+    .form-section {
+      padding: 1.5rem;
+
+      .form-container {
+        max-width: 100%;
+
+        .header-section {
+          margin-bottom: 1.5rem;
+
+          .main-title {
+            font-size: 2rem;
+          }
+
+          .subtitle {
+            font-size: 1rem;
+          }
+
+          .youth-logo {
+            width: 50px;
+            height: 50px;
+            margin-bottom: 1rem;
+
+            .youth-star {
+              width: 28px;
+              height: 28px;
+            }
+          }
+        }
+
+        .tabs-container {
+          .login-form {
+            .modern-input,
+            .ant-input-password {
+              height: 48px;
+
+              .ant-input {
+                height: 44px;
+              }
+
+              .ant-input-prefix {
+                margin-left: 0.75rem;
+                margin-right: 0.5rem;
+
+                .site-form-item-icon {
+                  font-size: 1rem;
+                }
+              }
+            }
+
+            .form-options {
+              flex-direction: column;
+              align-items: flex-start;
+              gap: 1rem;
+
+              .remember-checkbox {
+                font-size: 0.8rem;
+              }
+
+              .forgot-password {
+                font-size: 0.8rem;
+                align-self: flex-end;
+              }
+            }
+
+            .login-button {
+              height: 52px;
+              font-size: 1rem;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 576px) {
+  .login-container {
+    .illustration-section {
+      min-height: 200px;
+      padding: 1rem;
+
+      .volunteer-illustration {
+        .illustration-content {
+          .main-illustration {
+            width: 200px;
+            height: 200px;
+          }
+
+          .illustration-title {
+            font-size: 1.25rem;
+          }
+
+          .illustration-subtitle {
+            font-size: 0.9rem;
+          }
+        }
+      }
+    }
+
+    .form-section {
+      padding: 1rem;
+
+      .form-container {
+        .header-section {
+          margin-bottom: 1.25rem;
+
+          .main-title {
+            font-size: 1.75rem;
+          }
+
+          .subtitle {
+            font-size: 0.95rem;
+          }
+        }
+
+        .tabs-container {
+          .login-tabs {
+            .ant-tabs-nav {
+              .ant-tabs-nav-wrap {
+                .ant-tabs-nav-list {
+                  .ant-tabs-tab {
+                    padding: 0.5rem 0.5rem;
+                    font-size: 0.8rem;
+                    margin: 0 1px;
+                  }
+                }
+              }
+            }
+          }
+
+          .login-form {
+            .ant-form-item {
+              margin-bottom: 1.25rem;
+            }
+
+            .ant-form-item-label {
+              padding-bottom: 0.375rem;
+
+              label {
+                font-size: 0.8rem;
+              }
+            }
+
+            .modern-input,
+            .ant-input-password {
+              height: 44px;
+
+              .ant-input {
+                height: 40px;
+                font-size: 0.95rem;
+              }
+
+              .ant-input-prefix {
+                margin-left: 0.625rem;
+                margin-right: 0.5rem;
+
+                .site-form-item-icon {
+                  font-size: 0.95rem;
+                }
+              }
+            }
+
+            .info-box {
+              padding: 0.75rem;
+              margin-bottom: 1.25rem;
+
+              .info-icon {
+                font-size: 1rem;
+                margin-right: 0.5rem;
+              }
+
+              span {
+                font-size: 0.8rem;
+              }
+            }
+
+            .login-button {
+              height: 48px;
+              font-size: 0.95rem;
+            }
+          }
+        }
+
+        .footer-section {
+          margin-top: 1.5rem;
+
+          .back-home {
+            font-size: 0.8rem;
+
+            .back-icon {
+              width: 0.875rem;
+              height: 0.875rem;
+            }
+          }
+
+          .copyright {
+            font-size: 0.7rem;
+            margin-top: 0.75rem;
+          }
+        }
+      }
+    }
+  }
+}
+
+
+@media (max-width: 480px) {
+  .login-container {
+    .form-section {
+      padding: 0.75rem;
+
+      .form-container {
+        .header-section {
+          .main-title {
+            font-size: 1.5rem;
+          }
+
+          .youth-logo {
+            width: 45px;
+            height: 45px;
+
+            .youth-star {
+              width: 25px;
+              height: 25px;
+            }
+          }
+        }
+
+        .tabs-container {
+          .login-tabs {
+            .ant-tabs-nav {
+              .ant-tabs-nav-wrap {
+                .ant-tabs-nav-list {
+                  .ant-tabs-tab {
+                    padding: 0.375rem 0.25rem;
+                    font-size: 0.75rem;
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
