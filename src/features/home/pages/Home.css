@@ -1,0 +1,103 @@
+/* Home Page Custom Styles */
+
+/* Smooth transitions for cards */
+.news-card-hover {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.news-card-hover:hover {
+  transform: scale(1.02);
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+}
+
+/* Image loading animation */
+@keyframes shimmer {
+  0% {
+    background-position: -1000px 0;
+  }
+  100% {
+    background-position: 1000px 0;
+  }
+}
+
+.skeleton-loading {
+  animation: shimmer 2s infinite;
+  background: linear-gradient(to right, #f0f0f0 4%, #e0e0e0 25%, #f0f0f0 36%);
+  background-size: 1000px 100%;
+}
+
+/* Social icon hover effects */
+.social-icon {
+  transition: all 0.3s ease;
+}
+
+.social-icon:hover {
+  transform: scale(1.1) rotate(5deg);
+}
+
+/* Table responsive scroll indicator */
+.table-scroll-container {
+  position: relative;
+}
+
+.table-scroll-container::after {
+  content: '→';
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  background: linear-gradient(to left, white, transparent);
+  padding: 10px 20px;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.table-scroll-container.has-scroll::after {
+  opacity: 1;
+}
+
+/* Carousel custom dots */
+.ant-carousel .slick-dots li button {
+  background: rgba(255, 255, 255, 0.5);
+  height: 4px;
+}
+
+.ant-carousel .slick-dots li.slick-active button {
+  background: white;
+  width: 24px;
+}
+
+/* Pagination center alignment with proper spacing */
+.pagination-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 24px 0;
+}
+
+/* Section title animation */
+.section-title {
+  position: relative;
+  display: inline-block;
+}
+
+.section-title::after {
+  content: '';
+  position: absolute;
+  bottom: -8px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 60px;
+  height: 4px;
+  background: linear-gradient(to right, #1e40af, #3b82f6);
+  border-radius: 2px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .section-title::after {
+    width: 40px;
+    height: 3px;
+  }
+}

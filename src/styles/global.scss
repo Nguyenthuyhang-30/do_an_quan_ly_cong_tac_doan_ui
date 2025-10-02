@@ -2,28 +2,24 @@
 @use './BaseAntTable.scss';
 
 :root {
-    --primary-color: #151AA6;
-    /* Xanh Đoàn */
-    --primary-light: #4a4fb8;
-    --primary-dark: #0d1285;
-    --secondary-color: #FF0000;
-    /* Đỏ quốc kỳ */
-    --secondary-light: #ff4444;
-    --secondary-dark: #cc0000;
-    --accent-color: #FFD700;
-    /* Vàng ngôi sao */
-    --accent-light: #fff44f;
-    --accent-dark: #ccac00;
-    --background-color: #F7F7F7;
-    /* Trắng nền */
-    --card-background: #ffffff;
-    --success-color: #10b981;
-    --text-primary: #1f2937;
-    --text-secondary: #6b7280;
-    --border-color: #e5e7eb;
-    --shadow-light: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
-    --shadow-medium: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-    --shadow-large: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+  --primary-color: #00358f; /* nền chính (deep blue) */
+  --primary-light: #1e6fd9; /* xanh sáng cho số/hiệu ứng */
+  --primary-dark: #032a5a; /* xanh rất đậm */
+  --secondary-color: #a8c9ff; /* số lớn / chữ nhạt */
+  --secondary-light: #cfe3ff;
+  --secondary-dark: #6fa0ff;
+  --accent-color: #f57200; /* cam nổi (logo / highlight) */
+  --accent-light: #ff8a33;
+  --accent-dark: #cc5200;
+  --background-color: #ffffff; /* nền trang */
+  --card-background: #ffffff; /* nền thẻ / card */
+  --success-color: #28a745;
+  --text-primary: #ffffff; /* chữ chính (trắng trên nền xanh) */
+  --text-secondary: #cbd8f6; /* chữ phụ (xanh nhạt) */
+  --border-color: rgba(255, 255, 255, 0.08); /* đường kẻ nhẹ trên nền tối */
+  --shadow-light: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+  --shadow-medium: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  --shadow-large: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
 
-    --text-white: #ffffff;
+  --text-white: #ffffff;
 }

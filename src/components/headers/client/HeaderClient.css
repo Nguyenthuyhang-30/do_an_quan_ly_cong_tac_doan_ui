@@ -1,0 +1,132 @@
+.nav-link {
+  position: relative;
+  overflow: hidden;
+  color: #aeccff;
+}
+
+.nav-link:hover {
+  color: var(--accent-color);
+}
+
+.nav-link::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: rgba(255, 255, 255, 0.1);
+  transition: left 0.3s ease;
+}
+
+.nav-link:hover::before {
+  left: 0;
+}
+
+/* Active link indicator */
+.nav-link-active {
+  border-bottom: 3px solid rgba(255, 255, 255, 0.8) !important;
+  background: rgba(255, 255, 255, 0.15);
+}
+
+/* Mobile navigation optimization */
+@media (max-width: 640px) {
+  .nav-link {
+    font-size: 0.65rem;
+    padding: 0.5rem 0.5rem;
+  }
+}
+
+/* Tablet optimization */
+@media (min-width: 641px) and (max-width: 1024px) {
+  .nav-link {
+    font-size: 0.75rem;
+    padding: 0.75rem 1rem;
+  }
+}
+
+/* Desktop optimization */
+@media (min-width: 1025px) {
+  .nav-link {
+    font-size: 0.875rem;
+    padding: 0.75rem 1.5rem;
+  }
+}
+
+/* Separator animation */
+.nav-separator {
+  opacity: 0.3;
+  transition: opacity 0.3s ease;
+}
+
+.nav-separator:hover {
+  opacity: 0.6;
+}
+
+/* Navigation bar shadow on scroll */
+.nav-scrolled {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+}
+
+/* Accessibility focus styles */
+.nav-link:focus-visible {
+  outline: 2px solid rgba(255, 255, 255, 0.8);
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
+/* Animation for navigation items */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.nav-item {
+  animation: fadeInUp 0.4s ease forwards;
+}
+
+.nav-item:nth-child(1) {
+  animation-delay: 0.05s;
+}
+.nav-item:nth-child(2) {
+  animation-delay: 0.1s;
+}
+.nav-item:nth-child(3) {
+  animation-delay: 0.15s;
+}
+.nav-item:nth-child(4) {
+  animation-delay: 0.2s;
+}
+.nav-item:nth-child(5) {
+  animation-delay: 0.25s;
+}
+
+/* Ripple effect on click */
+.nav-link-ripple {
+  position: relative;
+  overflow: hidden;
+}
+
+.nav-link-ripple::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.3);
+  transform: translate(-50%, -50%);
+  transition: width 0.6s, height 0.6s;
+}
+
+.nav-link-ripple:active::after {
+  width: 300px;
+  height: 300px;
+}
