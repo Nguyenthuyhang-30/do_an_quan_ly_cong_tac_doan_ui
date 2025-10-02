@@ -49,8 +49,9 @@ const HeaderClient = () => {
     <header
       className="text-white shadow-xl sticky top-0 z-50 backdrop-blur-md transition-all duration-300"
       style={{
-        background:
-          'linear-gradient(135deg, var(--accent-dark) 0%, var(--accent-color) 60%, var(--accent-light) 100%)',
+        // background:
+        //   'linear-gradient(135deg, var(--accent-dark) 0%, var(--accent-color) 60%, var(--accent-light) 100%)',
+        background: 'var(--primary-color)',
         color: 'var(--text-white)',
         fontFamily:
           'Manrope, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif',
@@ -144,7 +145,7 @@ const HeaderClient = () => {
               <UserOutlined
                 style={{
                   fontSize: 'clamp(16px, 3vw, 22px)',
-                  color: 'var(--accent-color)',
+                  color: 'var(--primary-color)',
                 }}
               />
             </div>
@@ -155,7 +156,9 @@ const HeaderClient = () => {
       <nav
         className="w-full overflow-x-auto scrollbar-hide"
         style={{
-          background: 'var(--primary-color)',
+          // background: 'var(--primary-color)',
+          background:
+            'linear-gradient(135deg, var(--accent-dark) 0%, var(--accent-color) 60%, var(--accent-light) 100%)',
           boxShadow: '0 2px 8px rgba(0,0,0,0.15)',
         }}
         aria-label="Main navigation"

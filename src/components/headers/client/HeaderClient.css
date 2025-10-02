@@ -1,11 +1,11 @@
 .nav-link {
   position: relative;
   overflow: hidden;
-  color: #aeccff;
+  color: white;
 }
 
 .nav-link:hover {
-  color: var(--accent-color);
+  color: var(--primary-color);
 }
 
 .nav-link::before {
