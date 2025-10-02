@@ -5,7 +5,7 @@
 }
 
 .nav-link:hover {
-  color: var(--primary-color);
+  color: var(--accent-color);
 }
 
 .nav-link::before {
@@ -121,22 +121,49 @@
   display: none; /* Chrome, Safari and Opera */
 }
 
-/* Responsive text truncation for very small screens */
+/* ========== MOBILE OPTIMIZATIONS ========== */
+
+/* Very small phones (320px - 380px) */
 @media (max-width: 380px) {
   .nav-link {
-    font-size: 0.55rem !important;
-    padding: 0.4rem 0.3rem !important;
+    font-size: 0.48rem !important;
+    padding: 0.35rem 0.2rem !important;
+    letter-spacing: -0.3px;
+  }
+
+  .header-title {
+    white-space: nowrap !important;
+    text-overflow: ellipsis !important;
+    letter-spacing: -0.5px !important;
+  }
+
+  .header-subtitle {
+    white-space: nowrap !important;
+    text-overflow: ellipsis !important;
+    letter-spacing: -0.5px !important;
   }
 }
 
-/* Extra small mobile devices */
+/* Extra small mobile devices (381px - 480px) */
 @media (max-width: 480px) {
   .nav-item {
     animation: none; /* Disable animation on very small screens for performance */
   }
 
   .nav-link {
-    letter-spacing: 0.02em;
+    letter-spacing: 0;
+    font-size: 0.55rem !important;
+    padding: 0.4rem 0.3rem !important;
+  }
+
+  .header-title {
+    white-space: nowrap !important;
+    text-overflow: ellipsis !important;
+  }
+
+  .header-subtitle {
+    white-space: nowrap !important;
+    text-overflow: ellipsis !important;
   }
 }
 

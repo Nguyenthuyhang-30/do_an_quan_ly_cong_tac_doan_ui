@@ -39,8 +39,7 @@ const HeaderClient = () => {
   const navItems = [
     { href: '/', label: 'Trang chủ' },
     { href: '/tra-cuu-hoat-dong', label: 'Tra cứu hoạt động đoàn' },
-    { href: '/van-ban-tai-lieu', label: 'Văn bản - Tài liệu' },
-    { href: '/lich-lam-viec', label: 'Lịch làm việc' },
+    { href: '/bch-chi-doan', label: 'BCH chi đoàn' },
     { href: '/lien-he', label: 'Liên hệ' },
   ];
 
@@ -54,11 +53,23 @@ const HeaderClient = () => {
           'Manrope, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif',
       }}
     >
-      <div className="container mx-auto px-2 sm:px-4 lg:px-6 py-0.5 sm:py-1">
+      <div
+        className="container mx-auto py-1 sm:py-2"
+        style={{
+          paddingLeft: 'clamp(0.25rem, 1.5vw, 1.5rem)',
+          paddingRight: 'clamp(0.25rem, 1.5vw, 1.5rem)',
+        }}
+      >
         <div className="flex items-center justify-between gap-2 sm:gap-3">
           {/* Logo Section */}
-          <div className="flex items-center space-x-2 sm:space-x-3 flex-shrink-0">
-            <div className="transition-all duration-300">
+          <div
+            className="flex items-center flex-shrink-0"
+            style={{ marginRight: 'clamp(0.25rem, 1vw, 0.75rem)' }}
+          >
+            <div
+              className="transition-all duration-300"
+              style={{ transform: 'scale(clamp(0.65, 1.5vw + 0.5, 1))' }}
+            >
               <LogoSwitcher />
             </div>
           </div>
@@ -66,39 +77,36 @@ const HeaderClient = () => {
           <div className="min-w-0 flex-1 overflow-hidden">
             <Title
               level={3}
-              className="font-semibold tracking-tight text-blue-900 uppercase mb-0 sm:mb-1"
+              className="font-semibold tracking-tight text-blue-900 uppercase mb-0 header-title"
               style={{
                 margin: 0,
                 color: '#1E3A8A',
-                fontSize: 'clamp(0.65rem, 2vw, 0.875rem)', // Responsive font size
+                fontSize: 'clamp(0.4rem, 2.2vw, 0.875rem)',
                 lineHeight: 1.2,
-                letterSpacing: '0.2px',
+                letterSpacing: 'clamp(-0.5px, 0.5vw, 0.2px)',
                 overflow: 'hidden',
                 textOverflow: 'ellipsis',
                 whiteSpace: 'nowrap',
               }}
             >
-              <span className="hidden lg:inline">ĐOÀN THANH NIÊN TRƯỜNG ĐẠI HỌC ĐẠI NAM</span>
-              <span className="hidden sm:inline lg:hidden">ĐTN TRƯỜNG ĐH ĐẠI NAM</span>
-              <span className="inline sm:hidden">ĐTN ĐH ĐN</span>
+              ĐOÀN THANH NIÊN TRƯỜNG ĐẠI HỌC ĐẠI NAM
             </Title>
 
-            <div className="flex items-center space-x-1 sm:space-x-2 mt-1">
+            <div className="flex items-center mt-0">
               <span
-                className="inline-flex items-center font-extrabold uppercase rounded-md transition-all duration-300"
+                className="inline-flex items-center font-extrabold uppercase rounded-md transition-all duration-300 header-subtitle"
                 style={{
                   color: '#001F54', // Navy blue
-                  fontSize: 'clamp(0.8rem, 2.5vw, 1.15rem)', // Slightly larger
-                  lineHeight: '1.3',
-                  letterSpacing: '0.5px',
+                  fontSize: 'clamp(0.48rem, 2.8vw, 1.15rem)',
+                  lineHeight: '1.2',
+                  letterSpacing: 'clamp(-0.5px, 0.5vw, 0.3px)',
                   overflow: 'hidden',
                   textOverflow: 'ellipsis',
                   whiteSpace: 'nowrap',
                 }}
               >
-                <span className="hidden md:inline">LIÊN CHI ĐOÀN KHOA CNTT</span>
-                <span className="hidden sm:inline md:hidden">LCĐ KHOA CNTT</span>
-                <span className="inline sm:hidden">LCĐ CNTT</span>
+                <span className="hidden sm:inline">LIÊN CHI ĐOÀN KHOA CÔNG NGHỆ THÔNG TIN</span>
+                <span className="inline sm:hidden">LIÊN CHI ĐOÀN KHOA CNTT</span>
               </span>
             </div>
           </div>
@@ -106,10 +114,11 @@ const HeaderClient = () => {
           <div className="flex items-center gap-2 sm:gap-3 flex-shrink-0">
             {/* User info - Hidden on small screens */}
             <button
-              className="bg-gradient-to-r from-blue-900 to-blue-700 text-white font-bold py-2 px-4 rounded-lg hover:from-blue-800 hover:to-blue-600 transition-all duration-300 shadow-md hover:shadow-lg transform hover:scale-105"
+              className="bg-gradient-to-r from-blue-900 to-blue-700 text-white font-bold rounded-md hover:from-blue-800 hover:to-blue-600 transition-all duration-300 shadow-sm hover:shadow-md transform hover:scale-105 whitespace-nowrap"
               style={{
-                fontSize: 'clamp(0.75rem, 1.2vw, 0.9rem)',
-                letterSpacing: '0.3px',
+                fontSize: 'clamp(0.55rem, 1.8vw, 0.85rem)',
+                letterSpacing: '0.1px',
+                padding: 'clamp(0.3rem, 1.2vw, 0.5rem) clamp(0.4rem, 2vw, 0.8rem)',
               }}
             >
               Đăng nhập
@@ -121,9 +130,8 @@ const HeaderClient = () => {
       <nav
         className="w-full overflow-x-auto scrollbar-hide"
         style={{
-          background:
-            'linear-gradient(135deg, var(--accent-dark) 0%, var(--accent-color) 60%, var(--accent-light) 100%)',
-          boxShadow: '0 2px 8px rgba(0,0,0,0.15)',
+          background: 'var(--primary-color, #1E40AF)',
+          boxShadow: '0 2px 8px rgba(0,0,0,0.2), inset 0 1px 0 rgba(255,255,255,0.1)',
         }}
         aria-label="Main navigation"
       >

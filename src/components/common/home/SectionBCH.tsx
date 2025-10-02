@@ -43,7 +43,7 @@ const SectionBCH = ({ data }: SectionBCHProps) => {
             level={2}
             className="section-title text-center text-blue-900 font-bold text-2xl md:text-3xl lg:text-4xl"
           >
-            BAN CHẤP HÀNH LIÊN CHI ĐOÀN KHOA CNTT
+            BAN CHẤP HÀNH LIÊN CHI ĐOÀN KHOA CÔNG NGHỆ THÔNG TIN
           </Title>
         </div>
         <div className="overflow-x-auto">
