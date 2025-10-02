@@ -28,8 +28,8 @@ const LogoSwitcher: React.FC = () => {
     <div
       className="relative overflow-hidden p-1 rounded-lg transition-all duration-300"
       style={{
-        width: 44,
-        height: 44,
+        width: 60,
+        height: 60,
         borderRadius: 12,
         background: 'rgba(255,255,255,0.06)',
         border: '1px solid rgba(255,255,255,0.06)',

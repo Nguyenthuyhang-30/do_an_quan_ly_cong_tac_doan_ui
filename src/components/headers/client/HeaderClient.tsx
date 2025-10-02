@@ -4,7 +4,7 @@ import { Typography } from 'antd';
 import { useState } from 'react';
 import './HeaderClient.css';
 
-const { Title, Text } = Typography;
+const { Title } = Typography;
 
 // Navigation Link Component
 interface NavLinkProps {
@@ -62,7 +62,7 @@ const HeaderClient = () => {
           {/* Logo Section */}
           <div className="flex items-center space-x-2 sm:space-x-3 flex-shrink-0">
             <div
-              className="bg-white bg-opacity-12 p-0.5 sm:p-1 rounded-lg backdrop-blur-sm transition-all duration-300 hover:bg-opacity-20"
+              className="bg-white bg-opacity-12 sm:p-0 rounded-lg backdrop-blur-sm transition-all duration-300 hover:bg-opacity-20"
               style={{ border: '1px solid rgba(255,255,255,0.06)' }}
             >
               <LogoSwitcher />
@@ -125,16 +125,6 @@ const HeaderClient = () => {
               >
                 Lê Tuấn Anh
               </div>
-              <Text
-                className="text-white text-opacity-85"
-                style={{
-                  color: 'rgba(255,255,255,0.85)',
-                  fontFamily: 'inherit',
-                  fontSize: 'clamp(0.65rem, 0.9vw, 0.75rem)',
-                }}
-              >
-                Phó bí thư Đoàn khoa CNTT
-              </Text>
             </div>
 
             {/* User Avatar */}
