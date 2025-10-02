@@ -1,4 +1,3 @@
-import { UserOutlined } from '@ant-design/icons';
 import LogoSwitcher from '@components/logo/LogoSwitcher';
 import { Typography } from 'antd';
 import { useState } from 'react';
@@ -55,7 +54,7 @@ const HeaderClient = () => {
           'Manrope, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif',
       }}
     >
-      <div className="container mx-auto px-2 sm:px-4 lg:px-6 py-1">
+      <div className="container mx-auto px-2 sm:px-4 lg:px-6 py-0.5 sm:py-1">
         <div className="flex items-center justify-between gap-2 sm:gap-3">
           {/* Logo Section */}
           <div className="flex items-center space-x-2 sm:space-x-3 flex-shrink-0">
@@ -63,7 +62,6 @@ const HeaderClient = () => {
               <LogoSwitcher />
             </div>
           </div>
-
           {/* Title Section - Responsive */}
           <div className="min-w-0 flex-1 overflow-hidden">
             <Title
@@ -85,15 +83,14 @@ const HeaderClient = () => {
               <span className="inline sm:hidden">ĐTN ĐH ĐN</span>
             </Title>
 
-            <div className="flex items-center space-x-1 sm:space-x-2">
+            <div className="flex items-center space-x-1 sm:space-x-2 mt-1">
               <span
-                className="inline-flex items-center font-bold uppercase"
+                className="inline-flex items-center font-extrabold uppercase rounded-md transition-all duration-300"
                 style={{
-                  color: '#1E3A8A',
-                  background: 'transparent',
-                  fontSize: 'clamp(0.75rem, 2.5vw, 1.125rem)', // Responsive font size
+                  color: '#001F54', // Navy blue
+                  fontSize: 'clamp(0.8rem, 2.5vw, 1.15rem)', // Slightly larger
                   lineHeight: '1.3',
-                  letterSpacing: '0.15px',
+                  letterSpacing: '0.5px',
                   overflow: 'hidden',
                   textOverflow: 'ellipsis',
                   whiteSpace: 'nowrap',
@@ -105,35 +102,18 @@ const HeaderClient = () => {
               </span>
             </div>
           </div>
-
           {/* User Section */}
           <div className="flex items-center gap-2 sm:gap-3 flex-shrink-0">
             {/* User info - Hidden on small screens */}
-            <div className="text-right hidden xl:block">
-              <div
-                className="font-semibold"
-                style={{
-                  color: '#1E3A8A',
-                  fontFamily: 'inherit',
-                  fontSize: 'clamp(0.75rem, 1vw, 0.875rem)',
-                }}
-              >
-                Lê Tuấn Anh
-              </div>
-            </div>
-
-            {/* User Avatar */}
-            <div
-              className="bg-white bg-opacity-12 p-1.5 sm:p-2 flex justify-center items-center rounded-lg backdrop-blur-sm transition-all duration-300 hover:bg-opacity-20 hover:scale-105 cursor-pointer"
-              style={{ border: '1px solid rgba(255,255,255,0.06)' }}
+            <button
+              className="bg-gradient-to-r from-blue-900 to-blue-700 text-white font-bold py-2 px-4 rounded-lg hover:from-blue-800 hover:to-blue-600 transition-all duration-300 shadow-md hover:shadow-lg transform hover:scale-105"
+              style={{
+                fontSize: 'clamp(0.75rem, 1.2vw, 0.9rem)',
+                letterSpacing: '0.3px',
+              }}
             >
-              <UserOutlined
-                style={{
-                  fontSize: 'clamp(16px, 3vw, 22px)',
-                  color: '#1E3A8A',
-                }}
-              />
-            </div>
+              Đăng nhập
+            </button>
           </div>
         </div>
       </div>
