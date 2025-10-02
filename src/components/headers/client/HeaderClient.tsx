@@ -121,7 +121,7 @@ const HeaderClient = () => {
           </div>
         </div>
       </div>
-      {/* Navigation Bar */}q
+      {/* Navigation Bar */}
       <nav
         className="w-full"
         style={{
