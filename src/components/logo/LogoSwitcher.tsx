@@ -16,8 +16,8 @@ const LogoSwitcher: React.FC = () => {
     top: '50%',
     left: '50%',
     transform: 'translate(-50%, -50%)',
-    width: 36,
-    height: 36,
+    width: 54,
+    height: 54,
     objectFit: 'contain',
     transition: 'transform 600ms cubic-bezier(.2,.9,.2,1), opacity 600ms ease',
     willChange: 'transform, opacity',
@@ -26,10 +26,10 @@ const LogoSwitcher: React.FC = () => {
 
   return (
     <div
-      className="relative overflow-hidden p-1 rounded-lg transition-all duration-300"
+      className="relative overflow-hidden rounded-lg transition-all duration-300"
       style={{
-        width: 60,
-        height: 60,
+        width: 70,
+        height: 70,
         borderRadius: 12,
         background: 'rgba(255,255,255,0.06)',
         border: '1px solid rgba(255,255,255,0.06)',

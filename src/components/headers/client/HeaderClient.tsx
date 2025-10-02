@@ -47,24 +47,19 @@ const HeaderClient = () => {
 
   return (
     <header
-      className="text-white shadow-xl sticky top-0 z-50 backdrop-blur-md transition-all duration-300"
+      className="text-blue-900 shadow-xl sticky top-0 z-50 backdrop-blur-md transition-all duration-300"
       style={{
-        // background:
-        //   'linear-gradient(135deg, var(--accent-dark) 0%, var(--accent-color) 60%, var(--accent-light) 100%)',
-        background: 'var(--primary-color)',
-        color: 'var(--text-white)',
+        background: 'white',
+        color: '#1E3A8A', // Tailwind blue-900
         fontFamily:
           'Manrope, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif',
       }}
     >
-      <div className="container mx-auto px-2 sm:px-4 lg:px-6 py-2 sm:py-3">
+      <div className="container mx-auto px-2 sm:px-4 lg:px-6 py-1">
         <div className="flex items-center justify-between gap-2 sm:gap-3">
           {/* Logo Section */}
           <div className="flex items-center space-x-2 sm:space-x-3 flex-shrink-0">
-            <div
-              className="bg-white bg-opacity-12 sm:p-0 rounded-lg backdrop-blur-sm transition-all duration-300 hover:bg-opacity-20"
-              style={{ border: '1px solid rgba(255,255,255,0.06)' }}
-            >
+            <div className="transition-all duration-300">
               <LogoSwitcher />
             </div>
           </div>
@@ -73,10 +68,10 @@ const HeaderClient = () => {
           <div className="min-w-0 flex-1 overflow-hidden">
             <Title
               level={3}
-              className="font-semibold tracking-tight text-white uppercase mb-0 sm:mb-1"
+              className="font-semibold tracking-tight text-blue-900 uppercase mb-0 sm:mb-1"
               style={{
                 margin: 0,
-                color: 'var(--text-white)',
+                color: '#1E3A8A',
                 fontSize: 'clamp(0.65rem, 2vw, 0.875rem)', // Responsive font size
                 lineHeight: 1.2,
                 letterSpacing: '0.2px',
@@ -94,7 +89,7 @@ const HeaderClient = () => {
               <span
                 className="inline-flex items-center font-bold uppercase"
                 style={{
-                  color: 'var(--text-white)',
+                  color: '#1E3A8A',
                   background: 'transparent',
                   fontSize: 'clamp(0.75rem, 2.5vw, 1.125rem)', // Responsive font size
                   lineHeight: '1.3',
@@ -118,7 +113,7 @@ const HeaderClient = () => {
               <div
                 className="font-semibold"
                 style={{
-                  color: 'var(--text-white)',
+                  color: '#1E3A8A',
                   fontFamily: 'inherit',
                   fontSize: 'clamp(0.75rem, 1vw, 0.875rem)',
                 }}
@@ -135,7 +130,7 @@ const HeaderClient = () => {
               <UserOutlined
                 style={{
                   fontSize: 'clamp(16px, 3vw, 22px)',
-                  color: 'var(--primary-color)',
+                  color: '#1E3A8A',
                 }}
               />
             </div>
@@ -146,7 +141,6 @@ const HeaderClient = () => {
       <nav
         className="w-full overflow-x-auto scrollbar-hide"
         style={{
-          // background: 'var(--primary-color)',
           background:
             'linear-gradient(135deg, var(--accent-dark) 0%, var(--accent-color) 60%, var(--accent-light) 100%)',
           boxShadow: '0 2px 8px rgba(0,0,0,0.15)',
