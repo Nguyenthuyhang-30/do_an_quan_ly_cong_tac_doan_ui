@@ -12,17 +12,17 @@ const SectionIntro = () => {
             level={2}
             className="section-title text-center text-blue-900 font-bold text-2xl md:text-3xl lg:text-4xl"
           >
-            Giới thiệu về Đoàn Thanh Niên Khoa CNTT
+            GIỚI THIỆU
           </Title>
         </div>
         <Paragraph className="text-base md:text-lg text-gray-700 leading-relaxed text-justify">
-          Đoàn Thanh Niên Khoa Công nghệ Thông tin là tổ chức chính trị - xã hội của thanh niên Việt
+          Liên Chi Đoàn Khoa Công nghệ Thông tin là tổ chức chính trị - xã hội của thanh niên Việt
           Nam, do Đảng Cộng sản Việt Nam sáng lập, lãnh đạo và rèn luyện, là đội dự bị tin cậy của
-          Đảng. Đoàn Thanh Niên Khoa CNTT tập hợp đông đảo các bạn sinh viên có lý tưởng và khát
-          vọng cống hiến, phấn đấu vì mục tiêu dân giàu, nước mạnh, dân chủ, công bằng, văn minh.
-          Với phương châm "Đoàn kết - Sáng tạo - Tình nguyện - Phát triển", Đoàn Thanh Niên Khoa
-          CNTT không ngừng nỗ lực để trở thành môi trường rèn luyện, phát triển toàn diện cho mỗi
-          đoàn viên, thanh niên.
+          Đảng. Liên Chi Đoàn Khoa CNTT tập hợp đông đảo các bạn sinh viên có lý tưởng và khát vọng
+          cống hiến, phấn đấu vì mục tiêu dân giàu, nước mạnh, dân chủ, công bằng, văn minh. Với
+          phương châm "Đoàn kết - Sáng tạo - Tình nguyện - Phát triển", Liên Chi Đoàn Khoa CNTT
+          không ngừng nỗ lực để trở thành môi trường rèn luyện, phát triển toàn diện cho mỗi đoàn
+          viên, thanh niên.
         </Paragraph>
       </div>
     </section>

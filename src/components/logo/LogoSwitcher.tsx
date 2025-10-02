@@ -1,12 +1,13 @@
 import { useEffect, useState } from 'react';
 
 const LogoSwitcher: React.FC = () => {
-  const doanLogoSrc = '/doan_logo.png';
-  const dnuLogoSrc = '/dnu_logo.png';
+  const doanLogoSrc = '/doan_logo.png'; // Đoàn
+  const dnuLogoSrc = '/dnu_logo.png'; // Trường (DNU)
+  const khoaLogoSrc = '/fitdnu_logo.png'; // Khoa
   const [index, setIndex] = useState(0);
 
   useEffect(() => {
-    const t = setInterval(() => setIndex((i) => (i === 0 ? 1 : 0)), 3000);
+    const t = setInterval(() => setIndex((i) => (i + 1) % 3), 2500);
     return () => clearInterval(t);
   }, []);
 
@@ -39,32 +40,32 @@ const LogoSwitcher: React.FC = () => {
       aria-hidden={false}
       aria-label="logo switcher"
     >
-      <img
-        src={doanLogoSrc}
-        alt="Đoàn logo"
-        style={{
-          ...commonStyle,
-          transform:
-            index === 0
-              ? 'translate(-50%, -50%) translateX(0)'
-              : 'translate(-50%, -50%) translateX(-120%)',
-          opacity: index === 0 ? 1 : 0,
-          filter: 'drop-shadow(0 4px 10px rgba(0,0,0,0.12))',
-        }}
-      />
-      <img
-        src={dnuLogoSrc}
-        alt="DNU logo"
-        style={{
-          ...commonStyle,
-          transform:
-            index === 1
-              ? 'translate(-50%, -50%) translateX(0)'
-              : 'translate(-50%, -50%) translateX(120%)',
-          opacity: index === 1 ? 1 : 0,
-          filter: 'drop-shadow(0 4px 10px rgba(0,0,0,0.12))',
-        }}
-      />
+      {
+        // Helper to compute transform based on position index (0=Đoàn,1=Trường,2=Khoa)
+      }
+      {[
+        { src: doanLogoSrc, alt: 'Đoàn logo', pos: 0 },
+        { src: dnuLogoSrc, alt: 'Trường DNU logo', pos: 1 },
+        { src: khoaLogoSrc, alt: 'Khoa logo', pos: 2 },
+      ].map(({ src, alt, pos }) => {
+        const offset = pos - index; // -1,0,1 etc
+        const translateX = `${offset * 140}%`;
+        const scale = offset === 0 ? 1 : 0.9;
+        const opacity = offset === 0 ? 1 : 0;
+        return (
+          <img
+            key={pos}
+            src={src}
+            alt={alt}
+            style={{
+              ...commonStyle,
+              transform: `translate(-50%, -50%) translateX(${translateX}) scale(${scale})`,
+              opacity,
+              filter: 'drop-shadow(0 4px 10px rgba(0,0,0,0.12))',
+            }}
+          />
+        );
+      })}
     </div>
   );
 };

@@ -29,29 +29,7 @@
   background: rgba(255, 255, 255, 0.15);
 }
 
-/* Mobile navigation optimization */
-@media (max-width: 640px) {
-  .nav-link {
-    font-size: 0.65rem;
-    padding: 0.5rem 0.5rem;
-  }
-}
-
-/* Tablet optimization */
-@media (min-width: 641px) and (max-width: 1024px) {
-  .nav-link {
-    font-size: 0.75rem;
-    padding: 0.75rem 1rem;
-  }
-}
-
-/* Desktop optimization */
-@media (min-width: 1025px) {
-  .nav-link {
-    font-size: 0.875rem;
-    padding: 0.75rem 1.5rem;
-  }
-}
+/* Note: Responsive optimizations moved to bottom of file for better organization */
 
 /* Separator animation */
 .nav-separator {
@@ -129,4 +107,87 @@
 .nav-link-ripple:active::after {
   width: 300px;
   height: 300px;
+}
+
+/* ========== RESPONSIVE ENHANCEMENTS ========== */
+
+/* Hide scrollbar but keep functionality */
+.scrollbar-hide {
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none; /* Chrome, Safari and Opera */
+}
+
+/* Responsive text truncation for very small screens */
+@media (max-width: 380px) {
+  .nav-link {
+    font-size: 0.55rem !important;
+    padding: 0.4rem 0.3rem !important;
+  }
+}
+
+/* Extra small mobile devices */
+@media (max-width: 480px) {
+  .nav-item {
+    animation: none; /* Disable animation on very small screens for performance */
+  }
+
+  .nav-link {
+    letter-spacing: 0.02em;
+  }
+}
+
+/* Small tablets */
+@media (min-width: 481px) and (max-width: 768px) {
+  .nav-link {
+    font-size: 0.7rem;
+    padding: 0.6rem 0.8rem;
+  }
+}
+
+/* Medium tablets and small laptops */
+@media (min-width: 769px) and (max-width: 1280px) {
+  .nav-link {
+    font-size: 0.8rem;
+    padding: 0.7rem 1.2rem;
+  }
+}
+
+/* Large screens */
+@media (min-width: 1281px) {
+  .nav-link {
+    font-size: 0.9rem;
+    padding: 0.75rem 1.5rem;
+  }
+}
+
+/* Ultra-wide screens */
+@media (min-width: 1920px) {
+  .nav-link {
+    font-size: 1rem;
+    padding: 0.875rem 2rem;
+  }
+}
+
+/* Smooth scroll for horizontal navigation on touch devices */
+@media (hover: none) and (pointer: coarse) {
+  nav {
+    -webkit-overflow-scrolling: touch;
+    scroll-behavior: smooth;
+  }
+}
+
+/* Reduce motion for users who prefer it */
+@media (prefers-reduced-motion: reduce) {
+  .nav-item {
+    animation: none;
+  }
+
+  .nav-link::before,
+  .nav-link-ripple::after {
+    transition: none;
+  }
 }

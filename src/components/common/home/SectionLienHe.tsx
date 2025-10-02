@@ -20,7 +20,7 @@ const SectionLienHe = () => {
         <div className="flex justify-center mb-12">
           <Title
             level={2}
-            className="section-title text-center text-blue-900 font-bold text-2xl md:text-3xl lg:text-4xl"
+            className="section-title text-center text-blue-900 font-bold text-2xl md:text-3xl lg:text-4xl uppercase"
           >
             Liên hệ
           </Title>
