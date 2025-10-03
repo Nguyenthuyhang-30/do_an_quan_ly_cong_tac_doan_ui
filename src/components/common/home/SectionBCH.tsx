@@ -13,43 +13,43 @@ interface Member {
 const organizationData = {
   secretary: {
     id: 1,
-    name: 'Nguyễn Văn A',
+    name: 'Lê Văn Phong',
     role: 'Bí thư',
     avatar: 'https://i.pravatar.cc/150?img=1',
   },
   viceSecretaries: [
     {
       id: 2,
-      name: 'Trần Thị B',
+      name: 'Lê Tuấn Anh',
       role: 'Phó bí thư',
       avatar: 'https://i.pravatar.cc/150?img=2',
       member: {
         id: 5,
-        name: 'Phạm Văn E',
+        name: 'Nguyễn Thị Phương',
         role: 'Ủy viên',
         avatar: 'https://i.pravatar.cc/150?img=5',
       },
     },
     {
       id: 3,
-      name: 'Lê Văn C',
+      name: 'Nguyễn Thái Khánh',
       role: 'Phó bí thư',
       avatar: 'https://i.pravatar.cc/150?img=3',
       member: {
         id: 6,
-        name: 'Hoàng Thị F',
+        name: 'Lê Thị Vân Anh',
         role: 'Ủy viên',
         avatar: 'https://i.pravatar.cc/150?img=6',
       },
     },
     {
       id: 4,
-      name: 'Vũ Thị D',
+      name: 'Trần Thị Thanh Nhàn',
       role: 'Phó bí thư',
       avatar: 'https://i.pravatar.cc/150?img=4',
       member: {
         id: 7,
-        name: 'Đặng Văn G',
+        name: 'Đinh Trọng Quỳnh',
         role: 'Ủy viên',
         avatar: 'https://i.pravatar.cc/150?img=7',
       },
@@ -169,11 +169,11 @@ const SectionBCH = () => {
                 className="org-chart relative"
                 style={{ width: '800px', minHeight: 'fit-content' }}
               >
-                <div className="flex justify-center mb-16 relative z-10">
+                <div className="flex justify-center mb-12 relative z-10">
                   <PersonCard member={organizationData.secretary} />
                 </div>
 
-                <div className="relative z-10 grid grid-cols-3 gap-12 mb-16 px-6">
+                <div className="relative z-10 grid grid-cols-3 gap-10 mb-12 px-6">
                   {organizationData.viceSecretaries.map((viceSecretary) => (
                     <div key={viceSecretary.id} className="flex justify-center">
                       <PersonCard member={viceSecretary} />
@@ -181,7 +181,7 @@ const SectionBCH = () => {
                   ))}
                 </div>
 
-                <div className="relative z-10 grid grid-cols-3 gap-12 px-6">
+                <div className="relative z-10 grid grid-cols-3 gap-10 px-6">
                   {organizationData.viceSecretaries.map((viceSecretary) => (
                     <div key={`member-${viceSecretary.member.id}`} className="flex justify-center">
                       <PersonCard member={viceSecretary.member} />
@@ -189,7 +189,7 @@ const SectionBCH = () => {
                   ))}
                 </div>
 
-                <svg
+                {/* <svg
                   className="absolute top-0 left-0 w-full h-full pointer-events-none z-0"
                   style={{ minHeight: 'fit-content' }}
                   preserveAspectRatio="xMidYMid meet"
@@ -267,7 +267,7 @@ const SectionBCH = () => {
                     strokeWidth="3"
                     strokeLinecap="round"
                   />
-                </svg>
+                </svg> */}
               </div>
             </div>
           </div>
