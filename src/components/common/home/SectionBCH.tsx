@@ -64,7 +64,7 @@ const PersonCard = ({ member }: { member: Member }) => {
         <img
           src={member.avatar || 'https://i.pravatar.cc/150?img=0'}
           alt={member.name}
-          className="w-full h-full object-cover object-top-right transition-transform duration-300 group-hover:scale-100"
+          className="w-full h-full object-cover object-top-right scale-115 transition-transform duration-300 group-hover:scale-100"
         />
       </div>
 
@@ -170,11 +170,11 @@ const SectionBCH = () => {
                 className="org-chart relative"
                 style={{ width: '800px', minHeight: 'fit-content' }}
               >
-                <div className="flex justify-center mb-12 relative z-10">
+                <div className="flex justify-center mb-8 relative z-10">
                   <PersonCard member={organizationData.secretary} />
                 </div>
 
-                <div className="relative z-10 grid grid-cols-3 gap-10 mb-12 px-6">
+                <div className="relative z-10 grid grid-cols-3 gap-10 mb-8 px-6">
                   {organizationData.viceSecretaries.map((viceSecretary) => (
                     <div key={viceSecretary.id} className="flex justify-center">
                       <PersonCard member={viceSecretary} />
