@@ -15,14 +15,14 @@ const organizationData = {
     id: 1,
     name: 'Lê Văn Phong',
     role: 'Bí thư',
-    avatar: 'https://i.pravatar.cc/150?img=1',
+    avatar: '/images/people/bt_lvp.JPG',
   },
   viceSecretaries: [
     {
       id: 2,
       name: 'Lê Tuấn Anh',
       role: 'Phó bí thư',
-      avatar: 'https://i.pravatar.cc/150?img=2',
+      avatar: '/images/people/pbt_lta.JPG',
       member: {
         id: 5,
         name: 'Nguyễn Thị Phương',
@@ -34,7 +34,7 @@ const organizationData = {
       id: 3,
       name: 'Nguyễn Thái Khánh',
       role: 'Phó bí thư',
-      avatar: 'https://i.pravatar.cc/150?img=3',
+      avatar: '/images/people/pbt_ntk.JPG',
       member: {
         id: 6,
         name: 'Lê Thị Vân Anh',
@@ -46,7 +46,7 @@ const organizationData = {
       id: 4,
       name: 'Trần Thị Thanh Nhàn',
       role: 'Phó bí thư',
-      avatar: 'https://i.pravatar.cc/150?img=4',
+      avatar: '/images/people/pbt_tttn.JPG',
       member: {
         id: 7,
         name: 'Đinh Trọng Quỳnh',
@@ -60,13 +60,14 @@ const organizationData = {
 const PersonCard = ({ member }: { member: Member }) => {
   return (
     <div className="flex flex-col items-center group transition-all duration-300 hover:scale-105">
-      <div className="relative">
+      <div className="relative overflow-hidden rounded-full w-24 h-24 lg:w-28 lg:h-28 border-4 border-blue-500 shadow-lg">
         <img
           src={member.avatar || 'https://i.pravatar.cc/150?img=0'}
           alt={member.name}
-          className="w-24 h-24 lg:w-28 lg:h-28 rounded-full object-cover border-4 border-blue-500 shadow-lg transition-all duration-300 group-hover:border-blue-600 group-hover:shadow-xl"
+          className="w-full h-full object-cover object-top-right transition-transform duration-300 group-hover:scale-100"
         />
       </div>
+
       <div className="mt-3 text-center px-2">
         <p className="font-bold text-blue-900 text-sm md:text-base whitespace-nowrap">
           {member.role}

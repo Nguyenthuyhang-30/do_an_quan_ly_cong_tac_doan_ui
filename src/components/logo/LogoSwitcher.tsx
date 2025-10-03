@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react';
 
 const LogoSwitcher: React.FC = () => {
-  const doanLogoSrc = '/doan_logo.png'; // Đoàn
-  const dnuLogoSrc = '/dainam_logo.png'; // Trường (DNU)
-  const khoaLogoSrc = '/fitdnu_logo.png'; // Khoa
+  const doanLogoSrc = '/logos/doan_logo.png'; // Đoàn
+  const dnuLogoSrc = '/logos/dainam_logo.png'; // Trường (DNU)
+  const khoaLogoSrc = '/logos/fitdnu_logo.png'; // Khoa
   const [index, setIndex] = useState(0);
 
   useEffect(() => {
