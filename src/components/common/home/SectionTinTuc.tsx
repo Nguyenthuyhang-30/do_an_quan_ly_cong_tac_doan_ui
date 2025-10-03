@@ -28,12 +28,9 @@ const SectionTinTuc = ({ allNews }: SectionTinTucProps) => {
     <section className="py-12 px-6 bg-gray-50">
       <div className="container mx-auto max-w-7xl">
         <div className="flex justify-center mb-12">
-          <Title
-            level={2}
-            className="section-title text-center text-blue-900 font-bold text-2xl md:text-3xl lg:text-4xl uppercase"
-          >
+          <p className="section-title text-center text-blue-900 font-bold text-2xl md:text-3xl lg:text-4xl uppercase">
             Tin tức
-          </Title>
+          </p>
         </div>
         <Row gutter={[24, 24]}>
           {currentNews.map((news) => (

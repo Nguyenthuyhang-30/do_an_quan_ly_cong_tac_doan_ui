@@ -1,19 +1,16 @@
 import '@features/home/pages/Home.css';
 import { Typography } from 'antd';
 
-const { Title, Paragraph } = Typography;
+const { Paragraph } = Typography;
 
 const SectionIntro = () => {
   return (
     <section className="py-12 px-6 bg-white">
       <div className="container mx-auto max-w-5xl">
         <div className="flex justify-center mb-8">
-          <Title
-            level={2}
-            className="section-title text-center text-blue-900 font-bold text-2xl md:text-3xl lg:text-4xl"
-          >
+          <p className="section-title text-center text-blue-900 font-bold text-2xl md:text-3xl lg:text-4xl">
             GIỚI THIỆU
-          </Title>
+          </p>
         </div>
         <Paragraph className="text-base md:text-lg text-gray-700 leading-relaxed text-justify">
           Liên Chi Đoàn Khoa Công nghệ Thông tin là tổ chức chính trị - xã hội của thanh niên Việt

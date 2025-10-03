@@ -1,7 +1,4 @@
 import '@features/home/pages/Home.css';
-import { Typography } from 'antd';
-
-const { Title } = Typography;
 
 interface Member {
   id: number;
@@ -60,7 +57,7 @@ const organizationData = {
 const PersonCard = ({ member }: { member: Member }) => {
   return (
     <div className="flex flex-col items-center group transition-all duration-300 hover:scale-105">
-      <div className="relative overflow-hidden rounded-full w-24 h-24 lg:w-28 lg:h-28 border-4 border-blue-500 shadow-lg">
+      <div className="relative overflow-hidden rounded-full w-30 h-30 lg:w-32 lg:h-32 border-4 border-blue-500 shadow-lg">
         <img
           src={member.avatar || 'https://i.pravatar.cc/150?img=0'}
           alt={member.name}
@@ -69,10 +66,10 @@ const PersonCard = ({ member }: { member: Member }) => {
       </div>
 
       <div className="mt-3 text-center px-2">
-        <p className="font-bold text-blue-900 text-sm md:text-base whitespace-nowrap">
+        <p className="font-bold text-blue-900 text-md md:text-xl whitespace-nowrap">
           {member.role}
         </p>
-        <p className="text-gray-700 text-xs md:text-sm mt-1 whitespace-nowrap">{member.name}</p>
+        <p className="text-gray-700 text-md md:text-xl mt-1 whitespace-nowrap">{member.name}</p>
       </div>
     </div>
   );
@@ -83,12 +80,9 @@ const SectionBCH = () => {
     <section className="py-6 sm:py-10 md:py-14 lg:py-16 px-2 sm:px-4 md:px-6 bg-gradient-to-b from-gray-50 to-white">
       <div className="container mx-auto max-w-[1200px]">
         <div className="flex justify-center mb-6 sm:mb-8 md:mb-10">
-          <Title
-            level={2}
-            className="section-title text-center text-blue-900 font-bold text-base sm:text-lg md:text-2xl lg:text-3xl xl:text-4xl px-2 sm:px-4"
-          >
+          <p className="section-title text-center text-blue-900 font-bold text-base sm:text-lg md:text-2xl lg:text-3xl xl:text-4xl px-2 sm:px-4">
             BAN CHẤP HÀNH LIÊN CHI ĐOÀN KHOA CÔNG NGHỆ THÔNG TIN
-          </Title>
+          </p>
         </div>
 
         <div className="w-full flex justify-center">
@@ -110,7 +104,7 @@ const SectionBCH = () => {
               
               @media (max-width: 900px) {
                 .org-chart-container {
-                  height: calc(550px * 0.88);
+                  height: calc(550px * 1.05);
                 }
                 .org-chart-wrapper {
                   transform: scale(0.88);
@@ -119,7 +113,7 @@ const SectionBCH = () => {
               
               @media (max-width: 768px) {
                 .org-chart-container {
-                  height: calc(550px * 0.7);
+                  height: calc(550px * 0.8);
                 }
                 .org-chart-wrapper {
                   transform: scale(0.7);
@@ -128,7 +122,7 @@ const SectionBCH = () => {
               
               @media (max-width: 640px) {
                 .org-chart-container {
-                  height: calc(550px * 0.55);
+                  height: calc(550px * 0.65);
                 }
                 .org-chart-wrapper {
                   transform: scale(0.55);
@@ -137,7 +131,7 @@ const SectionBCH = () => {
               
               @media (max-width: 480px) {
                 .org-chart-container {
-                  height: calc(550px * 0.45);
+                  height: calc(550px * 0.50);
                 }
                 .org-chart-wrapper {
                   transform: scale(0.45);
@@ -146,7 +140,7 @@ const SectionBCH = () => {
               
               @media (max-width: 400px) {
                 .org-chart-container {
-                  height: calc(550px * 0.38);
+                  height: calc(550px * 0.45);
                 }
                 .org-chart-wrapper {
                   transform: scale(0.38);
@@ -155,7 +149,7 @@ const SectionBCH = () => {
               
               @media (max-width: 360px) {
                 .org-chart-container {
-                  height: calc(550px * 0.35);
+                  height: calc(550px * 0.4);
                 }
                 .org-chart-wrapper {
                   transform: scale(0.35);
