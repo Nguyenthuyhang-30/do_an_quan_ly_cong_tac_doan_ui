@@ -299,7 +299,7 @@ export const Login: React.FC = () => {
             <div className="header-section">
               <div className="logo-container flex w-full justify-center">
                 <img
-                  src="/doan_logo.png"
+                  src="/logos/doan_logo.png"
                   alt="Youth Logo"
                   loading="lazy"
                   width={84}

@@ -1,3 +1,4 @@
+import Footer from '@components/footers/Footer';
 import HeaderClient from '@components/headers/client/HeaderClient';
 import { Outlet } from '@tanstack/react-router';
 import { Layout } from 'antd';
@@ -16,6 +17,7 @@ const MainLayout = () => {
         >
           <Outlet />
         </Content>
+        <Footer />
       </Layout>
     </Layout>
   );

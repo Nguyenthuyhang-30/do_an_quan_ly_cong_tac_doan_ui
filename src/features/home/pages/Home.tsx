@@ -28,7 +28,6 @@ const Home = () => {
       <SectionBCH />
       {/* <SectionCanBoChiDoan data={branchOfficers} /> */}
       <SectionTinTuc allNews={allNews} />
-      <SectionLienHe />
     </div>
   );
 };

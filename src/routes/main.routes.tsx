@@ -1,7 +1,8 @@
-import { createRoute } from '@tanstack/react-router';
+import { createRoute, redirect } from '@tanstack/react-router';
 import { rootRoutes } from './routes';
 import MainLayout from '@components/layout/main/MainLayout';
-import homeRoute from '@features/home/routes/home.route';
+import { homeTree } from '@features/home/routes/home.route';
+import checkActivitesRoute from '@features/home/routes/checkActivities.route';
 
 const mainRoute = createRoute({
   getParentRoute: () => rootRoutes,
@@ -9,6 +10,6 @@ const mainRoute = createRoute({
   component: MainLayout,
 });
 
-const mainTree = mainRoute.addChildren([homeRoute]);
+const mainTree = mainRoute.addChildren([homeTree]);
 
 export { mainTree, mainRoute };

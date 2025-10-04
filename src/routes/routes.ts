@@ -1,9 +1,9 @@
-import { createRootRoute, createRouter } from '@tanstack/react-router';
-import { mainTree } from './main.routes';
-import { adminTree } from './admin.routes';
-import { authTree } from './auth.routes';
 import RootLayout from '@components/layout/route/RootLayout';
 import NotFound from '@pages/NotFound';
+import { createRootRoute, createRouter } from '@tanstack/react-router';
+import { adminTree } from './admin.routes';
+import { authTree } from './auth.routes';
+import { mainTree } from './main.routes';
 import { settingTree } from './setting.routes';
 
 const rootRoutes = createRootRoute({
@@ -17,4 +17,5 @@ const router = createRouter({
   defaultNotFoundComponent: NotFound,
 });
 
-export { router, rootRoutes, rootTree };
+export { rootRoutes, rootTree, router };
+
