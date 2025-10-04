@@ -21,7 +21,10 @@ const CheckActivites = () => {
         <h2 className="text-xl font-semibold text-center text-gray-800 mb-2">Tra cứu hoạt động</h2>
         <p className="text-gray-500 text-center mb-6">Nhập mã sinh viên để xem lịch sử tham gia</p>
 
-        <form onSubmit={handleSubmit} className="space-y-5">
+        <form
+          // onSubmit={handleSubmit}
+          className="space-y-5"
+        >
           <input
             type="text"
             //value={studentId}
