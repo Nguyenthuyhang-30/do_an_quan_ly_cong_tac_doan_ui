@@ -24,9 +24,8 @@ const CheckActivites = () => {
         <form onSubmit={handleSubmit} className="space-y-5">
           <input
             type="text"
-            value={studentId}
-            onChange={(e) => setStudentId(e.target.value)}
-            placeholder="Nhập mã sinh viên..."
+            //value={studentId}
+            //onChange={(e) => setStudentId(e.target.value)}
             className="w-full px-4 py-3 border-2 border-[#1E3A8A]/30 rounded-xl 
              focus:border-[#1E3A8A] focus:ring-2 focus:ring-[#1E3A8A]/60 
              shadow-sm focus:shadow-lg outline-none transition"
