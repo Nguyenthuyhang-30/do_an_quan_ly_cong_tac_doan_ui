@@ -38,11 +38,12 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       setIsLoading(true);
       const response = await authService.login({ email, password });
 
-      setUser(response.member);
+      const userData = response?.data.member;
+      setUser(userData);
 
       notification.success({
-        message: 'Đăng nhập thành công!',
-        description: `Chào mừng ${response.member.fullName} trở lại!`,
+        message: response.message || 'Đăng nhập thành công!',
+        description: `Chào mừng ${userData.fullName} trở lại!`,
         placement: 'topRight',
         duration: 3,
       });

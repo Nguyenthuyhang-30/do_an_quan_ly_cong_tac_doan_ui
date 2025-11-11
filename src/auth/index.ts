@@ -7,11 +7,14 @@
 export {
   UserRole,
   type User,
+  type Role,
   type LoginRequest,
   type LoginResponse,
+  type LoginResponseData,
   type RegisterRequest,
   type RegisterResponse,
   type AuthTokens,
+  type ApiResponse,
 } from '../types/auth';
 
 // Hooks
@@ -27,6 +30,19 @@ export { default as authService } from '../services/api/auth.service';
 
 // Guards & Utilities
 export { isAdmin, hasRole, hasAnyRole, adminGuard, roleGuard } from '../utils/authGuards';
+
+// Role Helpers
+export * as roleHelpers from '../utils/roleHelpers';
+export {
+  getPrimaryRole,
+  getAllRoles,
+  getHighestPriorityRole,
+  formatRolesForDisplay,
+  canPerformAdminActions,
+  canAccessAdminArea,
+  isBCH,
+  isMember,
+} from '../utils/roleHelpers';
 
 // Context
 export { AuthContext } from '../contexts/AuthContext';

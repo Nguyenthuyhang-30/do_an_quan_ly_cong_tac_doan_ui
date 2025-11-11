@@ -1,14 +1,13 @@
 import {
   BarChartOutlined,
   CheckCircleOutlined,
-  IdcardOutlined,
   LockOutlined,
   TeamOutlined,
   UserOutlined,
 } from '@ant-design/icons';
 import { useNavigate } from '@tanstack/react-router';
 import { Button, Checkbox, Col, Form, Input, Row, Tabs } from 'antd';
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { RiAdminFill } from 'react-icons/ri';
 import { useAuth } from '../../../hooks/useAuth';
 import notificationService from '../../../utils/notification';
@@ -50,7 +49,7 @@ export const Login: React.FC = () => {
 
       // Navigate to appropriate page based on user role or type
       if (userType === 'admin') {
-        navigate({ to: '/admin' });
+        navigate({ to: '/admin/dashboard/overview' });
       } else {
         navigate({ to: '/' });
       }
@@ -68,46 +67,6 @@ export const Login: React.FC = () => {
       setLoading(false);
     }
   };
-
-  const renderMemberForm = () => (
-    <Form
-      name="member-login"
-      onFinish={(values) => handleLogin(values, 'member')}
-      layout="vertical"
-      size="large"
-      className="login-form"
-    >
-      <Form.Item
-        label="Mã sinh viên"
-        name="studentId"
-        hasFeedback
-        rules={[{ required: true, message: 'Vui lòng nhập mã sinh viên!' }]}
-      >
-        <Input
-          prefix={<IdcardOutlined className="site-form-item-icon" />}
-          placeholder="Nhập mã sinh viên của bạn"
-          className="modern-input"
-        />
-      </Form.Item>
-
-      <div className="info-box">
-        <CheckCircleOutlined className="info-icon" />
-        <span>Đoàn viên chỉ cần nhập mã sinh viên để đăng nhập</span>
-      </div>
-
-      <Form.Item>
-        <Button
-          type="primary"
-          htmlType="submit"
-          className="login-button primary-btn"
-          loading={loading}
-          block
-        >
-          Đăng nhập
-        </Button>
-      </Form.Item>
-    </Form>
-  );
 
   const renderOfficerForm = () => (
     <Form
@@ -244,11 +203,6 @@ export const Login: React.FC = () => {
   );
 
   const tabItems = [
-    {
-      key: 'member',
-      label: 'Đoàn viên',
-      children: renderMemberForm(),
-    },
     {
       key: 'officer',
       label: 'Cán bộ Đoàn',

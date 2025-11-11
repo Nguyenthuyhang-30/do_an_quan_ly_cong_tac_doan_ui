@@ -12,7 +12,11 @@ const { Title, Paragraph, Text } = Typography;
  */
 const RoleBasedExample: React.FC = () => {
   const { user, isAuthenticated, logout } = useAuth();
-  const { isAdmin, isModerator, isRegularUser, hasAnyRole, currentRole } = useRole();
+  const { isAdmin, isModerator, isBCH, isMember, hasAnyRole, getAllRoles, getHighestPriorityRole } =
+    useRole();
+
+  const highestRole = getHighestPriorityRole();
+  const allRoles = getAllRoles();
 
   if (!isAuthenticated) {
     return (
@@ -40,10 +44,33 @@ const RoleBasedExample: React.FC = () => {
             </Paragraph>
             <Paragraph>
               <Text strong>Vai trò:</Text>{' '}
-              <Tag color={isAdmin() ? 'red' : isModerator() ? 'blue' : 'green'}>
-                {currentRole?.toUpperCase()}
-              </Tag>
+              <Space>
+                {allRoles.map((role) => (
+                  <Tag
+                    key={role}
+                    color={
+                      role === 'Admin'
+                        ? 'red'
+                        : role === 'BCH'
+                        ? 'orange'
+                        : role === 'Moderator'
+                        ? 'blue'
+                        : 'green'
+                    }
+                  >
+                    {role}
+                  </Tag>
+                ))}
+              </Space>
             </Paragraph>
+            {highestRole && (
+              <Paragraph>
+                <Text strong>Vai trò chính:</Text> <Tag color="purple">{highestRole.roleName}</Tag>
+                {highestRole.roleDescription && (
+                  <Text type="secondary"> - {highestRole.roleDescription}</Text>
+                )}
+              </Paragraph>
+            )}
           </div>
 
           <Divider />
@@ -69,6 +96,27 @@ const RoleBasedExample: React.FC = () => {
             </Card>
           )}
 
+          {/* BCH Only Content */}
+          {isBCH() && (
+            <Card
+              type="inner"
+              title={
+                <>
+                  <CrownOutlined /> Nội dung dành cho BCH
+                </>
+              }
+              style={{ background: '#fff7e6' }}
+            >
+              <Paragraph>Bạn là Ban Chấp hành! Bạn có thể:</Paragraph>
+              <ul>
+                <li>Quản lý đoàn viên</li>
+                <li>Phê duyệt hoạt động</li>
+                <li>Quản lý chi đoàn</li>
+                <li>Xem báo cáo chi tiết</li>
+              </ul>
+            </Card>
+          )}
+
           {/* Moderator Only Content */}
           {isModerator() && (
             <Card
@@ -89,20 +137,20 @@ const RoleBasedExample: React.FC = () => {
             </Card>
           )}
 
-          {/* Content for Admin or Moderator */}
-          {hasAnyRole(['admin', 'moderator']) && (
+          {/* Content for Admin, BCH or Moderator */}
+          {hasAnyRole(['Admin', 'BCH', 'Moderator']) && (
             <Card
               type="inner"
-              title="Nội dung cho Admin & Moderator"
+              title="Nội dung cho Admin, BCH & Moderator"
               style={{ background: '#f6ffed' }}
             >
               <Paragraph>Bạn có quyền truy cập vào các tính năng quản trị cấp cao.</Paragraph>
             </Card>
           )}
 
-          {/* Regular User Content */}
-          {isRegularUser() && (
-            <Card type="inner" title="Nội dung người dùng" style={{ background: '#f9f0ff' }}>
+          {/* Regular Member Content */}
+          {isMember() && (
+            <Card type="inner" title="Nội dung đoàn viên" style={{ background: '#f9f0ff' }}>
               <Paragraph>Chào mừng bạn! Bạn có thể:</Paragraph>
               <ul>
                 <li>Xem thông tin cá nhân</li>

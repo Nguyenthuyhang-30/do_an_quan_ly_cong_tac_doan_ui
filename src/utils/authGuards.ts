@@ -1,13 +1,14 @@
 import authService from '../services/api/auth.service';
 import { UserRole } from '../types/auth';
 import { notification } from 'antd';
+import * as roleHelpers from './roleHelpers';
 
 /**
  * Check if user has admin role
  */
 export const isAdmin = (): boolean => {
   const user = authService.getCurrentUser();
-  return user?.role === UserRole.ADMIN;
+  return roleHelpers.isAdmin(user);
 };
 
 /**
@@ -15,7 +16,7 @@ export const isAdmin = (): boolean => {
  */
 export const hasRole = (role: UserRole | string): boolean => {
   const user = authService.getCurrentUser();
-  return user?.role === role;
+  return roleHelpers.hasRole(user, role);
 };
 
 /**
@@ -23,11 +24,12 @@ export const hasRole = (role: UserRole | string): boolean => {
  */
 export const hasAnyRole = (roles: (UserRole | string)[]): boolean => {
   const user = authService.getCurrentUser();
-  return roles.some((role) => user?.role === role);
+  return roleHelpers.hasAnyRole(user, roles);
 };
 
 /**
  * Route guard for admin routes
+ * Allows Admin, Moderator, and BCH roles to access admin area
  * Can be used in route configuration
  */
 export const adminGuard = () => {
@@ -42,7 +44,15 @@ export const adminGuard = () => {
     throw new Error('Unauthorized: Not authenticated');
   }
 
-  if (!isAdmin()) {
+  // Check if user has Admin, Moderator, or BCH role
+  const user = authService.getCurrentUser();
+  const hasAdminAccess = roleHelpers.hasAnyRole(user, [
+    UserRole.ADMIN,
+    UserRole.MODERATOR,
+    UserRole.BCH,
+  ]);
+
+  if (!hasAdminAccess) {
     notification.error({
       message: 'Không có quyền truy cập',
       description: 'Bạn không có quyền truy cập vào trang quản trị',
@@ -73,7 +83,7 @@ export const roleGuard = (requiredRole: UserRole | UserRole[] | string | string[
   const user = authService.getCurrentUser();
   const roles = Array.isArray(requiredRole) ? requiredRole : [requiredRole];
 
-  if (!roles.some((role) => user?.role === role)) {
+  if (!roleHelpers.hasAnyRole(user, roles)) {
     notification.error({
       message: 'Không có quyền truy cập',
       description: 'Bạn không có quyền truy cập vào trang này',

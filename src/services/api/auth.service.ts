@@ -1,16 +1,17 @@
-import HttpService from './http.service';
+import { BaseResponse } from '@base/models/base';
 import {
+  ForgotPasswordRequest,
   LoginRequest,
-  LoginResponse,
-  RegisterRequest,
-  RegisterResponse,
+  LoginResponseData,
   RefreshTokenRequest,
   RefreshTokenResponse,
-  VerifyTokenResponse,
-  ForgotPasswordRequest,
+  RegisterRequest,
+  RegisterResponse,
   ResetPasswordRequest,
   User,
+  VerifyTokenResponse,
 } from '../../types/auth';
+import HttpService from './http.service';
 
 class AuthService {
   private http = new HttpService();
@@ -39,19 +40,18 @@ class AuthService {
   /**
    * Login user (with email or username)
    */
-  async login(credentials: LoginRequest): Promise<LoginResponse> {
-    const response = await this.http.post<LoginResponse>(
+  async login(credentials: LoginRequest): Promise<BaseResponse<LoginResponseData>> {
+    const response = await this.http.post<LoginResponseData>(
       '/access/signin',
       credentials as Record<string, unknown>,
     );
-
     if (response.data) {
       // Save tokens and user to localStorage
-      this.setTokens(response.data.tokens);
-      this.setUser(response.data.member);
+      this.setTokens(response.data?.tokens);
+      this.setUser(response.data?.member);
     }
 
-    return response.data;
+    return response;
   }
 
   /**

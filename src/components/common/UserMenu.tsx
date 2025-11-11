@@ -36,7 +36,7 @@ const UserMenu: React.FC = () => {
       key: 'dashboard',
       icon: <DashboardOutlined />,
       label: 'Dashboard',
-      onClick: () => navigateTo('/admin'),
+      onClick: () => navigateTo('/admin/dashboard/overview'),
     },
     {
       key: 'profile',
@@ -62,6 +62,9 @@ const UserMenu: React.FC = () => {
     </Avatar>
   );
 
+  // Get primary role for display
+  const primaryRole = user.roles && user.roles.length > 0 ? user.roles[0].roleName : null;
+
   return (
     <Dropdown menu={{ items }} placement="bottomRight" trigger={['click']}>
       <div className="user-menu-trigger">
@@ -69,7 +72,7 @@ const UserMenu: React.FC = () => {
           {avatarContent}
           <div className="user-info">
             <Text className="name">{user.fullName}</Text>
-            {user.role && <Text className="role">{user.role}</Text>}
+            {primaryRole && <Text className="role">{primaryRole}</Text>}
           </div>
         </Space>
       </div>

@@ -12,7 +12,7 @@ const AdminLayout = () => {
   const [collapsed, setCollapsed] = useState(false);
 
   return (
-    <ProtectedRoute requiredRole={UserRole.ADMIN}>
+    <ProtectedRoute requiredRole={[UserRole.ADMIN, UserRole.MODERATOR, UserRole.BCH]}>
       <Layout style={{ minHeight: '100vh' }}>
         <Sider
           collapsible

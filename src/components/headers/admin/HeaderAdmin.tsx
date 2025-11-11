@@ -1,18 +1,10 @@
-import { Avatar, Badge, Dropdown, Space, Typography, Input, Button, Divider } from 'antd';
-import {
-  BellOutlined,
-  SearchOutlined,
-  UserOutlined,
-  SettingOutlined,
-  LogoutOutlined,
-  MailOutlined,
-} from '@ant-design/icons';
-import type { MenuProps } from 'antd';
-import { useState, useEffect } from 'react';
+import { BellOutlined, SearchOutlined } from '@ant-design/icons';
 import CommandPalette from '@components/common/CommandPalette';
+import UserMenu from '@components/common/UserMenu';
+import type { MenuProps } from 'antd';
+import { Badge, Button, Divider, Dropdown, Input, Space, Typography } from 'antd';
+import { useEffect, useState } from 'react';
 import './HeaderAdmin.scss';
-
-const { Text } = Typography;
 
 const HeaderAdmin = () => {
   const [notificationCount] = useState(5);
@@ -34,35 +26,35 @@ const HeaderAdmin = () => {
   }, []);
 
   // Menu items cho user dropdown
-  const userMenuItems: MenuProps['items'] = [
-    {
-      key: 'profile',
-      icon: <UserOutlined />,
-      label: 'Thông tin cá nhân',
-    },
-    {
-      key: 'messages',
-      icon: <MailOutlined />,
-      label: 'Tin nhắn',
-    },
-    {
-      type: 'divider',
-    },
-    {
-      key: 'settings',
-      icon: <SettingOutlined />,
-      label: 'Cài đặt',
-    },
-    {
-      type: 'divider',
-    },
-    {
-      key: 'logout',
-      icon: <LogoutOutlined />,
-      label: 'Đăng xuất',
-      danger: true,
-    },
-  ];
+  // const userMenuItems: MenuProps['items'] = [
+  //   {
+  //     key: 'profile',
+  //     icon: <UserOutlined />,
+  //     label: 'Thông tin cá nhân',
+  //   },
+  //   {
+  //     key: 'messages',
+  //     icon: <MailOutlined />,
+  //     label: 'Tin nhắn',
+  //   },
+  //   {
+  //     type: 'divider',
+  //   },
+  //   {
+  //     key: 'settings',
+  //     icon: <SettingOutlined />,
+  //     label: 'Cài đặt',
+  //   },
+  //   {
+  //     type: 'divider',
+  //   },
+  //   {
+  //     key: 'logout',
+  //     icon: <LogoutOutlined />,
+  //     label: 'Đăng xuất',
+  //     danger: true,
+  //   },
+  // ];
 
   // Menu items cho notifications dropdown
   const notificationMenuItems: MenuProps['items'] = [
@@ -99,24 +91,24 @@ const HeaderAdmin = () => {
     },
   ];
 
-  const handleMenuClick: MenuProps['onClick'] = ({ key }) => {
-    switch (key) {
-      case 'logout':
-        console.log('Đăng xuất');
-        // TODO: Implement logout logic
-        break;
-      case 'profile':
-        console.log('Xem profile');
-        // TODO: Navigate to profile page
-        break;
-      case 'settings':
-        console.log('Mở cài đặt');
-        // TODO: Navigate to settings page
-        break;
-      default:
-        break;
-    }
-  };
+  // const handleMenuClick: MenuProps['onClick'] = ({ key }) => {
+  //   switch (key) {
+  //     case 'logout':
+  //       console.log('Đăng xuất');
+  //       // TODO: Implement logout logic
+  //       break;
+  //     case 'profile':
+  //       console.log('Xem profile');
+  //       // TODO: Navigate to profile page
+  //       break;
+  //     case 'settings':
+  //       console.log('Mở cài đặt');
+  //       // TODO: Navigate to settings page
+  //       break;
+  //     default:
+  //       break;
+  //   }
+  // };
 
   const handleSearchClick = () => {
     setCommandPaletteOpen(true);
@@ -173,7 +165,7 @@ const HeaderAdmin = () => {
           <Divider type="vertical" style={{ height: 32, margin: 0 }} />
 
           {/* User Menu */}
-          <Dropdown
+          {/* <Dropdown
             menu={{ items: userMenuItems, onClick: handleMenuClick }}
             trigger={['click']}
             placement="bottomRight"
@@ -192,7 +184,9 @@ const HeaderAdmin = () => {
                 </Text>
               </div>
             </div>
-          </Dropdown>
+          </Dropdown> */}
+
+          <UserMenu />
         </Space>
       </div>
     </>

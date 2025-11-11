@@ -3,6 +3,7 @@ import { useAuth } from '../../hooks/useAuth';
 import LoadingSpinner from './LoadingSpinner';
 import { UserRole } from '../../types/auth';
 import { notification } from 'antd';
+import * as roleHelpers from '../../utils/roleHelpers';
 
 interface ProtectedRouteProps {
   children: React.ReactNode;
@@ -14,6 +15,7 @@ interface ProtectedRouteProps {
 /**
  * ProtectedRoute Component
  * Wraps routes that require authentication and optionally role-based authorization
+ * Works with multiple roles per user
  */
 const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
   children,
@@ -26,15 +28,10 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
   // Helper function to check if user has required role
   const hasRequiredRole = React.useCallback((): boolean => {
     if (!requiredRole) return true;
-    if (!user?.role) return false;
+    if (!user?.roles || user.roles.length === 0) return false;
 
-    const userRole = user.role;
-
-    if (Array.isArray(requiredRole)) {
-      return requiredRole.some((role) => role === userRole);
-    }
-
-    return userRole === requiredRole;
+    const roles = Array.isArray(requiredRole) ? requiredRole : [requiredRole];
+    return roleHelpers.hasAnyRole(user, roles);
   }, [requiredRole, user]); // Redirect to login if not authenticated
   useEffect(() => {
     if (!isLoading && !isAuthenticated) {

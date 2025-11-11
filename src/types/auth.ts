@@ -1,10 +1,19 @@
 // Authentication Types
 
-// User roles
+// User roles - Role names from API
 export enum UserRole {
-  ADMIN = 'admin',
-  USER = 'user',
-  MODERATOR = 'moderator',
+  ADMIN = 'Admin',
+  MEMBER = 'Member',
+  MODERATOR = 'Moderator',
+  BCH = 'BCH', // Ban Chấp hành
+}
+
+// Role interface from API
+export interface Role {
+  id: number;
+  roleName: string;
+  roleDescription?: string;
+  assignedAt?: string;
 }
 
 export interface LoginRequest extends Record<string, unknown> {
@@ -32,16 +41,32 @@ export interface User {
   id: number;
   email: string;
   fullName: string;
+  userName?: string;
   username?: string;
   memberId?: number;
-  role?: UserRole | string;
+  roles?: Role[]; // Array of roles from API
   avatar?: string;
   status?: string | number;
 }
 
-export interface LoginResponse {
+// API Response wrapper
+export interface ApiResponse<T> {
+  code: string;
+  message: string;
+  status: string;
+  data: T;
+}
+
+export interface LoginResponseData {
   member: User;
   tokens: AuthTokens;
+}
+
+export interface LoginResponse {
+  code: string;
+  message: string;
+  status: string;
+  data: LoginResponseData;
 }
 
 export interface RegisterResponse {
