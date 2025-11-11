@@ -13,4 +13,4 @@ const homeRoute = createRoute({
 
 const homeTree = homeRoute.addChildren([checkActivitesRoute, executiveBoardRoute, contactRoute]);
 
-export { homeTree, homeRoute };
+export { homeTree, homeRoute, contactRoute };

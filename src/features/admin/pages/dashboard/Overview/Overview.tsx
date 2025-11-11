@@ -121,6 +121,7 @@ const OverviewDashboard = () => {
                 outerRadius={80}
                 dataKey="value"
               >
+                {/* ✅ Sửa lỗi TS6133: không dùng biến entry */}
                 {typeData.map((item, index) => (
                   <Cell key={`cell-${item.name}`} fill={COLORS[index % COLORS.length]} />
                 ))}

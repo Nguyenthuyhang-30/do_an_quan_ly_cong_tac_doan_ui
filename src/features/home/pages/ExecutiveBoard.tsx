@@ -15,7 +15,7 @@ interface Officer {
 const OFFICERS: Officer[] = [
   {
     id: 1,
-    name: 'Nguyễn Văn A',
+    name: 'Lê Văn Phong',
     role: 'Bí thư',
     branch: 'CTK14A',
     term: '2024-2025',
@@ -24,7 +24,7 @@ const OFFICERS: Officer[] = [
   },
   {
     id: 2,
-    name: 'Trần Thị B',
+    name: 'Lê Tuấn Anh',
     role: 'Phó Bí thư',
     branch: 'CTK14B',
     term: '2024-2025',
@@ -33,7 +33,25 @@ const OFFICERS: Officer[] = [
   },
   {
     id: 3,
-    name: 'Lê Văn C',
+    name: 'Nguyễn Thái Khánh',
+    role: 'Phó Bí thư',
+    branch: 'CTK14B',
+    term: '2024-2025',
+    email: 'b.tran@dnu.edu.vn',
+    phone: '0987 000 222',
+  },
+  {
+    id: 4,
+    name: 'Trần Thị Thanh Nhàn',
+    role: 'Phó Bí thư',
+    branch: 'CTK14B',
+    term: '2024-2025',
+    email: 'b.tran@dnu.edu.vn',
+    phone: '0987 000 222',
+  },
+  {
+    id: 5,
+    name: 'Nguyễn Thị Phương',
     role: 'Uỷ viên',
     branch: 'CTK15A',
     term: '2024-2025',
@@ -41,8 +59,8 @@ const OFFICERS: Officer[] = [
     phone: '0987 000 333',
   },
   {
-    id: 4,
-    name: 'Phạm Thị D',
+    id: 6,
+    name: 'Lê Thị Vân Anh',
     role: 'Uỷ viên',
     branch: 'CTK15B',
     term: '2023-2024',

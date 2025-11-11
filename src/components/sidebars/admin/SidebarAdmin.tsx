@@ -5,13 +5,15 @@ import {
   IdcardOutlined,
   LineChartOutlined,
   NotificationOutlined,
-  PieChartOutlined,
   ProfileOutlined,
   SafetyOutlined,
   SettingOutlined,
   TeamOutlined,
   ToolOutlined,
   UserOutlined,
+  CalendarOutlined,
+  HighlightOutlined,
+  HeartOutlined,
 } from '@ant-design/icons';
 import { useLocation, useNavigate } from '@tanstack/react-router';
 import { Menu } from 'antd';
@@ -25,32 +27,31 @@ interface SidebarAdminProps {
 export const SidebarAdmin = ({ collapsed }: SidebarAdminProps) => {
   const navigate = useNavigate();
   const location = useLocation();
-
   const getCurrentSelectedKey = () => {
     const path = location.pathname;
-    // Dashboard submenu
     if (path.includes('/dashboard/statistical')) return ['statistical'];
     if (path.includes('/dashboard/reports')) return ['reports'];
     if (path.includes('/dashboard/overview')) return ['dashboard'];
 
-    // User Management submenu
-    if (path.includes('/users/list')) return ['user-list'];
-    if (path.includes('/users/add')) return ['user-add'];
+    if (path.includes('/users/list')) return ['users'];
     if (path.includes('/users/roles')) return ['user-roles'];
-    if (path.includes('/users')) return ['users'];
 
-    // General Category submenu
     if (path.includes('/general-category/cohorts')) return ['cohorts'];
-    if (path.includes('/general-category')) return ['general-category'];
+    if (path.includes('/general-category/branches')) return ['branches'];
 
-    // Settings submenu
     if (path.includes('/settings/system')) return ['system-settings'];
     if (path.includes('/settings/security')) return ['security-settings'];
     if (path.includes('/settings/notification')) return ['notification-settings'];
     if (path.includes('/settings')) return ['settings'];
 
+    if (path.includes('/activity/event')) return ['activity-event'];
+    if (path.includes('/activity/vote')) return ['activity-vote'];
+    if (path.includes('/activity/meeting')) return ['activity-meeting'];
+    if (path.includes('/activity/volunteer')) return ['activity-volunteer'];
+
     return ['dashboard'];
   };
+
   const getOpenKeys = (): string[] => {
     const path = location.pathname;
     const openKeys: string[] = [];
@@ -59,32 +60,35 @@ export const SidebarAdmin = ({ collapsed }: SidebarAdminProps) => {
     if (path.includes('/users')) openKeys.push('users-menu');
     if (path.includes('/general-category')) openKeys.push('general-category-menu');
     if (path.includes('/settings')) openKeys.push('settings-menu');
+    if (path.includes('/activity')) openKeys.push('activity-menu');
 
     return openKeys;
   };
 
   const handleMenuClick = ({ key }: { key: string }) => {
     const routeMap: Record<string, string> = {
-      // Dashboard routes
+      // Dashboard
       dashboard: '/admin/dashboard/overview',
       statistical: '/admin/dashboard/statistical',
       reports: '/admin/dashboard/reports',
 
-      // User Management routes
       users: '/admin/users/list',
       'user-roles': '/admin/users/roles',
 
-      // General Category routes
       'general-category': '/admin/general-category',
       cohorts: '/admin/general-category/cohorts',
       branches: '/admin/general-category/branches',
 
-      // Settings routes
       settings: '/admin/settings',
       'general-settings': '/admin/settings/general',
       'system-settings': '/admin/settings/system',
       'security-settings': '/admin/settings/security',
       'notification-settings': '/admin/settings/notification',
+
+      'activity-event': '/admin/activity/event',
+      'activity-vote': '/admin/activity/vote',
+      'activity-meeting': '/admin/activity/meeting',
+      'activity-volunteer': '/admin/activity/volunteer',
     };
 
     if (routeMap[key]) {
@@ -99,21 +103,9 @@ export const SidebarAdmin = ({ collapsed }: SidebarAdminProps) => {
         icon: <DashboardOutlined />,
         label: 'Dashboard',
         children: [
-          {
-            key: 'dashboard',
-            icon: <BarChartOutlined />,
-            label: 'Tổng quan',
-          },
-          {
-            key: 'statistical',
-            icon: <LineChartOutlined />,
-            label: 'Thống kê',
-          },
-          {
-            key: 'reports',
-            icon: <ProfileOutlined />,
-            label: 'Báo cáo',
-          },
+          { key: 'dashboard', icon: <BarChartOutlined />, label: 'Tổng quan' },
+          { key: 'statistical', icon: <LineChartOutlined />, label: 'Thống kê' },
+          { key: 'reports', icon: <ProfileOutlined />, label: 'Báo cáo' },
         ],
       },
       {
@@ -121,16 +113,8 @@ export const SidebarAdmin = ({ collapsed }: SidebarAdminProps) => {
         icon: <DatabaseOutlined />,
         label: 'Danh mục chung',
         children: [
-          {
-            key: 'cohorts',
-            icon: <TeamOutlined />,
-            label: 'Khóa',
-          },
-          {
-            key: 'branches',
-            icon: <RiTeamFill />,
-            label: 'Chi đoàn',
-          },
+          { key: 'cohorts', icon: <TeamOutlined />, label: 'Khóa' },
+          { key: 'branches', icon: <RiTeamFill />, label: 'Chi đoàn' },
         ],
       },
       {
@@ -138,16 +122,8 @@ export const SidebarAdmin = ({ collapsed }: SidebarAdminProps) => {
         icon: <UserOutlined />,
         label: 'Quản lý người dùng',
         children: [
-          {
-            key: 'users',
-            icon: <TeamOutlined />,
-            label: 'Tài khoản người dùng',
-          },
-          {
-            key: 'user-roles',
-            icon: <IdcardOutlined />,
-            label: 'Quyền & vai trò',
-          },
+          { key: 'users', icon: <TeamOutlined />, label: 'Tài khoản người dùng' },
+          { key: 'user-roles', icon: <IdcardOutlined />, label: 'Quyền & vai trò' },
         ],
       },
       {
@@ -155,26 +131,21 @@ export const SidebarAdmin = ({ collapsed }: SidebarAdminProps) => {
         icon: <SettingOutlined />,
         label: 'Cài đặt',
         children: [
-          {
-            key: 'general-settings',
-            icon: <ToolOutlined />,
-            label: 'Chung',
-          },
-          {
-            key: 'system-settings',
-            icon: <DatabaseOutlined />,
-            label: 'Hệ thống',
-          },
-          {
-            key: 'security-settings',
-            icon: <SafetyOutlined />,
-            label: 'Bảo mật',
-          },
-          {
-            key: 'notification-settings',
-            icon: <NotificationOutlined />,
-            label: 'Thông báo',
-          },
+          { key: 'general-settings', icon: <ToolOutlined />, label: 'Chung' },
+          { key: 'system-settings', icon: <DatabaseOutlined />, label: 'Hệ thống' },
+          { key: 'security-settings', icon: <SafetyOutlined />, label: 'Bảo mật' },
+          { key: 'notification-settings', icon: <NotificationOutlined />, label: 'Thông báo' },
+        ],
+      },
+      {
+        key: 'activity-menu',
+        icon: <CalendarOutlined />,
+        label: 'Tạo hoạt động',
+        children: [
+          { key: 'activity-event', icon: <HighlightOutlined />, label: 'Tạo event' },
+          { key: 'activity-vote', icon: <BarChartOutlined />, label: 'Tạo vote' },
+          { key: 'activity-meeting', icon: <TeamOutlined />, label: 'Sinh hoạt' },
+          { key: 'activity-volunteer', icon: <HeartOutlined />, label: 'Tình nguyện' },
         ],
       },
     ],
@@ -194,6 +165,7 @@ export const SidebarAdmin = ({ collapsed }: SidebarAdminProps) => {
       >
         {collapsed ? 'QTV' : 'Quản trị viên'}
       </div>
+
       <Menu
         theme="dark"
         mode="inline"

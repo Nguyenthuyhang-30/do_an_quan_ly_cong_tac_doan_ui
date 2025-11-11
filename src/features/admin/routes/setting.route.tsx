@@ -9,7 +9,6 @@ import NotificationSettingsPage from '../pages/setting/notification/Notification
 const settingRouteAdmin = createRoute({
   getParentRoute: () => adminRoute,
   path: '/settings',
-  // component: SettingAdmin,
 });
 
 const generalSettingsRouteAdmin = createRoute({
