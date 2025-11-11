@@ -1,8 +1,10 @@
 import React, { useEffect } from 'react';
-import { Modal, Form, Input, message } from 'antd';
+import { Modal, Form, Input, message, DatePicker } from 'antd';
+import dayjs from 'dayjs';
 import type { UpdateBranchRequest } from '../../../../../../types/youth-union-branch';
 import { branchService } from '@services/api';
 import { Branch } from '../types';
+import { MemberSelector } from '../../../../../../components/common/MemberSelector';
 
 interface UpdateBranchModalProps {
   visible: boolean;
@@ -25,20 +27,45 @@ const UpdateBranchModal: React.FC<UpdateBranchModalProps> = ({
       form.setFieldsValue({
         code: branch.code,
         name: branch.name,
-        secretary: branch.secretary,
+        description: branch.description,
+        establishedDate: branch.establishedDate ? dayjs(branch.establishedDate) : undefined,
+        // Note: president_id và secretary_id sẽ cần fetch từ API nếu backend trả về
       });
+    } else if (!visible) {
+      // Reset form khi đóng modal
+      form.resetFields();
     }
   }, [branch, visible, form]);
 
-  const handleSubmit = async (values: UpdateBranchRequest) => {
+  const handleSubmit = async (
+    values: UpdateBranchRequest & {
+      president_id?: number;
+      secretary_id?: number;
+      establishedDate?: { format: (f: string) => string };
+    },
+  ) => {
     if (!branch) return;
 
     try {
       setLoading(true);
-      await branchService.update(branch.id, {
-        ...values,
+
+      const requestData: UpdateBranchRequest & { president_id?: number; secretary_id?: number } = {
+        code: values.code?.trim() || branch.code,
+        name: values.name?.trim() || branch.name,
+        description: values.description?.trim(),
+        establishedDate: values.establishedDate?.format('YYYY-MM-DD'),
         status: branch.status === 'active' ? 'active' : 'inactive',
-      });
+      };
+
+      // Thêm president_id và secretary_id nếu có
+      if (values.president_id) {
+        requestData.president_id = values.president_id;
+      }
+      if (values.secretary_id) {
+        requestData.secretary_id = values.secretary_id;
+      }
+
+      await branchService.update(branch.id, requestData);
 
       message.success('Cập nhật chi đoàn thành công');
       form.resetFields();
@@ -46,14 +73,17 @@ const UpdateBranchModal: React.FC<UpdateBranchModalProps> = ({
     } catch (error: unknown) {
       const errorMessage = error instanceof Error ? error.message : 'Lỗi khi cập nhật chi đoàn';
       message.error(errorMessage);
+      console.error('Error updating branch:', error);
     } finally {
       setLoading(false);
     }
   };
 
   const handleCancel = () => {
-    form.resetFields();
-    onCancel();
+    if (!loading) {
+      form.resetFields();
+      onCancel();
+    }
   };
 
   return (
@@ -96,12 +126,28 @@ const UpdateBranchModal: React.FC<UpdateBranchModalProps> = ({
           <Input.TextArea rows={3} placeholder="Mô tả về chi đoàn" />
         </Form.Item>
 
-        <Form.Item label="Bí thư" name="secretary">
-          <Input placeholder="Tên Bí thư chi đoàn" />
+        <Form.Item label="Ngày thành lập" name="establishedDate">
+          <DatePicker
+            style={{ width: '100%' }}
+            placeholder="Chọn ngày thành lập"
+            format="DD/MM/YYYY"
+          />
         </Form.Item>
 
-        <Form.Item label="Phó Bí thư" name="viceSecretary">
-          <Input placeholder="Tên Phó Bí thư chi đoàn" />
+        <Form.Item
+          label="Chủ tịch chi đoàn"
+          name="president_id"
+          tooltip="Chọn đoàn viên làm Chủ tịch chi đoàn"
+        >
+          <MemberSelector placeholder="Chọn Chủ tịch chi đoàn" allowClear />
+        </Form.Item>
+
+        <Form.Item
+          label="Bí thư chi đoàn"
+          name="secretary_id"
+          tooltip="Chọn đoàn viên làm Bí thư chi đoàn"
+        >
+          <MemberSelector placeholder="Chọn Bí thư chi đoàn" allowClear />
         </Form.Item>
       </Form>
     </Modal>

@@ -98,13 +98,20 @@ const CohortCategory: React.FC = () => {
       const response = await cohortService.deleteById(id);
       if (response.success) {
         message.success('Xóa khóa học thành công');
-        fetchCohorts(pagination.current, pagination.pageSize, searchText);
+
+        // Nếu xóa item cuối cùng của trang hiện tại, quay về trang trước
+        const newTotal = pagination.total - 1;
+        const maxPage = Math.ceil(newTotal / pagination.pageSize);
+        const targetPage = pagination.current > maxPage ? maxPage : pagination.current;
+
+        fetchCohorts(targetPage || 1, pagination.pageSize, searchText);
       } else {
         message.error(response.message || 'Lỗi khi xóa khóa học');
       }
     } catch (error: unknown) {
       const errorMessage = error instanceof Error ? error.message : 'Lỗi khi xóa khóa học';
       message.error(errorMessage);
+      console.error('Error deleting cohort:', error);
     }
   };
 

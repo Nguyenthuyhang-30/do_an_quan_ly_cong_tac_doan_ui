@@ -3,7 +3,7 @@ import NotFound from '@pages/NotFound';
 import { createRootRoute, createRouter } from '@tanstack/react-router';
 import { adminTree } from './admin.routes';
 import { authTree } from './auth.routes';
-import { mainTree, birthdayRoute } from './main.routes';
+import { mainTree, birthdayRoute, activityLookupRoute } from './main.routes';
 import { settingTree } from './setting.routes';
 
 const rootRoutes = createRootRoute({
@@ -16,6 +16,7 @@ const rootTree = rootRoutes.addChildren([
   authTree,
   settingTree,
   birthdayRoute,
+  activityLookupRoute,
 ]);
 
 const router = createRouter({

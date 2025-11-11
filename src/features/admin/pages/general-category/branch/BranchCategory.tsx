@@ -36,6 +36,12 @@ const { Search } = Input;
 const BranchCategory: React.FC = () => {
   const [branches, setBranches] = useState<Branch[]>([]);
   const [loading, setLoading] = useState(false);
+  const [statistics, setStatistics] = useState<{
+    totalBranches: number;
+    activeBranches: number;
+    inactiveBranches: number;
+    totalMembers: number;
+  } | null>(null);
   const [pagination, setPagination] = useState({
     current: 1,
     pageSize: 10,
@@ -55,39 +61,34 @@ const BranchCategory: React.FC = () => {
   const fetchBranches = useCallback(async (page = 1, limit = 10, search = '') => {
     try {
       setLoading(true);
-      const response = await branchService.getAll();
+      // Call API with pagination and search as per postman doc
+      const response = await branchService.getList({
+        page,
+        limit,
+        search,
+      });
 
       // Map API response to local Branch type
-      let mappedBranches: Branch[] = response.map((branch: YouthUnionBranch) => ({
+      const mappedBranches: Branch[] = response.data.list.map((branch: YouthUnionBranch) => ({
         id: branch.id,
         code: branch.code,
         name: branch.name,
-        course: 'N/A',
+        course: 'N/A', // Not available in API
         secretary: branch.secretary || 'Chưa có',
-        members: 0,
+        viceSecretary: branch.viceSecretary,
+        description: branch.description,
+        establishedDate: branch.establishedDate,
+        members: 0, // Will be fetched from statistics if needed
         status: branch.status === 'active' ? 'active' : 'inactive',
         createdAt: branch.createdAt,
+        updatedAt: branch.updatedAt,
       }));
 
-      // Apply search filter
-      if (search) {
-        mappedBranches = mappedBranches.filter(
-          (branch) =>
-            branch.code.toLowerCase().includes(search.toLowerCase()) ||
-            branch.name.toLowerCase().includes(search.toLowerCase()),
-        );
-      }
-
-      // Apply pagination
-      const startIndex = (page - 1) * limit;
-      const endIndex = startIndex + limit;
-      const paginatedBranches = mappedBranches.slice(startIndex, endIndex);
-
-      setBranches(paginatedBranches);
+      setBranches(mappedBranches);
       setPagination({
-        current: page,
-        pageSize: limit,
-        total: mappedBranches.length,
+        current: response.data.pagination.currentPage,
+        pageSize: response.data.pagination.itemsPerPage,
+        total: response.data.pagination.totalItems,
       });
     } catch (error: unknown) {
       const errorMessage = error instanceof Error ? error.message : 'Lỗi khi tải dữ liệu';
@@ -116,10 +117,18 @@ const BranchCategory: React.FC = () => {
     try {
       await branchService.delete(id);
       message.success('Xóa chi đoàn thành công');
-      fetchBranches(pagination.current, pagination.pageSize, searchText);
+
+      // Nếu xóa item cuối cùng của trang hiện tại, quay về trang trước
+      const newTotal = pagination.total - 1;
+      const maxPage = Math.ceil(newTotal / pagination.pageSize);
+      const targetPage = pagination.current > maxPage ? maxPage : pagination.current;
+
+      fetchBranches(targetPage || 1, pagination.pageSize, searchText);
+      fetchStatistics();
     } catch (error: unknown) {
       const errorMessage = error instanceof Error ? error.message : 'Lỗi khi xóa chi đoàn';
       message.error(errorMessage);
+      console.error('Error deleting branch:', error);
     }
   };
 
@@ -152,9 +161,20 @@ const BranchCategory: React.FC = () => {
     },
   };
 
+  // Fetch statistics
+  const fetchStatistics = useCallback(async () => {
+    try {
+      const stats = await branchService.getBranchStatistics();
+      setStatistics(stats);
+    } catch (error) {
+      console.error('Error fetching statistics:', error);
+    }
+  }, []);
+
   useEffect(() => {
     fetchBranches();
-  }, [fetchBranches]);
+    fetchStatistics();
+  }, [fetchBranches, fetchStatistics]);
 
   // Table columns with enhanced sort and filter
   const columns: ColumnsType<Branch> = [
@@ -475,6 +495,84 @@ const BranchCategory: React.FC = () => {
     <div
       style={{ backgroundColor: 'var(--background-color)', minHeight: '100vh', padding: '24px' }}
     >
+      <Title level={3} style={{ marginBottom: 24 }}>
+        Quản lý Chi đoàn
+      </Title>
+
+      {/* Statistics Cards */}
+      {statistics && (
+        <Row gutter={16} style={{ marginBottom: 24 }}>
+          <Col xs={24} sm={12} md={6}>
+            <Card
+              style={{
+                borderRadius: '12px',
+                background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+                border: 'none',
+                boxShadow: '0 4px 12px rgba(102, 126, 234, 0.3)',
+              }}
+            >
+              <div style={{ color: 'white' }}>
+                <div style={{ fontSize: '14px', opacity: 0.9 }}>Tổng chi đoàn</div>
+                <div style={{ fontSize: '32px', fontWeight: 'bold', marginTop: '8px' }}>
+                  {statistics.totalBranches}
+                </div>
+              </div>
+            </Card>
+          </Col>
+          <Col xs={24} sm={12} md={6}>
+            <Card
+              style={{
+                borderRadius: '12px',
+                background: 'linear-gradient(135deg, #10b981 0%, #059669 100%)',
+                border: 'none',
+                boxShadow: '0 4px 12px rgba(16, 185, 129, 0.3)',
+              }}
+            >
+              <div style={{ color: 'white' }}>
+                <div style={{ fontSize: '14px', opacity: 0.9 }}>Đang hoạt động</div>
+                <div style={{ fontSize: '32px', fontWeight: 'bold', marginTop: '8px' }}>
+                  {statistics.activeBranches}
+                </div>
+              </div>
+            </Card>
+          </Col>
+          <Col xs={24} sm={12} md={6}>
+            <Card
+              style={{
+                borderRadius: '12px',
+                background: 'linear-gradient(135deg, #ef4444 0%, #dc2626 100%)',
+                border: 'none',
+                boxShadow: '0 4px 12px rgba(239, 68, 68, 0.3)',
+              }}
+            >
+              <div style={{ color: 'white' }}>
+                <div style={{ fontSize: '14px', opacity: 0.9 }}>Không hoạt động</div>
+                <div style={{ fontSize: '32px', fontWeight: 'bold', marginTop: '8px' }}>
+                  {statistics.inactiveBranches}
+                </div>
+              </div>
+            </Card>
+          </Col>
+          <Col xs={24} sm={12} md={6}>
+            <Card
+              style={{
+                borderRadius: '12px',
+                background: 'linear-gradient(135deg, #f59e0b 0%, #d97706 100%)',
+                border: 'none',
+                boxShadow: '0 4px 12px rgba(245, 158, 11, 0.3)',
+              }}
+            >
+              <div style={{ color: 'white' }}>
+                <div style={{ fontSize: '14px', opacity: 0.9 }}>Tổng đoàn viên</div>
+                <div style={{ fontSize: '32px', fontWeight: 'bold', marginTop: '8px' }}>
+                  {statistics.totalMembers}
+                </div>
+              </div>
+            </Card>
+          </Col>
+        </Row>
+      )}
+
       <Card>
         <div style={{ marginBottom: 16 }}>
           <Row justify="space-between" align="middle" gutter={[16, 16]}>
@@ -632,6 +730,7 @@ const BranchCategory: React.FC = () => {
         onSuccess={() => {
           setCreateModalVisible(false);
           fetchBranches(pagination.current, pagination.pageSize, searchText);
+          fetchStatistics();
         }}
       />
 
@@ -646,6 +745,7 @@ const BranchCategory: React.FC = () => {
           setUpdateModalVisible(false);
           setSelectedBranch(null);
           fetchBranches(pagination.current, pagination.pageSize, searchText);
+          fetchStatistics();
         }}
       />
 
@@ -660,6 +760,7 @@ const BranchCategory: React.FC = () => {
           setDeleteModalVisible(false);
           setSelectedRowKeys([]);
           fetchBranches(pagination.current, pagination.pageSize, searchText);
+          fetchStatistics();
         }}
       />
 

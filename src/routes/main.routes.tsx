@@ -3,6 +3,7 @@ import { rootRoutes } from './routes';
 import MainLayout from '@components/layout/main/MainLayout';
 import { homeTree } from '@features/home/routes/home.route';
 import BirthdayWish from '@pages/BirthdayWish';
+import ActivityLookupPage from '@features/home/pages/ActivityLookupPage';
 
 const mainRoute = createRoute({
   getParentRoute: () => rootRoutes,
@@ -16,6 +17,12 @@ const birthdayRoute = createRoute({
   component: BirthdayWish,
 });
 
+const activityLookupRoute = createRoute({
+  getParentRoute: () => rootRoutes,
+  path: '/tra-cuu-hoat-dong',
+  component: ActivityLookupPage,
+});
+
 const mainTree = mainRoute.addChildren([homeTree]);
 
-export { mainTree, mainRoute, birthdayRoute };
+export { mainTree, mainRoute, birthdayRoute, activityLookupRoute };

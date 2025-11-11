@@ -13,11 +13,21 @@ const CreateCohortModal: React.FC<CreateCohortModalProps> = ({ visible, onCancel
   const [form] = Form.useForm();
   const [loading, setLoading] = React.useState(false);
 
+  // Reset form khi đóng modal
+  React.useEffect(() => {
+    if (!visible) {
+      form.resetFields();
+    }
+  }, [visible, form]);
+
   const handleSubmit = async (values: CreateCohortRequest) => {
     try {
       setLoading(true);
       const response = await cohortService.create({
-        ...values,
+        code: values.code.trim(),
+        name: values.name.trim(),
+        start_year: values.start_year,
+        end_year: values.end_year,
         created_by: 1,
       });
 
@@ -31,14 +41,17 @@ const CreateCohortModal: React.FC<CreateCohortModalProps> = ({ visible, onCancel
     } catch (error: unknown) {
       const errorMessage = error instanceof Error ? error.message : 'Lỗi khi tạo khóa học';
       message.error(errorMessage);
+      console.error('Error creating cohort:', error);
     } finally {
       setLoading(false);
     }
   };
 
   const handleCancel = () => {
-    form.resetFields();
-    onCancel();
+    if (!loading) {
+      form.resetFields();
+      onCancel();
+    }
   };
 
   return (

@@ -8,6 +8,7 @@ import {
   ActivityParticipant,
   UpdateAttendanceRequest,
   ActivityStatistics,
+  ActivityAttendanceStatistics,
   ActivityListParams,
   ActivitySelectOption,
 } from '../../types/activity';
@@ -111,6 +112,85 @@ class ActivityService extends BaseService<Activity, CreateActivityRequest, Updat
   async getActivityStatistics(): Promise<ActivityStatistics> {
     const response = await this.http.get<ActivityStatistics>('/activity/statistics');
     return response.data;
+  }
+
+  /**
+   * Check-in member for activity
+   */
+  async checkInMember(activityId: number, memberId: number): Promise<void> {
+    await this.http.post<void>(`/activity/${activityId}/check-in/${memberId}`);
+  }
+
+  /**
+   * Check-out member from activity
+   */
+  async checkOutMember(activityId: number, memberId: number): Promise<void> {
+    await this.http.post<void>(`/activity/${activityId}/check-out/${memberId}`);
+  }
+
+  /**
+   * Update attendance status for a member
+   */
+  async updateAttendanceStatus(
+    activityId: number,
+    memberId: number,
+    status: number,
+  ): Promise<void> {
+    await this.http.put<void>(`/activity/${activityId}/attendance/${memberId}`, {
+      status,
+    } as unknown as Record<string, unknown>);
+  }
+
+  /**
+   * Bulk check-in multiple members
+   */
+  async bulkCheckIn(activityId: number, memberIds: number[]): Promise<void> {
+    await this.http.post<void>(`/activity/${activityId}/bulk-check-in`, {
+      memberIds,
+    } as unknown as Record<string, unknown>);
+  }
+
+  /**
+   * Get activity attendance statistics
+   */
+  async getActivityAttendanceStatistics(activityId: number): Promise<ActivityAttendanceStatistics> {
+    const response = await this.http.get<ActivityAttendanceStatistics>(
+      `/activity/${activityId}/statistics`,
+    );
+    return response.data;
+  }
+
+  /**
+   * Unregister member from activity
+   */
+  async unregisterMember(activityId: number, memberId: number): Promise<void> {
+    await this.http.delete(`/activity/${activityId}/unregister/${memberId}`);
+  }
+
+  /**
+   * Get registered members for activity with pagination
+   */
+  async getRegisteredMembers(
+    activityId: number,
+    params?: ActivityListParams,
+  ): Promise<BasePaginatedResponse<ActivityParticipant>> {
+    return this.http.getPaginated<ActivityParticipant>(
+      `/activity/${activityId}/members`,
+      params as Record<string, string | number | boolean | null | undefined>,
+    );
+  }
+
+  /**
+   * Get member's registered activities
+   */
+  async getMemberActivities(
+    memberId: number,
+    params?: ActivityListParams,
+  ): Promise<BasePaginatedResponse<Activity>> {
+    return this.http.getPaginated<Activity>(
+      `/activity/member/${memberId}/activities`,
+      params as Record<string, string | number | boolean | null | undefined>,
+    );
   }
 }
 

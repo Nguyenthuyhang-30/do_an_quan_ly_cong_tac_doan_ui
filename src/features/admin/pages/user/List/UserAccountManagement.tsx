@@ -1,5 +1,6 @@
 // src/pages/user-account/UserAccountManagement.tsx
-import React, { useMemo, useState } from 'react';
+import React, { useMemo, useState, useEffect } from 'react';
+import { message } from 'antd';
 import { UserAccount } from './types';
 import { MOCK_USERS } from './mockData';
 // import CreateUserModal from './CreateUserModal';
@@ -7,14 +8,61 @@ import ResetPasswordModal from './ResetPasswordModal';
 import ToggleStatusModal from './ToggleStatusModal';
 import AssignRoleModal from './AssignRoleModal';
 import CreateUserModal from './CreateUserModal';
+import AccountService from '../../../../../services/api/account.service';
+import { Account } from '../../../../../types/account';
 
 const UserAccountManagement: React.FC = () => {
-  const [users, setUsers] = useState<UserAccount[]>(MOCK_USERS);
+  const [users, setUsers] = useState<UserAccount[]>([]);
+  const [loading, setLoading] = useState(false);
   const [search, setSearch] = useState('');
   const [selected, setSelected] = useState<UserAccount | null>(null);
   const [modal, setModal] = useState<
     'create' | 'resetPassword' | 'toggleStatus' | 'assignRole' | null
   >(null);
+
+  // Fetch users from API
+  useEffect(() => {
+    fetchUsers();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  const fetchUsers = async () => {
+    try {
+      setLoading(true);
+      const response = await AccountService.getList({
+        page: 1,
+        limit: 100,
+        search: search.trim(),
+      });
+
+      // Map API data to UserAccount type
+      const mappedUsers: UserAccount[] = response.data.list.map((account: Account) => {
+        let role: 'member' | 'admin' | 'secretary' = 'member';
+        const roleName = account.role?.name?.toLowerCase();
+        if (roleName === 'admin') role = 'admin';
+        else if (roleName === 'secretary' || roleName?.includes('secretary')) role = 'secretary';
+
+        return {
+          id: account.id,
+          fullName: account.fullName,
+          email: account.email,
+          studentCode: account.phoneNumber || '-',
+          role: role,
+          branch: '-',
+          status: account.status === 'active' ? ('active' as const) : ('locked' as const),
+        };
+      });
+
+      setUsers(mappedUsers);
+    } catch (error) {
+      console.error('Error fetching users:', error);
+      message.error('Không thể tải danh sách người dùng');
+      // Fallback to mock data on error
+      setUsers(MOCK_USERS);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const filteredUsers = useMemo(
     () =>
@@ -59,6 +107,7 @@ const UserAccountManagement: React.FC = () => {
 
       {/* Bảng tài khoản */}
       <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-100">
+        {loading && <div className="text-center py-4 text-gray-500">Đang tải...</div>}
         <table className="w-full text-sm">
           <thead>
             <tr className="text-left text-gray-500 border-b border-gray-100">

@@ -1,20 +1,45 @@
-// src/features/admin/pages/activity/create-activity/CreateVotePage.tsx
-import React from 'react';
+// src/features/admin/pages/activity/vote/CreateVotePage.tsx
+import React, { useState } from 'react';
 import { Button, Card, Form, message } from 'antd';
+import { useNavigate } from '@tanstack/react-router';
 import type { VoteFormValues } from './types';
 import VoteBasicInfoSection from './VoteBasicInfoSection';
 import VoteOptionsSection from './VoteOptionsSection';
 import VoteTargetSection from './VoteTargetSection';
+import ActivityService from '../../../../../services/api/activity.service';
 
 const CreateVotePage: React.FC = () => {
   const [form] = Form.useForm<VoteFormValues>();
+  const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
 
-  const handleSubmit = (values: VoteFormValues) => {
-    console.log('Vote form submit:', values);
-    // TODO: gọi API tạo vote
-    message.success('Đã lưu biểu quyết (demo)');
+  const handleSubmit = async (values: VoteFormValues) => {
+    try {
+      setLoading(true);
+      const code = 'VOTE-' + Date.now();
+      const now = new Date().toISOString();
+      const deadline =
+        values.deadline || new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString();
+
+      await ActivityService.create({
+        code: code.trim(),
+        name: values.title.trim(),
+        description: values.description?.trim(),
+        activityType: 'thi-dua',
+        startDate: now,
+        endDate: deadline,
+        status: 'planned',
+      });
+
+      message.success('Tạo biểu quyết thành công!');
+      navigate({ to: '/admin/activity-management' });
+    } catch (error) {
+      message.error('Không thể tạo biểu quyết. Vui lòng thử lại.');
+      console.error('Error creating vote:', error);
+    } finally {
+      setLoading(false);
+    }
   };
-
   return (
     <div className="p-4">
       <Card title="Tạo biểu quyết / bình chọn mới">
@@ -37,7 +62,7 @@ const CreateVotePage: React.FC = () => {
           <VoteTargetSection />
 
           <Form.Item>
-            <Button type="primary" htmlType="submit">
+            <Button type="primary" htmlType="submit" loading={loading}>
               Lưu & tạo biểu quyết
             </Button>
           </Form.Item>

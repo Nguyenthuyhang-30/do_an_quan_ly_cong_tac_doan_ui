@@ -39,11 +39,16 @@ export const SidebarAdmin = ({ collapsed }: SidebarAdminProps) => {
     if (path.includes('/general-category/cohorts')) return ['cohorts'];
     if (path.includes('/general-category/branches')) return ['branches'];
 
+    if (path.includes('/branch')) return ['branch-list'];
+    if (path.includes('/member-management')) return ['member-list'];
+
     if (path.includes('/settings/system')) return ['system-settings'];
     if (path.includes('/settings/security')) return ['security-settings'];
     if (path.includes('/settings/notification')) return ['notification-settings'];
     if (path.includes('/settings')) return ['settings'];
 
+    if (path.includes('/activity-management')) return ['activity-list'];
+    if (path === '/admin/activity') return ['activity-selection'];
     if (path.includes('/activity/event')) return ['activity-event'];
     if (path.includes('/activity/vote')) return ['activity-vote'];
     if (path.includes('/activity/meeting')) return ['activity-meeting'];
@@ -59,7 +64,10 @@ export const SidebarAdmin = ({ collapsed }: SidebarAdminProps) => {
     if (path.includes('/dashboard')) openKeys.push('dashboard-menu');
     if (path.includes('/users')) openKeys.push('users-menu');
     if (path.includes('/general-category')) openKeys.push('general-category-menu');
+    if (path.includes('/branch')) openKeys.push('organization-menu');
+    if (path.includes('/member-management')) openKeys.push('organization-menu');
     if (path.includes('/settings')) openKeys.push('settings-menu');
+    if (path.includes('/activity-management')) openKeys.push('activity-management-menu');
     if (path.includes('/activity')) openKeys.push('activity-menu');
 
     return openKeys;
@@ -79,12 +87,17 @@ export const SidebarAdmin = ({ collapsed }: SidebarAdminProps) => {
       cohorts: '/admin/general-category/cohorts',
       branches: '/admin/general-category/branches',
 
+      'branch-list': '/admin/branch',
+      'member-list': '/admin/member-management',
+
       settings: '/admin/settings',
       'general-settings': '/admin/settings/general',
       'system-settings': '/admin/settings/system',
       'security-settings': '/admin/settings/security',
       'notification-settings': '/admin/settings/notification',
 
+      'activity-list': '/admin/activity-management',
+      'activity-selection': '/admin/activity',
       'activity-event': '/admin/activity/event',
       'activity-vote': '/admin/activity/vote',
       'activity-meeting': '/admin/activity/meeting',
@@ -118,6 +131,15 @@ export const SidebarAdmin = ({ collapsed }: SidebarAdminProps) => {
         ],
       },
       {
+        key: 'organization-menu',
+        icon: <TeamOutlined />,
+        label: 'Quản lý tổ chức',
+        children: [
+          { key: 'branch-list', icon: <RiTeamFill />, label: 'Quản lý chi đoàn' },
+          { key: 'member-list', icon: <UserOutlined />, label: 'Quản lý đoàn viên' },
+        ],
+      },
+      {
         key: 'users-menu',
         icon: <UserOutlined />,
         label: 'Quản lý người dùng',
@@ -138,12 +160,21 @@ export const SidebarAdmin = ({ collapsed }: SidebarAdminProps) => {
         ],
       },
       {
-        key: 'activity-menu',
+        key: 'activity-management-menu',
         icon: <CalendarOutlined />,
+        label: 'Quản lý hoạt động',
+        children: [
+          { key: 'activity-list', icon: <ProfileOutlined />, label: 'Danh sách hoạt động' },
+        ],
+      },
+      {
+        key: 'activity-menu',
+        icon: <HighlightOutlined />,
         label: 'Tạo hoạt động',
         children: [
-          { key: 'activity-event', icon: <HighlightOutlined />, label: 'Tạo event' },
-          { key: 'activity-vote', icon: <BarChartOutlined />, label: 'Tạo vote' },
+          { key: 'activity-selection', icon: <HighlightOutlined />, label: 'Chọn loại hoạt động' },
+          { key: 'activity-event', icon: <CalendarOutlined />, label: 'Sự kiện' },
+          { key: 'activity-vote', icon: <BarChartOutlined />, label: 'Biểu quyết' },
           { key: 'activity-meeting', icon: <TeamOutlined />, label: 'Sinh hoạt' },
           { key: 'activity-volunteer', icon: <HeartOutlined />, label: 'Tình nguyện' },
         ],

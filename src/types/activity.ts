@@ -99,3 +99,12 @@ export interface ActivityStatistics {
   totalParticipants: number;
   upcomingActivities: Activity[];
 }
+
+export interface ActivityAttendanceStatistics {
+  totalRegistered: number;
+  totalAttended: number;
+  totalAbsent: number;
+  totalLate: number;
+  attendanceRate: number;
+  registeredMembers: ActivityParticipant[];
+}

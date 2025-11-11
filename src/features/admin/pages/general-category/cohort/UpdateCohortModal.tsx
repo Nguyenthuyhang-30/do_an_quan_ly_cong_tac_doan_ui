@@ -27,6 +27,9 @@ const UpdateCohortModal: React.FC<UpdateCohortModalProps> = ({
         start_year: cohort.start_year,
         end_year: cohort.end_year,
       });
+    } else if (!visible) {
+      // Reset form khi đóng modal
+      form.resetFields();
     }
   }, [cohort, visible, form]);
 
@@ -36,7 +39,10 @@ const UpdateCohortModal: React.FC<UpdateCohortModalProps> = ({
     try {
       setLoading(true);
       const response = await cohortService.update(cohort.id, {
-        ...values,
+        code: values.code.trim(),
+        name: values.name.trim(),
+        start_year: values.start_year,
+        end_year: values.end_year,
         modified_by: 1,
       });
 
@@ -50,14 +56,17 @@ const UpdateCohortModal: React.FC<UpdateCohortModalProps> = ({
     } catch (error: unknown) {
       const errorMessage = error instanceof Error ? error.message : 'Lỗi khi cập nhật khóa học';
       message.error(errorMessage);
+      console.error('Error updating cohort:', error);
     } finally {
       setLoading(false);
     }
   };
 
   const handleCancel = () => {
-    form.resetFields();
-    onCancel();
+    if (!loading) {
+      form.resetFields();
+      onCancel();
+    }
   };
 
   return (

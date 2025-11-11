@@ -8,3 +8,13 @@ export { default as HeaderAuth } from './HeaderAuth';
 export { default as ImageWithFallback } from './ImageWithFallback';
 export { default as CommandPalette } from './CommandPalette';
 export { withAuth, withAdminAuth } from './withAuth';
+
+// Selector Components
+export { ActivitySelector } from './ActivitySelector';
+export { BranchSelector } from './BranchSelector';
+export { MemberSelector } from './MemberSelector';
+export { CohortSelector } from './CohortSelector';
+
+// Badge Components
+export { ActivityStatusBadge } from './ActivityStatusBadge';
+export { AttendanceStatusBadge } from './AttendanceStatusBadge';

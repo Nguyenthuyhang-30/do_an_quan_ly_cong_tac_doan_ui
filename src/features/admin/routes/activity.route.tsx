@@ -1,15 +1,23 @@
 // src/features/admin/routes/activity.route.tsx
 import { adminRoute } from '@routes/admin.routes';
 import { createRoute } from '@tanstack/react-router';
+import ActivityTypeSelection from '../pages/activity/ActivityTypeSelection';
 import CreateEventPage from '../pages/activity/event/CreateEventPage';
 import CreateVotePage from '../pages/activity/vote/CreateVotePage';
 import CreateMeetingPage from '../pages/activity/meeting/CreateMeetingPage';
 import CreateVolunteerPage from '../pages/activity/volunteer/CreateVolunteerPage';
 
-// CHA: /admin/activity
+// Parent: /admin/activity (no component, just route grouping)
 export const activityRouteAdmin = createRoute({
   getParentRoute: () => adminRoute,
   path: '/activity',
+});
+
+// /admin/activity/ (index - Activity Type Selection)
+export const activityIndexRoute = createRoute({
+  getParentRoute: () => activityRouteAdmin,
+  path: '/',
+  component: ActivityTypeSelection,
 });
 
 // /admin/activity/event
@@ -41,6 +49,7 @@ export const createActivityVolunteerRouteAdmin = createRoute({
 });
 
 export const activityTree = activityRouteAdmin.addChildren([
+  activityIndexRoute,
   createActivityEventRouteAdmin,
   createActivityVoteRouteAdmin,
   createActivityMeetingRouteAdmin,

@@ -1,7 +1,8 @@
-import { Form, Input, message, Modal } from 'antd';
+import { Form, Input, message, Modal, DatePicker } from 'antd';
 import React from 'react';
 import { branchService } from '@services/api';
 import type { CreateBranchRequest } from '../../../../../../types/youth-union-branch';
+import { MemberSelector } from '../../../../../../components/common/MemberSelector';
 
 interface CreateBranchModalProps {
   visible: boolean;
@@ -13,13 +14,41 @@ const CreateBranchModal: React.FC<CreateBranchModalProps> = ({ visible, onCancel
   const [form] = Form.useForm();
   const [loading, setLoading] = React.useState(false);
 
-  const handleSubmit = async (values: CreateBranchRequest) => {
+  // Reset form khi đóng modal
+  React.useEffect(() => {
+    if (!visible) {
+      form.resetFields();
+    }
+  }, [visible, form]);
+
+  const handleSubmit = async (
+    values: CreateBranchRequest & {
+      president_id?: number;
+      secretary_id?: number;
+      establishedDate?: { format: (f: string) => string };
+    },
+  ) => {
     try {
       setLoading(true);
-      await branchService.create({
-        ...values,
+
+      // Format data theo API yêu cầu
+      const requestData: CreateBranchRequest & { president_id?: number; secretary_id?: number } = {
+        code: values.code.trim(),
+        name: values.name.trim(),
+        description: values.description?.trim(),
+        establishedDate: values.establishedDate?.format('YYYY-MM-DD'),
         status: 'active',
-      });
+      };
+
+      // Thêm president_id và secretary_id nếu có
+      if (values.president_id) {
+        requestData.president_id = values.president_id;
+      }
+      if (values.secretary_id) {
+        requestData.secretary_id = values.secretary_id;
+      }
+
+      await branchService.create(requestData);
 
       message.success('Tạo chi đoàn thành công');
       form.resetFields();
@@ -27,14 +56,17 @@ const CreateBranchModal: React.FC<CreateBranchModalProps> = ({ visible, onCancel
     } catch (error: unknown) {
       const errorMessage = error instanceof Error ? error.message : 'Lỗi khi tạo chi đoàn';
       message.error(errorMessage);
+      console.error('Error creating branch:', error);
     } finally {
       setLoading(false);
     }
   };
 
   const handleCancel = () => {
-    form.resetFields();
-    onCancel();
+    if (!loading) {
+      form.resetFields();
+      onCancel();
+    }
   };
 
   return (
@@ -77,12 +109,28 @@ const CreateBranchModal: React.FC<CreateBranchModalProps> = ({ visible, onCancel
           <Input.TextArea rows={3} placeholder="Mô tả về chi đoàn" />
         </Form.Item>
 
-        <Form.Item label="Bí thư" name="secretary">
-          <Input placeholder="Tên Bí thư chi đoàn" />
+        <Form.Item label="Ngày thành lập" name="establishedDate">
+          <DatePicker
+            style={{ width: '100%' }}
+            placeholder="Chọn ngày thành lập"
+            format="DD/MM/YYYY"
+          />
         </Form.Item>
 
-        <Form.Item label="Phó Bí thư" name="viceSecretary">
-          <Input placeholder="Tên Phó Bí thư chi đoàn" />
+        <Form.Item
+          label="Chủ tịch chi đoàn"
+          name="president_id"
+          tooltip="Chọn đoàn viên làm Chủ tịch chi đoàn"
+        >
+          <MemberSelector placeholder="Chọn Chủ tịch chi đoàn" allowClear />
+        </Form.Item>
+
+        <Form.Item
+          label="Bí thư chi đoàn"
+          name="secretary_id"
+          tooltip="Chọn đoàn viên làm Bí thư chi đoàn"
+        >
+          <MemberSelector placeholder="Chọn Bí thư chi đoàn" allowClear />
         </Form.Item>
       </Form>
     </Modal>

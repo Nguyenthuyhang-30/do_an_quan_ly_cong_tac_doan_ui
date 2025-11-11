@@ -1,15 +1,49 @@
 // src/features/admin/pages/activity/event/CreateEventPage.tsx
-import { Button, Card, Form } from 'antd';
+import { Button, Card, Form, message } from 'antd';
+import { useState } from 'react';
+import { useNavigate } from '@tanstack/react-router';
 import type { EventFormValues } from './types';
 import EventBasicInfoSection from './EventBasicInfoSection';
 import EventTimeLocationSection from './EventTimeLocationSection';
 import EventAdvancedSection from './EventAdvancedSection';
+import ActivityService from '../../../../../services/api/activity.service';
+
 const CreateEventPage: React.FC = () => {
   const [form] = Form.useForm<EventFormValues>();
+  const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
 
-  const handleSubmit = (values: EventFormValues) => {
-    console.log('Event form submit:', values);
-    // TODO: call API tạo event
+  const handleSubmit = async (values: EventFormValues) => {
+    try {
+      setLoading(true);
+      // Generate code from name
+      const code = 'ACT-' + Date.now();
+
+      await ActivityService.create({
+        code: code.trim(),
+        name: values.name.trim(),
+        description: values.description?.trim(),
+        activityType: (values.type || 'khac') as
+          | 'tinh-nguyen'
+          | 'hoc-tap'
+          | 'the-thao'
+          | 'van-hoa'
+          | 'thi-dua'
+          | 'khac',
+        startDate: values.timeRange?.[0],
+        endDate: values.timeRange?.[1],
+        location: values.location?.trim(),
+        maxParticipants: values.expectedParticipants,
+        status: 'planned',
+      });
+      message.success('Tạo sự kiện thành công!');
+      navigate({ to: '/admin/activity-management' });
+    } catch (error) {
+      message.error('Không thể tạo hoạt động. Vui lòng thử lại.');
+      console.error('Error creating activity:', error);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -27,7 +61,7 @@ const CreateEventPage: React.FC = () => {
           <EventAdvancedSection />
 
           <Form.Item>
-            <Button type="primary" htmlType="submit">
+            <Button type="primary" htmlType="submit" loading={loading}>
               Lưu & tạo hoạt động
             </Button>
           </Form.Item>
