@@ -1,106 +1,75 @@
-import React from 'react';
-import { Avatar, Dropdown, Space, Typography } from 'antd';
 import {
-  UserOutlined,
-  SettingOutlined,
-  LogoutOutlined,
   DashboardOutlined,
+  LogoutOutlined,
+  SettingOutlined,
+  UserOutlined,
 } from '@ant-design/icons';
 import type { MenuProps } from 'antd';
+import { Avatar, Dropdown, Space, Typography } from 'antd';
+import React from 'react';
 import { useAuth } from '../../hooks/useAuth';
 import './UserMenu.scss';
 
 const { Text } = Typography;
 
-/**
- * UserMenu Component
- * Displays user avatar and dropdown menu with profile options
- */
 const UserMenu: React.FC = () => {
   const { user, logout } = useAuth();
 
   if (!user) return null;
 
-  const handleLogout = async () => {
-    try {
-      await logout();
-    } catch (error) {
-      console.error('Logout failed:', error);
-    }
-  };
-
-  const handleNavigation = (path: string) => {
+  const navigateTo = (path: string) => {
     window.location.href = path;
   };
-
-  const menuItems: MenuProps['items'] = [
+  const items: MenuProps['items'] = [
     {
       key: 'user-info',
+      disabled: true,
       label: (
-        <div className="user-menu-info ">
-          <p className="text-black">{user.fullName}</p>
-          <Text type="secondary" className="user-email">
-            {user.email}
-          </Text>
+        <div className="dropdown-user-header">
+          <p>{user.fullName}</p>
+          <Text type="secondary">{user.email}</Text>
         </div>
       ),
-      disabled: true,
     },
-    {
-      type: 'divider',
-    },
+    { type: 'divider' },
     {
       key: 'dashboard',
       icon: <DashboardOutlined />,
       label: 'Dashboard',
-      onClick: () => handleNavigation('/admin'),
+      onClick: () => navigateTo('/admin'),
     },
     {
       key: 'profile',
       icon: <UserOutlined />,
       label: 'Thông tin cá nhân',
-      onClick: () => handleNavigation('/profile'),
+      onClick: () => navigateTo('/profile'),
     },
     {
       key: 'settings',
       icon: <SettingOutlined />,
       label: 'Cài đặt',
-      onClick: () => handleNavigation('/settings'),
+      onClick: () => navigateTo('/settings'),
     },
-    {
-      type: 'divider',
-    },
-    {
-      key: 'logout',
-      icon: <LogoutOutlined />,
-      label: 'Đăng xuất',
-      danger: true,
-      onClick: handleLogout,
-    },
+    { type: 'divider' },
+    { key: 'logout', icon: <LogoutOutlined />, label: 'Đăng xuất', danger: true, onClick: logout },
   ];
 
-  // Get first letter of name for avatar fallback
-  const avatarLetter = user.fullName?.charAt(0).toUpperCase() || 'U';
+  const avatarContent = user.avatar ? (
+    <Avatar src={user.avatar} size="default" />
+  ) : (
+    <Avatar style={{ background: 'blueviolet' }} size="default">
+      {(user.fullName || 'U')[0].toUpperCase()}
+    </Avatar>
+  );
 
   return (
-    <Dropdown menu={{ items: menuItems }} placement="bottomRight" arrow trigger={['click']}>
+    <Dropdown menu={{ items }} placement="bottomRight" trigger={['click']}>
       <div className="user-menu-trigger">
-        <Space>
-          <Avatar
-            src={user.avatar}
-            icon={!user.avatar && <UserOutlined />}
-            size="default"
-            className="user-avatar"
-          >
-            {!user.avatar && avatarLetter}
-          </Avatar>
-          <div className="user-info-compact">
-            <Text className="user-name text-black">{user.fullName}</Text>
-            {user.role && (
-              <Text type="secondary" className="user-role">
-                {user.role}
-              </Text>
-            )}
+        <Space size={8}>
+          {avatarContent}
+          <div className="user-info">
+            <Text className="name">{user.fullName}</Text>
+            {user.role && <Text className="role">{user.role}</Text>}
           </div>
         </Space>
       </div>
