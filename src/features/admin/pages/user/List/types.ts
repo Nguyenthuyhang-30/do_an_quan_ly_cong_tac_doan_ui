@@ -5,8 +5,11 @@ export interface UserAccount {
   id: number;
   fullName: string;
   email: string;
-  studentCode?: string; // MSSV (nếu là sinh viên)
+  studentCode?: string; // Phone number
   role: 'admin' | 'secretary' | 'member';
-  branch: string; // Chi đoàn
+  roleId?: number;
+  branch: string; // Chi đoàn (có thể lấy từ member data)
   status: UserStatus;
+  lastLoginAt?: string;
+  createdAt?: string;
 }

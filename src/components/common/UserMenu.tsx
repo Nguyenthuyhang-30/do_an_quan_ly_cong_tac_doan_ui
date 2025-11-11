@@ -1,5 +1,6 @@
 import {
   DashboardOutlined,
+  HomeOutlined,
   LogoutOutlined,
   SettingOutlined,
   UserOutlined,
@@ -32,6 +33,12 @@ const UserMenu: React.FC = () => {
       ),
     },
     { type: 'divider' },
+    {
+      key: 'home',
+      icon: <HomeOutlined />,
+      label: 'Home',
+      onClick: () => navigateTo('/'),
+    },
     {
       key: 'dashboard',
       icon: <DashboardOutlined />,

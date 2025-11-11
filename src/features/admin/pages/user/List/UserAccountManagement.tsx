@@ -1,205 +1,359 @@
 // src/pages/user-account/UserAccountManagement.tsx
-import React, { useMemo, useState, useEffect } from 'react';
-import { message } from 'antd';
+import React, { useState, useEffect, useCallback } from 'react';
+import {
+  Button,
+  Card,
+  Col,
+  Input,
+  message,
+  Popconfirm,
+  Row,
+  Space,
+  Tag,
+  Tooltip,
+  Typography,
+} from 'antd';
+import {
+  LockOutlined,
+  PlusOutlined,
+  ReloadOutlined,
+  SearchOutlined,
+  UnlockOutlined,
+  UserOutlined,
+} from '@ant-design/icons';
+import type { ColumnsType, TablePaginationConfig } from 'antd/es/table';
+import { BaseAntTable } from '../../../../../components/tables/BaseAntTable';
 import { UserAccount } from './types';
-import { MOCK_USERS } from './mockData';
-// import CreateUserModal from './CreateUserModal';
 import ResetPasswordModal from './ResetPasswordModal';
 import ToggleStatusModal from './ToggleStatusModal';
 import AssignRoleModal from './AssignRoleModal';
 import CreateUserModal from './CreateUserModal';
-import AccountService from '../../../../../services/api/account.service';
-import { Account } from '../../../../../types/account';
+import MemberService from '../../../../../services/api/member.service';
+import type { YouthUnionMember } from '../../../../../types/youth-union-member';
+
+const { Title } = Typography;
+const { Search } = Input;
 
 const UserAccountManagement: React.FC = () => {
   const [users, setUsers] = useState<UserAccount[]>([]);
   const [loading, setLoading] = useState(false);
-  const [search, setSearch] = useState('');
-  const [selected, setSelected] = useState<UserAccount | null>(null);
-  const [modal, setModal] = useState<
-    'create' | 'resetPassword' | 'toggleStatus' | 'assignRole' | null
-  >(null);
+  const [pagination, setPagination] = useState({
+    current: 1,
+    pageSize: 10,
+    total: 0,
+  });
+  const [searchText, setSearchText] = useState('');
+  const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([]);
 
-  // Fetch users from API
-  useEffect(() => {
-    fetchUsers();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  // Modal states
+  const [createModalVisible, setCreateModalVisible] = useState(false);
+  const [resetPasswordModalVisible, setResetPasswordModalVisible] = useState(false);
+  const [toggleStatusModalVisible, setToggleStatusModalVisible] = useState(false);
+  const [assignRoleModalVisible, setAssignRoleModalVisible] = useState(false);
+  const [selectedUser, setSelectedUser] = useState<UserAccount | null>(null);
 
-  const fetchUsers = async () => {
+  // Fetch users data - Sử dụng MemberService vì account và member dùng chung bảng
+  const fetchUsers = useCallback(async (page = 1, limit = 10, search = '') => {
     try {
       setLoading(true);
-      const response = await AccountService.getList({
-        page: 1,
-        limit: 100,
+      const response = await MemberService.searchMembers({
+        page,
+        limit,
         search: search.trim(),
       });
 
-      // Map API data to UserAccount type
-      const mappedUsers: UserAccount[] = response.data.list.map((account: Account) => {
-        let role: 'member' | 'admin' | 'secretary' = 'member';
-        const roleName = account.role?.name?.toLowerCase();
-        if (roleName === 'admin') role = 'admin';
-        else if (roleName === 'secretary' || roleName?.includes('secretary')) role = 'secretary';
+      // Map Member data to UserAccount type (focus on account/login features)
+      const mappedUsers: UserAccount[] = response.data.list.map((member: YouthUnionMember) => {
+        // Default role is member, có thể extend logic để detect admin/secretary
+        const role: 'member' | 'admin' | 'secretary' = 'member';
 
         return {
-          id: account.id,
-          fullName: account.fullName,
-          email: account.email,
-          studentCode: account.phoneNumber || '-',
+          id: member.id,
+          fullName: member.fullName,
+          email: member.email,
+          studentCode: member.phoneNumber || member.studentId || '-',
           role: role,
-          branch: '-',
-          status: account.status === 'active' ? ('active' as const) : ('locked' as const),
+          roleId: undefined, // Sẽ được set qua AssignRoleModal
+          branch: member.branch?.name || '-',
+          status: member.status === 'active' ? ('active' as const) : ('locked' as const),
+          lastLoginAt: undefined, // Member không track lastLoginAt
+          createdAt: member.createdAt,
         };
       });
 
       setUsers(mappedUsers);
-    } catch (error) {
+      setPagination({
+        current: response.data.pagination.currentPage || page,
+        pageSize: response.data.pagination.itemsPerPage || limit,
+        total: response.data.pagination.totalItems || 0,
+      });
+    } catch (error: unknown) {
+      const errorMessage = error instanceof Error ? error.message : 'Lỗi khi tải dữ liệu';
+      message.error(errorMessage);
       console.error('Error fetching users:', error);
-      message.error('Không thể tải danh sách người dùng');
-      // Fallback to mock data on error
-      setUsers(MOCK_USERS);
     } finally {
       setLoading(false);
     }
-  };
+  }, []);
 
-  const filteredUsers = useMemo(
-    () =>
-      users.filter((u) => {
-        const key = (u.fullName + u.studentCode + u.email).toLowerCase().trim();
-        return key.includes(search.toLowerCase().trim());
-      }),
-    [users, search],
+  // Handle search
+  const handleSearch = useCallback(
+    (value: string) => {
+      setSearchText(value);
+      fetchUsers(1, pagination.pageSize, value);
+    },
+    [fetchUsers, pagination.pageSize],
   );
 
+  // Handle table change (pagination)
+  const handleTableChange = (paginationInfo: TablePaginationConfig) => {
+    fetchUsers(paginationInfo.current, paginationInfo.pageSize, searchText);
+  };
+
+  // Handle reset password
+  const handleResetPassword = (record: UserAccount) => {
+    setSelectedUser(record);
+    setResetPasswordModalVisible(true);
+  };
+
+  // Handle toggle status
+  const handleToggleStatus = (record: UserAccount) => {
+    setSelectedUser(record);
+    setToggleStatusModalVisible(true);
+  };
+
+  // Handle assign role
+  const handleAssignRole = (record: UserAccount) => {
+    setSelectedUser(record);
+    setAssignRoleModalVisible(true);
+  };
+
+  // Handle row selection
+  const rowSelection = {
+    selectedRowKeys,
+    onChange: (newSelectedRowKeys: React.Key[]) => {
+      setSelectedRowKeys(newSelectedRowKeys);
+    },
+  };
+
+  useEffect(() => {
+    fetchUsers();
+  }, [fetchUsers]);
+
+  // Define columns for table
+  const columns: ColumnsType<UserAccount> = [
+    {
+      title: 'Họ tên',
+      dataIndex: 'fullName',
+      key: 'fullName',
+      width: 200,
+      render: (text: string) => <span className="font-medium">{text}</span>,
+    },
+    {
+      title: 'Email',
+      dataIndex: 'email',
+      key: 'email',
+      width: 220,
+    },
+    {
+      title: 'Số điện thoại',
+      dataIndex: 'studentCode',
+      key: 'studentCode',
+      width: 150,
+      render: (text: string) => text || '-',
+    },
+    {
+      title: 'Chi đoàn',
+      dataIndex: 'branch',
+      key: 'branch',
+      width: 180,
+      render: (text: string) => text || '-',
+    },
+    {
+      title: 'Vai trò',
+      dataIndex: 'role',
+      key: 'role',
+      width: 150,
+      render: (role: string) => {
+        const roleConfig = {
+          admin: { text: 'Quản trị viên', color: 'red' },
+          secretary: { text: 'Bí thư chi đoàn', color: 'blue' },
+          member: { text: 'Đoàn viên', color: 'default' },
+        };
+        const config = roleConfig[role as keyof typeof roleConfig] || roleConfig.member;
+        return <Tag color={config.color}>{config.text}</Tag>;
+      },
+    },
+    {
+      title: 'Trạng thái',
+      dataIndex: 'status',
+      key: 'status',
+      width: 140,
+      render: (status: string) => (
+        <Tag color={status === 'active' ? 'success' : 'error'}>
+          {status === 'active' ? 'Đang hoạt động' : 'Đã khóa'}
+        </Tag>
+      ),
+    },
+    {
+      title: 'Thao tác',
+      key: 'action',
+      fixed: 'right',
+      width: 220,
+      render: (_: unknown, record: UserAccount) => (
+        <Space size="small">
+          <Tooltip title="Phân quyền">
+            <Button
+              type="link"
+              size="small"
+              icon={<UserOutlined />}
+              onClick={() => handleAssignRole(record)}
+            >
+              Phân quyền
+            </Button>
+          </Tooltip>
+          <Tooltip title="Đặt lại mật khẩu">
+            <Button
+              type="link"
+              size="small"
+              icon={<LockOutlined />}
+              onClick={() => handleResetPassword(record)}
+            >
+              Reset MK
+            </Button>
+          </Tooltip>
+          <Tooltip title={record.status === 'active' ? 'Khóa tài khoản' : 'Mở khóa tài khoản'}>
+            <Popconfirm
+              title={`Bạn có chắc muốn ${
+                record.status === 'active' ? 'khóa' : 'mở khóa'
+              } tài khoản này?`}
+              onConfirm={() => handleToggleStatus(record)}
+              okText="Đồng ý"
+              cancelText="Hủy"
+            >
+              <Button
+                type="link"
+                size="small"
+                danger={record.status === 'active'}
+                icon={record.status === 'active' ? <LockOutlined /> : <UnlockOutlined />}
+              >
+                {record.status === 'active' ? 'Khóa' : 'Mở khóa'}
+              </Button>
+            </Popconfirm>
+          </Tooltip>
+        </Space>
+      ),
+    },
+  ];
+
   return (
-    <div className="p-6 space-y-6 bg-gray-50 min-h-screen">
-      {/* Header */}
-      <div className="flex flex-wrap justify-between items-center gap-4">
-        <div>
-          <h1 className="text-2xl font-semibold text-gray-800">Tài khoản người dùng</h1>
-          <p className="text-gray-500">
-            Quản lý tài khoản, phân quyền và trạng thái truy cập hệ thống.
-          </p>
-        </div>
-        <button
-          onClick={() => setModal('create')}
-          className="px-4 py-2 rounded-lg bg-blue-600 text-white text-sm font-medium hover:bg-blue-700"
-        >
-          + Thêm tài khoản
-        </button>
-      </div>
+    <div style={{ padding: '24px' }}>
+      <Row gutter={[16, 16]}>
+        <Col span={24}>
+          <Card>
+            <Space direction="vertical" size="large" style={{ width: '100%' }}>
+              {/* Header */}
+              <Row justify="space-between" align="middle">
+                <Col>
+                  <Title level={3} style={{ margin: 0 }}>
+                    Tài khoản người dùng
+                  </Title>
+                  <p style={{ margin: '8px 0 0', color: '#666' }}>
+                    Quản lý tài khoản, phân quyền và trạng thái truy cập hệ thống
+                  </p>
+                </Col>
+                <Col>
+                  <Space>
+                    <Tooltip title="Làm mới">
+                      <Button icon={<ReloadOutlined />} onClick={() => fetchUsers()} />
+                    </Tooltip>
+                    <Button
+                      type="primary"
+                      icon={<PlusOutlined />}
+                      onClick={() => setCreateModalVisible(true)}
+                    >
+                      Thêm tài khoản
+                    </Button>
+                  </Space>
+                </Col>
+              </Row>
 
-      {/* Tìm kiếm */}
-      <div className="bg-white rounded-xl p-4 shadow-sm border border-gray-100">
-        <label className="block text-xs font-medium text-gray-500 mb-1">
-          Tìm kiếm (Họ tên / MSSV / email)
-        </label>
-        <input
-          type="text"
-          className="w-full px-3 py-2 rounded-lg border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/30 focus:border-blue-500"
-          placeholder="Nhập từ khóa..."
-          value={search}
-          onChange={(e) => setSearch(e.target.value)}
+              {/* Search */}
+              <Row>
+                <Col span={24}>
+                  <Search
+                    placeholder="Tìm kiếm theo họ tên, email, số điện thoại..."
+                    allowClear
+                    enterButton={<SearchOutlined />}
+                    size="large"
+                    onSearch={handleSearch}
+                    style={{ maxWidth: 500 }}
+                  />
+                </Col>
+              </Row>
+
+              {/* Table */}
+              <BaseAntTable
+                columns={columns}
+                data={users}
+                loading={loading}
+                rowKey="id"
+                pagination={{
+                  current: pagination.current,
+                  pageSize: pagination.pageSize,
+                  total: pagination.total,
+                  showSizeChanger: true,
+                  showTotal: (total) => `Tổng số ${total} tài khoản`,
+                }}
+                onChange={handleTableChange}
+                rowSelection={rowSelection}
+                scroll={{ x: 1200 }}
+              />
+            </Space>
+          </Card>
+        </Col>
+      </Row>
+
+      {/* Modals */}
+      {createModalVisible && (
+        <CreateUserModal
+          onClose={() => {
+            setCreateModalVisible(false);
+            fetchUsers(pagination.current, pagination.pageSize, searchText);
+          }}
         />
-      </div>
-
-      {/* Bảng tài khoản */}
-      <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-100">
-        {loading && <div className="text-center py-4 text-gray-500">Đang tải...</div>}
-        <table className="w-full text-sm">
-          <thead>
-            <tr className="text-left text-gray-500 border-b border-gray-100">
-              <th className="py-2">Họ tên</th>
-              <th>Email</th>
-              <th>MSSV</th>
-              <th>Vai trò</th>
-              <th>Chi đoàn</th>
-              <th>Trạng thái</th>
-              <th className="text-right">Thao tác</th>
-            </tr>
-          </thead>
-          <tbody>
-            {filteredUsers.length === 0 ? (
-              <tr>
-                <td className="py-4 text-center text-gray-500" colSpan={7}>
-                  Không tìm thấy tài khoản phù hợp.
-                </td>
-              </tr>
-            ) : (
-              filteredUsers.map((u) => (
-                <tr key={u.id} className="border-b border-gray-50 hover:bg-gray-50">
-                  <td className="py-2 font-medium text-gray-800">{u.fullName}</td>
-                  <td>{u.email}</td>
-                  <td>{u.studentCode || '-'}</td>
-                  <td className="capitalize">
-                    {u.role === 'admin'
-                      ? 'Quản trị viên'
-                      : u.role === 'secretary'
-                      ? 'Bí thư chi đoàn'
-                      : 'Đoàn viên'}
-                  </td>
-                  <td>{u.branch}</td>
-                  <td>
-                    <span
-                      className={`px-2 py-1 rounded-full text-xs font-medium ${
-                        u.status === 'active'
-                          ? 'bg-emerald-50 text-emerald-600 border border-emerald-100'
-                          : 'bg-red-50 text-red-600 border border-red-100'
-                      }`}
-                    >
-                      {u.status === 'active' ? 'Đang hoạt động' : 'Đã khóa'}
-                    </span>
-                  </td>
-                  <td className="text-right space-x-2">
-                    <button
-                      className="text-xs text-indigo-600 hover:underline"
-                      onClick={() => {
-                        setSelected(u);
-                        setModal('assignRole');
-                      }}
-                    >
-                      Phân quyền
-                    </button>
-                    <button
-                      className="text-xs text-blue-600 hover:underline"
-                      onClick={() => {
-                        setSelected(u);
-                        setModal('resetPassword');
-                      }}
-                    >
-                      Đặt lại MK
-                    </button>
-                    <button
-                      className="text-xs text-red-500 hover:underline"
-                      onClick={() => {
-                        setSelected(u);
-                        setModal('toggleStatus');
-                      }}
-                    >
-                      {u.status === 'active' ? 'Khóa' : 'Mở khóa'}
-                    </button>
-                  </td>
-                </tr>
-              ))
-            )}
-          </tbody>
-        </table>
-      </div>
-
-      {modal === 'create' && <CreateUserModal onClose={() => setModal(null)} />}
-
-      {modal === 'resetPassword' && selected && (
-        <ResetPasswordModal user={selected} onClose={() => setModal(null)} />
       )}
 
-      {modal === 'toggleStatus' && selected && (
-        <ToggleStatusModal user={selected} onClose={() => setModal(null)} />
+      {resetPasswordModalVisible && selectedUser && (
+        <ResetPasswordModal
+          user={selectedUser}
+          onClose={() => {
+            setResetPasswordModalVisible(false);
+            setSelectedUser(null);
+          }}
+        />
       )}
 
-      {modal === 'assignRole' && selected && (
-        <AssignRoleModal user={selected} onClose={() => setModal(null)} />
+      {toggleStatusModalVisible && selectedUser && (
+        <ToggleStatusModal
+          user={selectedUser}
+          onClose={() => {
+            setToggleStatusModalVisible(false);
+            setSelectedUser(null);
+            fetchUsers(pagination.current, pagination.pageSize, searchText);
+          }}
+        />
+      )}
+
+      {assignRoleModalVisible && selectedUser && (
+        <AssignRoleModal
+          user={selectedUser}
+          onClose={() => {
+            setAssignRoleModalVisible(false);
+            setSelectedUser(null);
+            fetchUsers(pagination.current, pagination.pageSize, searchText);
+          }}
+        />
       )}
     </div>
   );
