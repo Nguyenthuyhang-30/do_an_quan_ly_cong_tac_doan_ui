@@ -148,17 +148,7 @@ export const SidebarAdmin = ({ collapsed }: SidebarAdminProps) => {
           { key: 'user-roles', icon: <IdcardOutlined />, label: 'Quyền & vai trò' },
         ],
       },
-      {
-        key: 'settings-menu',
-        icon: <SettingOutlined />,
-        label: 'Cài đặt',
-        children: [
-          { key: 'general-settings', icon: <ToolOutlined />, label: 'Chung' },
-          { key: 'system-settings', icon: <DatabaseOutlined />, label: 'Hệ thống' },
-          { key: 'security-settings', icon: <SafetyOutlined />, label: 'Bảo mật' },
-          { key: 'notification-settings', icon: <NotificationOutlined />, label: 'Thông báo' },
-        ],
-      },
+
       {
         key: 'activity-management-menu',
         icon: <CalendarOutlined />,
@@ -177,6 +167,17 @@ export const SidebarAdmin = ({ collapsed }: SidebarAdminProps) => {
           { key: 'activity-vote', icon: <BarChartOutlined />, label: 'Biểu quyết' },
           { key: 'activity-meeting', icon: <TeamOutlined />, label: 'Sinh hoạt' },
           { key: 'activity-volunteer', icon: <HeartOutlined />, label: 'Tình nguyện' },
+        ],
+      },
+      {
+        key: 'settings-menu',
+        icon: <SettingOutlined />,
+        label: 'Cài đặt',
+        children: [
+          { key: 'general-settings', icon: <ToolOutlined />, label: 'Chung' },
+          { key: 'system-settings', icon: <DatabaseOutlined />, label: 'Hệ thống' },
+          { key: 'security-settings', icon: <SafetyOutlined />, label: 'Bảo mật' },
+          { key: 'notification-settings', icon: <NotificationOutlined />, label: 'Thông báo' },
         ],
       },
     ],

@@ -1,4 +1,12 @@
 import { useMemo, useState } from 'react';
+import { Card, Table, Tag, Button, Space, message } from 'antd';
+import {
+  DownloadOutlined,
+  FileExcelOutlined,
+  FilePdfOutlined,
+  EyeOutlined,
+} from '@ant-design/icons';
+import { dashboardMockService } from '@services/api/mock';
 
 type ReportType = 'activity' | 'point' | 'member';
 
@@ -20,6 +28,8 @@ const YEARS = ['2024', '2025'];
 const SEMESTERS = ['HK1', 'HK2'];
 
 const ReportsDashboard = () => {
+  const [exportingExcel, setExportingExcel] = useState(false);
+  const [exportingPdf, setExportingPdf] = useState(false);
   const [filters, setFilters] = useState<{
     year: string;
     semester: string;
@@ -48,24 +58,44 @@ const ReportsDashboard = () => {
     };
   }, [filteredBranchReport]);
 
-  const handleExportExcel = () => {
-    // TODO: thay bằng logic export thật (ví dụ gọi API / generate file)
-    console.log('Export Excel với filters:', filters);
-    alert('(Demo) Đang giả lập xuất báo cáo Excel...');
+  const handleExportExcel = async () => {
+    setExportingExcel(true);
+    try {
+      const result = await dashboardMockService.exportReport('excel', filters);
+      message.success(`Xuất báo cáo Excel thành công! File: ${result.url}`);
+      console.log('Export Excel:', result);
+    } catch {
+      message.error('Có lỗi khi xuất báo cáo Excel');
+    } finally {
+      setExportingExcel(false);
+    }
   };
 
-  const handleExportPDF = () => {
-    console.log('Export PDF với filters:', filters);
-    alert('(Demo) Đang giả lập xuất báo cáo PDF...');
+  const handleExportPDF = async () => {
+    setExportingPdf(true);
+    try {
+      const result = await dashboardMockService.exportReport('pdf', filters);
+      message.success(`Xuất báo cáo PDF thành công! File: ${result.url}`);
+      console.log('Export PDF:', result);
+    } catch {
+      message.error('Có lỗi khi xuất báo cáo PDF');
+    } finally {
+      setExportingPdf(false);
+    }
+  };
+
+  const handlePreview = () => {
+    message.info('Đang mở xem trước báo cáo...');
+    console.log('Preview report with filters:', filters);
   };
 
   return (
-    <div className="p-6 space-y-6 bg-gray-50 min-h-screen">
+    <div className="p-4 md:p-6 space-y-6 bg-gray-50 min-h-screen animate-fadeIn">
       {/* Header */}
-      <div className="flex flex-wrap items-center justify-between gap-4">
+      <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-4">
         <div>
-          <h1 className="text-2xl font-semibold text-gray-800">Báo cáo</h1>
-          <p className="text-gray-500">
+          <h1 className="text-2xl font-bold text-gray-800">Báo cáo</h1>
+          <p className="text-gray-500 text-sm mt-1">
             Tổng hợp và xuất báo cáo hoạt động, điểm rèn luyện, Đoàn viên
           </p>
         </div>
@@ -126,111 +156,133 @@ const ReportsDashboard = () => {
       </div>
 
       {/* Vùng nút Export */}
-      <div className="flex flex-wrap items-center justify-between gap-4">
-        <div className="text-xs text-gray-500">
-          Báo cáo sẽ lấy dữ liệu theo{' '}
-          <span className="font-medium text-gray-700">
-            {filters.semester} - {filters.year}
-          </span>{' '}
-          với mẫu{' '}
-          <span className="font-medium text-gray-700">
-            {filters.type === 'activity'
-              ? 'Hoạt động & tham gia'
-              : filters.type === 'point'
-              ? 'Điểm rèn luyện'
-              : 'Danh sách Đoàn viên'}
-          </span>
-          .
-        </div>
+      <Card className="shadow-md">
+        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+          <div className="text-sm text-gray-600">
+            <p className="mb-1">Báo cáo sẽ lấy dữ liệu theo:</p>
+            <div className="flex flex-wrap gap-2">
+              <Tag color="blue">
+                {filters.semester} - {filters.year}
+              </Tag>
+              <Tag color="green">
+                {filters.type === 'activity'
+                  ? 'Hoạt động & tham gia'
+                  : filters.type === 'point'
+                  ? 'Điểm rèn luyện'
+                  : 'Danh sách Đoàn viên'}
+              </Tag>
+            </div>
+          </div>
 
-        <div className="flex gap-2">
-          <button
-            onClick={handleExportExcel}
-            className="px-4 py-2 rounded-lg text-sm font-medium border border-emerald-500 text-emerald-600 bg-emerald-50 hover:bg-emerald-100 transition"
-          >
-            Xuất Excel
-          </button>
-          <button
-            onClick={handleExportPDF}
-            className="px-4 py-2 rounded-lg text-sm font-medium border border-indigo-500 text-indigo-600 bg-indigo-50 hover:bg-indigo-100 transition"
-          >
-            Xuất PDF
-          </button>
+          <Space wrap>
+            <Button icon={<EyeOutlined />} onClick={handlePreview}>
+              Xem trước
+            </Button>
+            <Button
+              type="default"
+              icon={<FileExcelOutlined />}
+              onClick={handleExportExcel}
+              loading={exportingExcel}
+              style={{ backgroundColor: '#ecfdf5', borderColor: '#10b981', color: '#10b981' }}
+            >
+              Xuất Excel
+            </Button>
+            <Button
+              type="default"
+              icon={<FilePdfOutlined />}
+              onClick={handleExportPDF}
+              loading={exportingPdf}
+              style={{ backgroundColor: '#fef2f2', borderColor: '#ef4444', color: '#ef4444' }}
+            >
+              Xuất PDF
+            </Button>
+          </Space>
         </div>
-      </div>
+      </Card>
 
       {/* Thẻ tóm tắt */}
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
-        <div className="bg-white rounded-xl shadow-sm p-5 border border-gray-100">
-          <p className="text-xs font-medium text-gray-500">Tổng số hoạt động</p>
-          <p className="mt-2 text-3xl font-semibold text-indigo-600">{summary.totalActivities}</p>
-          <p className="mt-1 text-xs text-gray-400">Tính trên tất cả chi đoàn</p>
-        </div>
-        <div className="bg-white rounded-xl shadow-sm p-5 border border-gray-100">
-          <p className="text-xs font-medium text-gray-500">Tổng lượt tham gia</p>
-          <p className="mt-2 text-3xl font-semibold text-emerald-600">
-            {summary.totalParticipants}
-          </p>
-          <p className="mt-1 text-xs text-gray-400">Lượt điểm danh trong kỳ</p>
-        </div>
-        <div className="bg-white rounded-xl shadow-sm p-5 border border-gray-100">
-          <p className="text-xs font-medium text-gray-500">Điểm rèn luyện TB</p>
-          <p className="mt-2 text-3xl font-semibold text-blue-600">{summary.avgPoint}</p>
-          <p className="mt-1 text-xs text-gray-400">Trung bình của các chi đoàn</p>
-        </div>
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 md:gap-6">
+        <Card className="shadow-md hover:shadow-lg transition-shadow">
+          <p className="text-xs font-medium text-gray-500 mb-2">Tổng số hoạt động</p>
+          <p className="text-3xl font-bold text-indigo-600">{summary.totalActivities}</p>
+          <p className="mt-2 text-xs text-gray-400">Tính trên tất cả chi đoàn</p>
+        </Card>
+        <Card className="shadow-md hover:shadow-lg transition-shadow">
+          <p className="text-xs font-medium text-gray-500 mb-2">Tổng lượt tham gia</p>
+          <p className="text-3xl font-bold text-emerald-600">{summary.totalParticipants}</p>
+          <p className="mt-2 text-xs text-gray-400">Lượt điểm danh trong kỳ</p>
+        </Card>
+        <Card className="shadow-md hover:shadow-lg transition-shadow">
+          <p className="text-xs font-medium text-gray-500 mb-2">Điểm rèn luyện TB</p>
+          <p className="text-3xl font-bold text-blue-600">{summary.avgPoint}</p>
+          <p className="mt-2 text-xs text-gray-400">Trung bình của các chi đoàn</p>
+        </Card>
       </div>
 
       {/* Bảng chi tiết */}
-      <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-100">
-        <div className="flex items-center justify-between mb-4">
-          <h2 className="font-medium text-gray-700">
-            {filters.type === 'activity' && 'Báo cáo hoạt động & tham gia theo chi đoàn'}
-            {filters.type === 'point' && 'Báo cáo điểm rèn luyện theo chi đoàn'}
-            {filters.type === 'member' && 'Báo cáo tổng hợp Đoàn viên theo chi đoàn'}
+      <Card className="shadow-md hover:shadow-lg transition-shadow">
+        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-4 gap-2">
+          <h2 className="font-semibold text-gray-800 flex items-center gap-2">
+            <DownloadOutlined className="text-blue-500" />
+            <span>
+              {filters.type === 'activity' && 'Báo cáo hoạt động & tham gia theo chi đoàn'}
+              {filters.type === 'point' && 'Báo cáo điểm rèn luyện theo chi đoàn'}
+              {filters.type === 'member' && 'Báo cáo tổng hợp Đoàn viên theo chi đoàn'}
+            </span>
           </h2>
-          <span className="text-xs text-gray-400">Dữ liệu minh họa – sẽ nối API sau</span>
+          <Tag color="orange">Dữ liệu mẫu</Tag>
         </div>
 
-        <div className="overflow-auto">
-          <table className="min-w-full text-sm">
-            <thead>
-              <tr className="text-left text-gray-500 border-b border-gray-100">
-                <th className="py-2 pr-4">Chi đoàn</th>
-                {filters.type !== 'member' && <th className="py-2 pr-4">Số hoạt động</th>}
-                <th className="py-2 pr-4">
-                  {filters.type === 'member' ? 'Số Đoàn viên' : 'Lượt tham gia'}
-                </th>
-                {(filters.type === 'point' || filters.type === 'activity') && (
-                  <th className="py-2 pr-4">Điểm RL TB</th>
-                )}
-              </tr>
-            </thead>
-            <tbody>
-              {filteredBranchReport.map((row) => (
-                <tr key={row.branch} className="border-b border-gray-50 hover:bg-gray-50">
-                  <td className="py-2 pr-4 font-medium text-gray-800">{row.branch}</td>
-
-                  {filters.type !== 'member' && (
-                    <td className="py-2 pr-4 text-gray-700">{row.activities}</td>
-                  )}
-
-                  <td className="py-2 pr-4 text-gray-700">
-                    {filters.type === 'member'
-                      ? Math.round(row.participants / 5) // demo: xem như số đoàn viên
-                      : row.participants}
-                  </td>
-
-                  {(filters.type === 'point' || filters.type === 'activity') && (
-                    <td className="py-2 pr-4 font-semibold text-emerald-600">{row.avgPoint}</td>
-                  )}
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-
-        <p className="mt-3 text-xs text-gray-400"></p>
-      </div>
+        <Table
+          dataSource={filteredBranchReport}
+          rowKey="branch"
+          pagination={false}
+          size="middle"
+          scroll={{ x: 800 }}
+          columns={[
+            {
+              title: 'Chi đoàn',
+              dataIndex: 'branch',
+              key: 'branch',
+              fixed: 'left',
+              render: (text: string) => <span className="font-medium text-gray-800">{text}</span>,
+            },
+            ...(filters.type !== 'member'
+              ? [
+                  {
+                    title: 'Số hoạt động',
+                    dataIndex: 'activities',
+                    key: 'activities',
+                    align: 'center' as const,
+                  },
+                ]
+              : []),
+            {
+              title: filters.type === 'member' ? 'Số Đoàn viên' : 'Lượt tham gia',
+              dataIndex: 'participants',
+              key: 'participants',
+              align: 'center' as const,
+              render: (_: unknown, record: BranchReport) =>
+                filters.type === 'member'
+                  ? Math.round(record.participants / 5)
+                  : record.participants,
+            },
+            ...(filters.type === 'point' || filters.type === 'activity'
+              ? [
+                  {
+                    title: 'Điểm RL TB',
+                    dataIndex: 'avgPoint',
+                    key: 'avgPoint',
+                    align: 'center' as const,
+                    render: (point: number) => (
+                      <span className="font-semibold text-emerald-600">{point}</span>
+                    ),
+                  },
+                ]
+              : []),
+          ]}
+        />
+      </Card>
     </div>
   );
 };
