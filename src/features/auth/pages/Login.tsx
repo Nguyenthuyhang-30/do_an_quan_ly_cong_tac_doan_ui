@@ -7,10 +7,11 @@ import {
   UserOutlined,
 } from '@ant-design/icons';
 import { useNavigate } from '@tanstack/react-router';
-import { Button, Checkbox, Col, Form, Input, message, Row, Tabs } from 'antd';
-import React, { useState } from 'react';
+import { Button, Checkbox, Col, Form, Input, Row, Tabs } from 'antd';
+import React, { useState, useEffect } from 'react';
 import { RiAdminFill } from 'react-icons/ri';
-import { authService } from '../../../services/api';
+import { useAuth } from '../../../hooks/useAuth';
+import notificationService from '../../../utils/notification';
 import './Login.scss';
 
 type UserType = 'member' | 'officer' | 'admin';
@@ -27,6 +28,14 @@ export const Login: React.FC = () => {
   const [activeTab, setActiveTab] = useState<UserType>('officer');
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+  const { login, isAuthenticated } = useAuth();
+
+  // Redirect if already authenticated
+  useEffect(() => {
+    if (isAuthenticated) {
+      navigate({ to: '/' });
+    }
+  }, [isAuthenticated, navigate]);
 
   const handleLogin = async (values: LoginFormData, userType: UserType) => {
     setLoading(true);
@@ -37,12 +46,7 @@ export const Login: React.FC = () => {
       const email = values.email || values.username || `${values.studentId}@student.com`;
       const password = values.password || values.studentId || '';
 
-      const response = await authService.login({
-        email,
-        password,
-      });
-
-      message.success(`Đăng nhập thành công! Chào mừng ${response.user.fullName}`);
+      await login(email, password);
 
       // Navigate to appropriate page based on user role or type
       if (userType === 'admin') {
@@ -53,7 +57,12 @@ export const Login: React.FC = () => {
     } catch (error) {
       const errorMessage =
         error instanceof Error ? error.message : 'Đăng nhập thất bại. Vui lòng thử lại!';
-      message.error(errorMessage);
+
+      notificationService.error({
+        message: 'Đăng nhập thất bại',
+        description: errorMessage,
+      });
+
       console.error('Login error:', error);
     } finally {
       setLoading(false);
@@ -146,7 +155,7 @@ export const Login: React.FC = () => {
           <button
             type="button"
             className="forgot-password"
-            onClick={() => message.info('Tính năng đang phát triển')}
+            onClick={() => notificationService.info({ message: 'Tính năng đang phát triển' })}
           >
             Quên mật khẩu?
           </button>
@@ -213,7 +222,7 @@ export const Login: React.FC = () => {
           <button
             type="button"
             className="forgot-password admin-link"
-            onClick={() => message.info('Tính năng đang phát triển')}
+            onClick={() => notificationService.info({ message: 'Tính năng đang phát triển' })}
           >
             Quên mật khẩu?
           </button>

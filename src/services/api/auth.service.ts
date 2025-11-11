@@ -23,7 +23,7 @@ class AuthService {
    */
   async register(data: RegisterRequest): Promise<RegisterResponse> {
     const response = await this.http.post<RegisterResponse>(
-      '/access/register',
+      '/access/signup',
       data as Record<string, unknown>,
     );
 
@@ -41,14 +41,14 @@ class AuthService {
    */
   async login(credentials: LoginRequest): Promise<LoginResponse> {
     const response = await this.http.post<LoginResponse>(
-      '/access/login',
+      '/access/signin',
       credentials as Record<string, unknown>,
     );
 
     if (response.data) {
       // Save tokens and user to localStorage
       this.setTokens(response.data.tokens);
-      this.setUser(response.data.user);
+      this.setUser(response.data.member);
     }
 
     return response.data;
@@ -59,7 +59,7 @@ class AuthService {
    */
   async logout(): Promise<void> {
     try {
-      await this.http.post('/access/logout', {});
+      await this.http.post('/access/signout', {});
     } finally {
       // Clear all auth data from localStorage
       this.clearAuth();
@@ -78,7 +78,7 @@ class AuthService {
 
     const payload: RefreshTokenRequest = { refreshToken };
     const response = await this.http.post<RefreshTokenResponse>(
-      '/access/refresh-token',
+      '/access/refresh',
       payload as Record<string, unknown>,
     );
 

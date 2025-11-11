@@ -1,5 +1,12 @@
 // Authentication Types
 
+// User roles
+export enum UserRole {
+  ADMIN = 'admin',
+  USER = 'user',
+  MODERATOR = 'moderator',
+}
+
 export interface LoginRequest extends Record<string, unknown> {
   email?: string;
   username?: string;
@@ -27,12 +34,13 @@ export interface User {
   fullName: string;
   username?: string;
   memberId?: number;
-  role?: string;
+  role?: UserRole | string;
   avatar?: string;
+  status?: string | number;
 }
 
 export interface LoginResponse {
-  user: User;
+  member: User;
   tokens: AuthTokens;
 }
 

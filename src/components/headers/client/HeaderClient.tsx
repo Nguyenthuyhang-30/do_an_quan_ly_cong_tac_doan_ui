@@ -1,6 +1,7 @@
 import LogoSwitcher from '@components/logo/LogoSwitcher';
 import { Typography } from 'antd';
 import { useState } from 'react';
+import HeaderAuth from '@components/common/HeaderAuth';
 import './HeaderClient.css';
 
 const { Title } = Typography;
@@ -109,19 +110,7 @@ const HeaderClient = () => {
             </div>
           </div>
           <div className="flex items-center gap-2 sm:gap-3 flex-shrink-0">
-            <button
-              className="bg-gradient-to-r from-blue-900 to-blue-700 text-white font-bold rounded-md hover:from-blue-800 hover:to-blue-600 transition-all duration-300 shadow-sm hover:shadow-md transform hover:scale-105 whitespace-nowrap"
-              style={{
-                fontSize: 'clamp(0.55rem, 1.8vw, 0.85rem)',
-                letterSpacing: '0.1px',
-                padding: 'clamp(0.3rem, 1.2vw, 0.5rem) clamp(0.4rem, 2vw, 0.8rem)',
-              }}
-              onClick={() => {
-                window.location.href = '/auth/login';
-              }}
-            >
-              Đăng nhập
-            </button>
+            <HeaderAuth />
           </div>
         </div>
       </div>
