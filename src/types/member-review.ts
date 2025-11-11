@@ -57,6 +57,14 @@ export interface ReviewListParams {
   maxPoint?: number;
   dateFrom?: string;
   dateTo?: string;
+  [key: string]: string | number | boolean | undefined;
+}
+
+export interface ReviewSelectOption {
+  id: number;
+  title: string;
+  reviewType: ReviewType;
+  point?: number;
 }
 
 export interface MemberTotalPoints {

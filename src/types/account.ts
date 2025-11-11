@@ -23,12 +23,18 @@ export interface Account {
 export interface UpdateAccountProfileRequest {
   fullName?: string;
   phoneNumber?: string;
+  email?: string;
   address?: string;
   avatar?: string;
 }
 
 export interface ChangePasswordRequest {
-  currentPassword: string;
+  oldPassword: string;
+  newPassword: string;
+  confirmPassword: string;
+}
+
+export interface ResetPasswordRequest {
   newPassword: string;
 }
 
@@ -42,4 +48,5 @@ export interface AccountListParams {
   search?: string;
   roleId?: number;
   status?: AccountStatus;
+  [key: string]: string | number | boolean | undefined;
 }

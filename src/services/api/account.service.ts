@@ -1,9 +1,11 @@
 import HttpService from './http.service';
+import { BasePaginatedResponse } from '@base/models/basePaginated';
 import {
   Account,
   UpdateAccountProfileRequest,
   ChangePasswordRequest,
-  UpdateAccountRoleRequest,
+  ResetPasswordRequest,
+  AccountListParams,
 } from '../../types/account';
 
 /**
@@ -13,7 +15,7 @@ class AccountService {
   private http = new HttpService();
 
   /**
-   * Get all accounts
+   * Get all accounts (Admin only)
    */
   async getAll(): Promise<Account[]> {
     const response = await this.http.get<Account[]>('/account/get-all');
@@ -21,10 +23,32 @@ class AccountService {
   }
 
   /**
+   * Get account list with pagination, search and filters
+   */
+  async getList(params?: AccountListParams): Promise<BasePaginatedResponse<Account>> {
+    return this.http.getPaginated<Account>('/account/get-list', params ?? null);
+  }
+
+  /**
+   * Search accounts
+   */
+  async search(params: AccountListParams): Promise<BasePaginatedResponse<Account>> {
+    return this.http.getPaginated<Account>('/account/search', params ?? null);
+  }
+
+  /**
    * Get current user profile
    */
   async getProfile(): Promise<Account> {
     const response = await this.http.get<Account>('/account/profile');
+    return response.data;
+  }
+
+  /**
+   * Get profile by member ID (Admin only)
+   */
+  async getProfileByMemberId(memberId: number): Promise<Account> {
+    const response = await this.http.get<Account>(`/account/${memberId}/profile`);
     return response.data;
   }
 
@@ -40,7 +64,7 @@ class AccountService {
   }
 
   /**
-   * Change password
+   * Change password for current user
    */
   async changePassword(data: ChangePasswordRequest): Promise<void> {
     await this.http.put<void>(
@@ -50,14 +74,13 @@ class AccountService {
   }
 
   /**
-   * Update account role
+   * Reset password for a member (Admin only)
    */
-  async updateRole(accountId: number, data: UpdateAccountRoleRequest): Promise<Account> {
-    const response = await this.http.put<Account>(
-      `/account/${accountId}/role`,
+  async resetPassword(memberId: number, data: ResetPasswordRequest): Promise<void> {
+    await this.http.put<void>(
+      `/account/${memberId}/reset-password`,
       data as unknown as Record<string, unknown>,
     );
-    return response.data;
   }
 }
 

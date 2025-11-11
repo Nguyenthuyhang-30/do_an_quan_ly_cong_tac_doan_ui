@@ -49,6 +49,15 @@ export interface ActivityListParams {
   status?: ActivityStatus;
   dateFrom?: string;
   dateTo?: string;
+  startDate?: string;
+  endDate?: string;
+  [key: string]: string | number | boolean | undefined;
+}
+
+export interface ActivitySelectOption {
+  id: number;
+  code: string;
+  name: string;
 }
 
 export interface ActivityRegistrationRequest {

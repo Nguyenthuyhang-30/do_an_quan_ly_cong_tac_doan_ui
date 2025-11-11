@@ -58,10 +58,32 @@ export interface MemberRoleListParams {
   roleId?: number;
   branchId?: number;
   isActive?: boolean;
+  [key: string]: string | number | boolean | undefined;
 }
 
 export interface RoleListParams {
   page?: number;
   limit?: number;
   search?: string;
+  [key: string]: string | number | boolean | undefined;
+}
+
+export interface AssignMultipleRolesRequest {
+  member_id: number;
+  roles: Array<{
+    role_id: number;
+    start_date?: string;
+    end_date?: string;
+  }>;
+  assigned_by?: number;
+}
+
+export interface RoleStatistics {
+  totalRoles: number;
+  activeRoles: number;
+  rolesByMember: Array<{
+    roleId: number;
+    roleName: string;
+    memberCount: number;
+  }>;
 }

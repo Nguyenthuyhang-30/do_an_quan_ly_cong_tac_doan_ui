@@ -1,4 +1,5 @@
 import { BaseService } from './base.service';
+import { BasePaginatedResponse } from '@base/models/basePaginated';
 import {
   Activity,
   CreateActivityRequest,
@@ -8,6 +9,7 @@ import {
   UpdateAttendanceRequest,
   ActivityStatistics,
   ActivityListParams,
+  ActivitySelectOption,
 } from '../../types/activity';
 
 /**
@@ -19,9 +21,49 @@ class ActivityService extends BaseService<Activity, CreateActivityRequest, Updat
   }
 
   /**
-   * Register for activity
+   * Get activities for dropdown/select
    */
-  async register(
+  async getSelect(): Promise<ActivitySelectOption[]> {
+    const response = await this.http.get<ActivitySelectOption[]>('/activity/get-select');
+    return response.data;
+  }
+
+  /**
+   * Get upcoming activities
+   */
+  async getUpcoming(params?: { limit?: number }): Promise<Activity[]> {
+    const response = await this.http.get<Activity[]>(
+      '/activity/upcoming',
+      params as Record<string, string | number | boolean | null | undefined>,
+    );
+    return response.data;
+  }
+
+  /**
+   * Get past activities
+   */
+  async getPast(params?: ActivityListParams): Promise<BasePaginatedResponse<Activity>> {
+    return this.http.getPaginated<Activity>(
+      '/activity/past',
+      params as Record<string, string | number | boolean | null | undefined>,
+    );
+  }
+
+  /**
+   * Get activities by date range
+   */
+  async getByDateRange(startDate: string, endDate: string): Promise<Activity[]> {
+    const response = await this.http.get<Activity[]>('/activity/date-range', {
+      startDate,
+      endDate,
+    });
+    return response.data;
+  }
+
+  /**
+   * Register member for activity
+   */
+  async registerMember(
     activityId: number,
     data: ActivityRegistrationRequest,
   ): Promise<ActivityParticipant> {
@@ -30,6 +72,13 @@ class ActivityService extends BaseService<Activity, CreateActivityRequest, Updat
       data as unknown as Record<string, unknown>,
     );
     return response.data;
+  }
+
+  /**
+   * Cancel registration
+   */
+  async cancelRegistration(activityId: number, memberId: number): Promise<void> {
+    await this.http.delete(`/activity/${activityId}/cancel/${memberId}`);
   }
 
   /**

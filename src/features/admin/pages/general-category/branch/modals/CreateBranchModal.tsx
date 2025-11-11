@@ -1,75 +1,91 @@
+import { Form, Input, message, Modal } from 'antd';
 import React from 'react';
+import { branchService } from '@services/api';
+import type { CreateBranchRequest } from '../../../../../../types/youth-union-branch';
 
 interface CreateBranchModalProps {
-  onClose: () => void;
+  visible: boolean;
+  onCancel: () => void;
+  onSuccess: () => void;
 }
 
-const CreateBranchModal: React.FC<CreateBranchModalProps> = ({ onClose }) => {
+const CreateBranchModal: React.FC<CreateBranchModalProps> = ({ visible, onCancel, onSuccess }) => {
+  const [form] = Form.useForm();
+  const [loading, setLoading] = React.useState(false);
+
+  const handleSubmit = async (values: CreateBranchRequest) => {
+    try {
+      setLoading(true);
+      await branchService.create({
+        ...values,
+        status: 'active',
+      });
+
+      message.success('Tạo chi đoàn thành công');
+      form.resetFields();
+      onSuccess();
+    } catch (error: unknown) {
+      const errorMessage = error instanceof Error ? error.message : 'Lỗi khi tạo chi đoàn';
+      message.error(errorMessage);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleCancel = () => {
+    form.resetFields();
+    onCancel();
+  };
+
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
-      <div className="bg-white rounded-xl p-6 w-full max-w-lg">
-        <div className="flex justify-between items-center mb-4">
-          <h2 className="text-xl font-semibold text-gray-800">Thêm chi đoàn mới</h2>
-          <button onClick={onClose} className="text-gray-500 hover:text-gray-700">
-            ✕
-          </button>
-        </div>
+    <Modal
+      title="Thêm mới chi đoàn"
+      open={visible}
+      onCancel={handleCancel}
+      onOk={() => form.submit()}
+      confirmLoading={loading}
+      width={600}
+      okText="Tạo mới"
+      cancelText="Hủy"
+    >
+      <Form form={form} layout="vertical" onFinish={handleSubmit} autoComplete="off">
+        <Form.Item
+          label="Mã chi đoàn"
+          name="code"
+          rules={[
+            { required: true, message: 'Vui lòng nhập mã chi đoàn!' },
+            { min: 2, message: 'Mã chi đoàn phải có ít nhất 2 ký tự!' },
+            { max: 20, message: 'Mã chi đoàn không được vượt quá 20 ký tự!' },
+          ]}
+        >
+          <Input placeholder="Ví dụ: CD001" />
+        </Form.Item>
 
-        <form className="space-y-4">
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Mã chi đoàn</label>
-            <input
-              type="text"
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-              placeholder="Ví dụ: CTK14A"
-            />
-          </div>
+        <Form.Item
+          label="Tên chi đoàn"
+          name="name"
+          rules={[
+            { required: true, message: 'Vui lòng nhập tên chi đoàn!' },
+            { min: 5, message: 'Tên chi đoàn phải có ít nhất 5 ký tự!' },
+            { max: 100, message: 'Tên chi đoàn không được vượt quá 100 ký tự!' },
+          ]}
+        >
+          <Input placeholder="Ví dụ: Chi đoàn Công nghệ Thông tin" />
+        </Form.Item>
 
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Tên chi đoàn</label>
-            <input
-              type="text"
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-              placeholder="Ví dụ: Chi đoàn CNTT K14A"
-            />
-          </div>
+        <Form.Item label="Mô tả" name="description">
+          <Input.TextArea rows={3} placeholder="Mô tả về chi đoàn" />
+        </Form.Item>
 
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Khóa</label>
-            <select className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
-              <option value="">Chọn khóa...</option>
-              <option value="K14">K14</option>
-              <option value="K15">K15</option>
-            </select>
-          </div>
+        <Form.Item label="Bí thư" name="secretary">
+          <Input placeholder="Tên Bí thư chi đoàn" />
+        </Form.Item>
 
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Bí thư</label>
-            <input
-              type="text"
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-              placeholder="Tên Bí thư chi đoàn"
-            />
-          </div>
-
-          <div className="flex justify-end space-x-3 pt-4">
-            <button
-              type="button"
-              onClick={onClose}
-              className="px-4 py-2 text-sm border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50"
-            >
-              Hủy
-            </button>
-            <button
-              type="submit"
-              className="px-4 py-2 text-sm bg-blue-600 text-white rounded-lg hover:bg-blue-700"
-            >
-              Thêm mới
-            </button>
-          </div>
-        </form>
-      </div>
-    </div>
+        <Form.Item label="Phó Bí thư" name="viceSecretary">
+          <Input placeholder="Tên Phó Bí thư chi đoàn" />
+        </Form.Item>
+      </Form>
+    </Modal>
   );
 };
 

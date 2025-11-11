@@ -1,60 +1,89 @@
+import { ExclamationCircleOutlined } from '@ant-design/icons';
+import { message, Modal, Typography } from 'antd';
 import React from 'react';
-import { Branch } from '../types';
+import { branchService } from '@services/api';
+
+const { Text } = Typography;
 
 interface DeleteBranchModalProps {
-  branch: Branch;
-  onClose: () => void;
+  visible: boolean;
+  branchIds: number[];
+  onCancel: () => void;
+  onSuccess: () => void;
 }
 
-const DeleteBranchModal: React.FC<DeleteBranchModalProps> = ({ branch, onClose }) => {
+const DeleteBranchModal: React.FC<DeleteBranchModalProps> = ({
+  visible,
+  branchIds,
+  onCancel,
+  onSuccess,
+}) => {
+  const [loading, setLoading] = React.useState(false);
+
+  const handleDelete = async () => {
+    try {
+      setLoading(true);
+
+      if (branchIds.length === 1) {
+        // Delete single branch
+        await branchService.delete(branchIds[0]);
+        message.success('Xóa chi đoàn thành công');
+        onSuccess();
+      } else {
+        // Delete multiple branches
+        for (const id of branchIds) {
+          await branchService.delete(id);
+        }
+        message.success(`Xóa ${branchIds.length} chi đoàn thành công`);
+        onSuccess();
+      }
+    } catch (error: unknown) {
+      const errorMessage = error instanceof Error ? error.message : 'Lỗi khi xóa chi đoàn';
+      message.error(errorMessage);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const isMultiple = branchIds.length > 1;
+
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
-      <div className="bg-white rounded-xl p-6 w-full max-w-md">
-        <div className="text-center">
-          <div className="w-16 h-16 mx-auto mb-4 flex items-center justify-center rounded-full bg-red-100">
-            <svg
-              className="w-8 h-8 text-red-600"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="2"
-                d="M6 18L18 6M6 6l12 12"
-              />
-            </svg>
-          </div>
-
-          <h2 className="text-xl font-semibold text-gray-800 mb-2">Xác nhận xóa</h2>
-          <p className="text-gray-500 mb-6">
-            Bạn có chắc chắn muốn xóa chi đoàn <strong>{branch.name}</strong>?<br />
-            Hành động này không thể hoàn tác.
-          </p>
-
-          <div className="flex justify-center space-x-3">
-            <button
-              type="button"
-              onClick={onClose}
-              className="px-4 py-2 text-sm border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50"
-            >
-              Hủy
-            </button>
-            <button
-              type="button"
-              onClick={() => {
-                // Xử lý xóa chi đoàn
-                onClose();
-              }}
-              className="px-4 py-2 text-sm bg-red-600 text-white rounded-lg hover:bg-red-700"
-            >
-              Xóa
-            </button>
-          </div>
+    <Modal
+      title={
+        <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+          <ExclamationCircleOutlined style={{ color: '#faad14' }} />
+          <span>Xác nhận xóa {isMultiple ? 'nhiều chi đoàn' : 'chi đoàn'}</span>
+        </div>
+      }
+      open={visible}
+      onCancel={onCancel}
+      onOk={handleDelete}
+      confirmLoading={loading}
+      width={500}
+      okText="Xóa"
+      cancelText="Hủy"
+      okButtonProps={{ danger: true }}
+    >
+      <div style={{ marginTop: 16 }}>
+        {isMultiple ? (
+          <>
+            <Text>Bạn có chắc chắn muốn xóa các chi đoàn đã chọn?</Text>
+            <div style={{ marginTop: 12, padding: 12, background: '#fff7e6', borderRadius: 8 }}>
+              <Text type="warning">
+                ⚠️ Bạn đang xóa <strong>{branchIds.length}</strong> chi đoàn
+              </Text>
+            </div>
+          </>
+        ) : (
+          <Text>Bạn có chắc chắn muốn xóa chi đoàn này?</Text>
+        )}
+        <div style={{ marginTop: 12, padding: 12, background: '#fff1f0', borderRadius: 8 }}>
+          <Text type="danger">
+            <strong>Cảnh báo:</strong> Hành động này không thể hoàn tác!
+          </Text>
         </div>
       </div>
-    </div>
+    </Modal>
   );
 };
 

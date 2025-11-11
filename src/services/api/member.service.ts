@@ -1,4 +1,5 @@
 import { BaseService } from './base.service';
+import { BasePaginatedResponse } from '@base/models/basePaginated';
 import {
   YouthUnionMember,
   CreateMemberRequest,
@@ -6,7 +7,9 @@ import {
   UpdateMemberStatusRequest,
   MemberListParams,
   MemberStatistics,
+  MemberSelectOption,
 } from '../../types/youth-union-member';
+import { Activity } from '../../types/activity';
 
 /**
  * Youth Union Member Service
@@ -17,47 +20,77 @@ class MemberService extends BaseService<
   UpdateMemberRequest
 > {
   constructor() {
-    super('youth-union-member');
+    super('member');
   }
 
   /**
-   * Get members by branch
+   * Get members for dropdown/select
    */
-  async getByBranch(branchId: number, params?: MemberListParams): Promise<YouthUnionMember[]> {
-    const response = await this.http.get<YouthUnionMember[]>(
-      `/youth-union-member/branch/${branchId}`,
+  async getSelect(): Promise<MemberSelectOption[]> {
+    const response = await this.http.get<MemberSelectOption[]>('/member/get-select');
+    return response.data;
+  }
+
+  /**
+   * Search members with advanced filters
+   */
+  async searchMembers(params: MemberListParams): Promise<BasePaginatedResponse<YouthUnionMember>> {
+    return this.http.getPaginated<YouthUnionMember>(
+      '/member/search',
       params as Record<string, string | number | boolean | null | undefined>,
     );
-    return response.data;
-  }
-
-  /**
-   * Get members by cohort
-   */
-  async getByCohort(cohortId: number, params?: MemberListParams): Promise<YouthUnionMember[]> {
-    const response = await this.http.get<YouthUnionMember[]>(
-      `/youth-union-member/cohort/${cohortId}`,
-      params as Record<string, string | number | boolean | null | undefined>,
-    );
-    return response.data;
-  }
-
-  /**
-   * Update member status
-   */
-  async updateStatus(id: number, status: UpdateMemberStatusRequest): Promise<YouthUnionMember> {
-    const response = await this.http.put<YouthUnionMember>(
-      `/youth-union-member/${id}/status`,
-      status as unknown as Record<string, unknown>,
-    );
-    return response.data;
   }
 
   /**
    * Get member statistics
    */
   async getMemberStatistics(): Promise<MemberStatistics> {
-    const response = await this.http.get<MemberStatistics>('/youth-union-member/statistics');
+    const response = await this.http.get<MemberStatistics>('/member/statistics');
+    return response.data;
+  }
+
+  /**
+   * Get members by branch
+   */
+  async getByBranch(
+    branchId: number,
+    params?: MemberListParams,
+  ): Promise<BasePaginatedResponse<YouthUnionMember>> {
+    return this.http.getPaginated<YouthUnionMember>(
+      `/member/branch/${branchId}`,
+      params as Record<string, string | number | boolean | null | undefined>,
+    );
+  }
+
+  /**
+   * Get member full profile
+   */
+  async getProfile(id: number): Promise<YouthUnionMember> {
+    const response = await this.http.get<YouthUnionMember>(`/member/${id}/profile`);
+    return response.data;
+  }
+
+  /**
+   * Get member activity history
+   */
+  async getActivityHistory(
+    id: number,
+    params?: { page?: number; limit?: number },
+  ): Promise<BasePaginatedResponse<Activity>> {
+    return this.http.getPaginated<Activity>(
+      `/member/${id}/activities`,
+      params as Record<string, string | number | boolean | null | undefined>,
+    );
+  }
+
+  /**
+   * Update member status
+   */
+  async updateStatus(id: number, data: UpdateMemberStatusRequest): Promise<YouthUnionMember> {
+    const response = await this.http.put<YouthUnionMember>(
+      `/member/${id}/status`,
+      data as unknown as Record<string, unknown>,
+    );
     return response.data;
   }
 }

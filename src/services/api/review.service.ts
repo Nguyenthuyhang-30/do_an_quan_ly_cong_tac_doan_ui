@@ -1,4 +1,5 @@
 import { BaseService } from './base.service';
+import { BasePaginatedResponse } from '@base/models/basePaginated';
 import {
   MemberReview,
   CreateReviewRequest,
@@ -8,6 +9,8 @@ import {
   MemberTotalPoints,
   MemberReviewHistory,
   ReviewStatistics,
+  ReviewListParams,
+  ReviewSelectOption,
 } from '../../types/member-review';
 
 /**
@@ -19,14 +22,42 @@ class ReviewService extends BaseService<MemberReview, CreateReviewRequest, Updat
   }
 
   /**
-   * Create multiple reviews in batch
+   * Get reviews for dropdown/select
    */
-  async batchCreate(data: BatchCreateReviewRequest): Promise<MemberReview[]> {
-    const response = await this.http.post<MemberReview[]>(
-      '/member-review/batch',
-      data as unknown as Record<string, unknown>,
-    );
+  async getSelect(): Promise<ReviewSelectOption[]> {
+    const response = await this.http.get<ReviewSelectOption[]>('/member-review/get-select');
     return response.data;
+  }
+
+  /**
+   * Search reviews with advanced filters
+   */
+  async searchReviews(params: ReviewListParams): Promise<BasePaginatedResponse<MemberReview>> {
+    return this.http.getPaginated<MemberReview>(
+      '/member-review/search',
+      params as Record<string, string | number | boolean | null | undefined>,
+    );
+  }
+
+  /**
+   * Get review statistics
+   */
+  async getReviewStatistics(): Promise<ReviewStatistics> {
+    const response = await this.http.get<ReviewStatistics>('/member-review/statistics');
+    return response.data;
+  }
+
+  /**
+   * Get reviews by member
+   */
+  async getByMember(
+    memberId: number,
+    params?: { page?: number; limit?: number },
+  ): Promise<BasePaginatedResponse<MemberReview>> {
+    return this.http.getPaginated<MemberReview>(
+      `/member-review/member/${memberId}`,
+      params as Record<string, string | number | boolean | null | undefined>,
+    );
   }
 
   /**
@@ -59,34 +90,36 @@ class ReviewService extends BaseService<MemberReview, CreateReviewRequest, Updat
   }
 
   /**
-   * Update review point only
+   * Get reviews by type
    */
-  async updatePoint(id: number, data: UpdateReviewPointRequest): Promise<MemberReview> {
-    const response = await this.http.put<MemberReview>(
-      `/member-review/${id}/point`,
+  async getByType(
+    type: string,
+    params?: ReviewListParams,
+  ): Promise<BasePaginatedResponse<MemberReview>> {
+    return this.http.getPaginated<MemberReview>(
+      `/member-review/type/${type}`,
+      params as Record<string, string | number | boolean | null | undefined>,
+    );
+  }
+
+  /**
+   * Create multiple reviews in batch
+   */
+  async batchCreate(data: BatchCreateReviewRequest): Promise<MemberReview[]> {
+    const response = await this.http.post<MemberReview[]>(
+      '/member-review/batch',
       data as unknown as Record<string, unknown>,
     );
     return response.data;
   }
 
   /**
-   * Get review statistics
+   * Update review point only
    */
-  async getReviewStatistics(): Promise<ReviewStatistics> {
-    const response = await this.http.get<ReviewStatistics>('/member-review/statistics');
-    return response.data;
-  }
-
-  /**
-   * Get reviews by type
-   */
-  async getByType(
-    type: string,
-    params?: Record<string, string | number | boolean | null | undefined>,
-  ): Promise<MemberReview[]> {
-    const response = await this.http.get<MemberReview[]>(
-      `/member-review/type/${type}`,
-      params ?? null,
+  async updatePoint(id: number, data: UpdateReviewPointRequest): Promise<MemberReview> {
+    const response = await this.http.put<MemberReview>(
+      `/member-review/${id}/point`,
+      data as unknown as Record<string, unknown>,
     );
     return response.data;
   }

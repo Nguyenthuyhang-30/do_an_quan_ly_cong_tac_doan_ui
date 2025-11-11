@@ -6,4 +6,5 @@ export interface Branch {
   secretary: string;
   members: number;
   status: 'active' | 'inactive';
+  createdAt?: string;
 }

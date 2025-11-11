@@ -3,7 +3,12 @@ import {
   LoginRequest,
   LoginResponse,
   RegisterRequest,
+  RegisterResponse,
   RefreshTokenRequest,
+  RefreshTokenResponse,
+  VerifyTokenResponse,
+  ForgotPasswordRequest,
+  ResetPasswordRequest,
   User,
 } from '../../types/auth';
 
@@ -14,12 +19,12 @@ class AuthService {
   private readonly USER_KEY = 'user';
 
   /**
-   * Login user
+   * Register new user
    */
-  async login(credentials: LoginRequest): Promise<LoginResponse> {
-    const response = await this.http.post<LoginResponse>(
-      '/access/signin',
-      credentials as Record<string, unknown>,
+  async register(data: RegisterRequest): Promise<RegisterResponse> {
+    const response = await this.http.post<RegisterResponse>(
+      '/access/register',
+      data as Record<string, unknown>,
     );
 
     if (response.data) {
@@ -30,13 +35,14 @@ class AuthService {
 
     return response.data;
   }
+
   /**
-   * Register new user
+   * Login user (with email or username)
    */
-  async register(data: RegisterRequest): Promise<LoginResponse> {
+  async login(credentials: LoginRequest): Promise<LoginResponse> {
     const response = await this.http.post<LoginResponse>(
-      '/access/siginup',
-      data as Record<string, unknown>,
+      '/access/login',
+      credentials as Record<string, unknown>,
     );
 
     if (response.data) {
@@ -63,7 +69,7 @@ class AuthService {
   /**
    * Refresh access token
    */
-  async refreshToken(): Promise<string> {
+  async refreshToken(): Promise<RefreshTokenResponse> {
     const refreshToken = this.getRefreshToken();
 
     if (!refreshToken) {
@@ -71,7 +77,7 @@ class AuthService {
     }
 
     const payload: RefreshTokenRequest = { refreshToken };
-    const response = await this.http.post<{ accessToken: string; refreshToken: string }>(
+    const response = await this.http.post<RefreshTokenResponse>(
       '/access/refresh-token',
       payload as Record<string, unknown>,
     );
@@ -81,10 +87,31 @@ class AuthService {
       if (response.data.refreshToken) {
         this.setRefreshToken(response.data.refreshToken);
       }
-      return response.data.accessToken;
     }
 
-    throw new Error('Failed to refresh token');
+    return response.data;
+  }
+
+  /**
+   * Verify token validity
+   */
+  async verifyToken(): Promise<VerifyTokenResponse> {
+    const response = await this.http.post<VerifyTokenResponse>('/access/verify-token', {});
+    return response.data;
+  }
+
+  /**
+   * Request password reset
+   */
+  async forgotPassword(data: ForgotPasswordRequest): Promise<void> {
+    await this.http.post('/access/forgot-password', data as Record<string, unknown>);
+  }
+
+  /**
+   * Reset password with token
+   */
+  async resetPassword(data: ResetPasswordRequest): Promise<void> {
+    await this.http.post('/access/reset-password', data as Record<string, unknown>);
   }
 
   /**

@@ -32,6 +32,13 @@ export interface BranchListParams {
   limit?: number;
   search?: string;
   status?: BranchStatus;
+  [key: string]: string | number | boolean | undefined;
+}
+
+export interface BranchSelectOption {
+  id: number;
+  code: string;
+  name: string;
 }
 
 export interface BranchStatistics {

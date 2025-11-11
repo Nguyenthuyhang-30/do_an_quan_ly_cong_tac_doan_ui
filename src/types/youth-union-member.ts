@@ -73,6 +73,16 @@ export interface MemberListParams {
   branchId?: number;
   cohortId?: number;
   status?: MemberStatus;
+  gender?: Gender;
+  roleId?: number;
+  [key: string]: string | number | boolean | undefined;
+}
+
+export interface MemberSelectOption {
+  id: number;
+  code: string;
+  full_name: string;
+  email: string;
 }
 
 export interface MemberStatistics {

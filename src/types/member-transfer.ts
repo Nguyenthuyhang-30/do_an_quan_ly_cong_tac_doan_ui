@@ -62,6 +62,7 @@ export interface TransferListParams {
   fromBranchId?: number;
   toBranchId?: number;
   status?: TransferStatus;
+  [key: string]: string | number | boolean | undefined;
 }
 
 export interface TransferStatistics {
