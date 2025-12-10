@@ -14,6 +14,10 @@ import {
   Statistic,
   Select,
   Avatar,
+  Modal,
+  Form,
+  DatePicker,
+  Descriptions,
 } from 'antd';
 import {
   PlusOutlined,
@@ -25,6 +29,7 @@ import {
   UserOutlined,
 } from '@ant-design/icons';
 import { useNavigate } from '@tanstack/react-router';
+import dayjs from 'dayjs';
 import MemberService from '../../../../services/api/member.service';
 import { BranchSelector } from '../../../../components/common/BranchSelector';
 import type { YouthUnionMember, MemberStatistics } from '../../../../types/youth-union-member';
@@ -45,6 +50,12 @@ export default function MemberListPage() {
   const [searchText, setSearchText] = useState('');
   const [branchFilter, setBranchFilter] = useState<number | undefined>();
   const [statusFilter, setStatusFilter] = useState<string | undefined>();
+
+  // --------- NEW: state cho modal ----------
+  const [selectedMember, setSelectedMember] = useState<YouthUnionMember | null>(null);
+  const [isViewModalOpen, setIsViewModalOpen] = useState(false);
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+  const [form] = Form.useForm();
 
   useEffect(() => {
     fetchMembers();
@@ -161,6 +172,41 @@ export default function MemberListPage() {
     }
   };
 
+  // ---------- NEW: hàm mở modal Xem / Sửa + cập nhật ----------
+  const openViewModal = (member: YouthUnionMember) => {
+    setSelectedMember(member);
+    setIsViewModalOpen(true);
+  };
+
+  const openEditModal = (member: YouthUnionMember) => {
+    setSelectedMember(member);
+    form.setFieldsValue({
+      code: member.code,
+      fullName: member.fullName,
+      email: member.email,
+      phoneNumber: member.phoneNumber,
+      joinDate: member.joinDate ? dayjs(member.joinDate) : null,
+    });
+    setIsEditModalOpen(true);
+  };
+
+  const handleUpdateMember = async (values: any) => {
+    if (!selectedMember) return;
+    try {
+      await MemberService.update(selectedMember.id, {
+        ...selectedMember,
+        ...values,
+        joinDate: values.joinDate ? values.joinDate.toISOString() : null,
+      });
+      message.success('Cập nhật đoàn viên thành công');
+      setIsEditModalOpen(false);
+      fetchMembers();
+    } catch (error) {
+      console.error('Error updating member:', error);
+      message.error('Không thể cập nhật đoàn viên');
+    }
+  };
+
   const columns = [
     {
       title: 'Avatar',
@@ -227,36 +273,62 @@ export default function MemberListPage() {
     {
       title: 'Thao tác',
       key: 'action',
-      width: 220,
-      fixed: 'right' as const,
+      width: 200,
+      align: 'center' as const,
       render: (_: unknown, record: YouthUnionMember) => (
-        <Space size="small">
+        <Space size="middle">
+          {/* Xem → modal chi tiết */}
           <Button
-            type="link"
-            size="small"
             icon={<EyeOutlined />}
-            onClick={() => navigate({ to: `/admin/member-management/${record.id}` })}
-          >
-            Xem
-          </Button>
+            onClick={() => openViewModal(record)}
+            style={{
+              width: 36,
+              height: 36,
+              borderRadius: 8,
+              borderColor: '#1677ff',
+              color: '#1677ff',
+              backgroundColor: '#E6F4FF',
+              padding: 0,
+            }}
+          />
+
+          {/* Sửa → modal cập nhật */}
           <Button
-            type="link"
-            size="small"
             icon={<EditOutlined />}
-            onClick={() => navigate({ to: `/admin/member-management/${record.id}/edit` })}
-          >
-            Sửa
-          </Button>
+            onClick={() => openEditModal(record)}
+            style={{
+              width: 36,
+              height: 36,
+              borderRadius: 8,
+              borderColor: '#fa8c16',
+              color: '#fa8c16',
+              backgroundColor: '#FFF7E6',
+              padding: 0,
+            }}
+          />
+
+          {/* Xóa → Popconfirm giống hình 3 */}
           <Popconfirm
-            title="Xác nhận xóa"
+            title="Xóa đoàn viên"
             description="Bạn có chắc chắn muốn xóa đoàn viên này?"
             onConfirm={() => handleDelete(record.id)}
-            okText="Xóa"
-            cancelText="Hủy"
+            okText="Có"
+            cancelText="Không"
+            okButtonProps={{ danger: true, type: 'primary' }}
+            cancelButtonProps={{ type: 'default' }}
           >
-            <Button type="link" size="small" danger icon={<DeleteOutlined />}>
-              Xóa
-            </Button>
+            <Button
+              icon={<DeleteOutlined />}
+              style={{
+                width: 36,
+                height: 36,
+                borderRadius: 8,
+                borderColor: '#ff4d4f',
+                backgroundColor: '#ff4d4f',
+                color: '#fff',
+                padding: 0,
+              }}
+            />
           </Popconfirm>
         </Space>
       ),
@@ -358,6 +430,132 @@ export default function MemberListPage() {
           scroll={{ x: 1600 }}
         />
       </Card>
+
+      {/* --------- MODAL XEM CHI TIẾT (giống hình 1) --------- */}
+      <Modal
+        open={isViewModalOpen && !!selectedMember}
+        onCancel={() => setIsViewModalOpen(false)}
+        footer={null}
+        centered
+        width={720}
+        title={null}
+      >
+        {selectedMember && (
+          <>
+            <div
+              style={{
+                borderRadius: 16,
+                padding: 24,
+                marginBottom: 24,
+                background: 'linear-gradient(90deg, #6366F1, #8B5CF6)',
+                color: '#fff',
+                display: 'flex',
+                justifyContent: 'space-between',
+                alignItems: 'center',
+              }}
+            >
+              <div>
+                <div style={{ fontSize: 22, fontWeight: 600 }}>
+                  {selectedMember.fullName || 'Chưa có tên'}
+                </div>
+                <div style={{ marginTop: 8, fontSize: 14, opacity: 0.9 }}>
+                  Mã ĐV: {selectedMember.code || 'Chưa có'}
+                </div>
+              </div>
+              <Tag
+                color={getStatusColor(selectedMember.status)}
+                style={{
+                  borderRadius: 999,
+                  padding: '6px 16px',
+                  background: '#fff',
+                  color: '#ff4d4f',
+                  fontWeight: 500,
+                }}
+              >
+                {getStatusText(selectedMember.status)}
+              </Tag>
+            </div>
+
+            <Card
+              title="Thông tin chi tiết"
+              bordered={false}
+              style={{
+                borderRadius: 16,
+                boxShadow: '0 10px 30px rgba(15, 23, 42, 0.08)',
+              }}
+            >
+              <Descriptions column={2} bordered>
+                <Descriptions.Item label="Mã ĐV">
+                  {selectedMember.code || 'Chưa có'}
+                </Descriptions.Item>
+                <Descriptions.Item label="MSSV">
+                  {selectedMember.studentId || 'Chưa có'}
+                </Descriptions.Item>
+                <Descriptions.Item label="Email">
+                  {selectedMember.email || 'Chưa có'}
+                </Descriptions.Item>
+                <Descriptions.Item label="Số điện thoại">
+                  {selectedMember.phoneNumber || 'Chưa có'}
+                </Descriptions.Item>
+                <Descriptions.Item label="Chi đoàn" span={2}>
+                  {selectedMember.branch?.name || 'Chưa có thông tin'}
+                </Descriptions.Item>
+                <Descriptions.Item label="Ngày vào Đoàn" span={2}>
+                  {selectedMember.joinDate
+                    ? new Date(selectedMember.joinDate).toLocaleDateString('vi-VN')
+                    : 'Chưa có thông tin'}
+                </Descriptions.Item>
+              </Descriptions>
+            </Card>
+          </>
+        )}
+      </Modal>
+
+      {/* --------- MODAL CẬP NHẬT (giống hình 2) --------- */}
+      <Modal
+        open={isEditModalOpen && !!selectedMember}
+        onCancel={() => setIsEditModalOpen(false)}
+        centered
+        width={720}
+        okText="Cập nhật"
+        cancelText="Hủy"
+        title="Cập nhật đoàn viên"
+        onOk={() => form.submit()}
+      >
+        <Form form={form} layout="vertical" onFinish={handleUpdateMember}>
+          <Form.Item
+            label="Mã Đoàn viên"
+            name="code"
+            rules={[{ required: true, message: 'Vui lòng nhập mã Đoàn viên' }]}
+          >
+            <Input placeholder="VD: CNTT1604-001" />
+          </Form.Item>
+
+          <Form.Item
+            label="Họ và tên"
+            name="fullName"
+            rules={[{ required: true, message: 'Vui lòng nhập họ tên' }]}
+          >
+            <Input />
+          </Form.Item>
+
+          <Form.Item label="Email" name="email">
+            <Input />
+          </Form.Item>
+
+          <Form.Item label="Số điện thoại" name="phoneNumber">
+            <Input />
+          </Form.Item>
+
+          <Form.Item label="Ngày vào Đoàn" name="joinDate">
+            <DatePicker
+              format="DD/MM/YYYY"
+              style={{ width: '100%' }}
+              placeholder="Chọn ngày vào Đoàn"
+            />
+          </Form.Item>
+        </Form>
+      </Modal>
     </div>
   );
 }

@@ -26,5 +26,4 @@ const AutoSendToggle: React.FC<Props> = ({ enabled, onChange }) => {
     </div>
   );
 };
-
 export default AutoSendToggle;
