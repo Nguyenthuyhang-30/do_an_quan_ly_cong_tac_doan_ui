@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import {
   UserOutlined,
   PhoneOutlined,
@@ -19,72 +19,68 @@ interface Officer {
   id: number;
   name: string;
   role: Role;
-  branch: string; // chi đoàn
+  branch: string; // chi đoàn / lớp
   term: string; // nhiệm kỳ
   email: string;
   phone: string;
-  avatar?: string; // thêm avatar optional
+  studentCode: string; // mã sinh viên
 }
 
-const OFFICERS: Officer[] = [
+const OFFICERS_FAKE: Officer[] = [
   {
     id: 1,
-    name: 'Lê Văn Phong',
+    name: 'Trần Thị Minh Hiền',
     role: 'Bí thư',
-    branch: 'CTK14A',
+    branch: 'CNTT 1604',
     term: '2024-2025',
-    email: 'a.nguyen@dnu.edu.vn',
+    email: 'hien.1604001@dnu.edu.vn',
     phone: '0987 000 111',
+    studentCode: '1604001',
   },
   {
     id: 2,
-    name: 'Lê Tuấn Anh',
+    name: 'Nguyễn Thiên Thắng',
     role: 'Phó Bí thư',
-    branch: 'CTK14B',
+    branch: 'CNTT 1601',
     term: '2024-2025',
-    email: 'b.tran@dnu.edu.vn',
+    email: 'thang.nt1604002@dnu.edu.vn',
     phone: '0987 000 222',
+    studentCode: '1604002',
   },
   {
     id: 3,
-    name: 'Nguyễn Thái Khánh',
-    role: 'Phó Bí thư',
-    branch: 'CTK14B',
+    name: 'Trần Minh Huy',
+    role: 'Uỷ viên',
+    branch: 'CNTT 1603',
     term: '2024-2025',
-    email: 'b.tran@dnu.edu.vn',
-    phone: '0987 000 222',
+    email: 'huy.tm1604003@dnu.edu.vn',
+    phone: '0987 000 333',
+    studentCode: '1604003',
   },
   {
     id: 4,
-    name: 'Trần Thị Thanh Nhàn',
-    role: 'Phó Bí thư',
-    branch: 'CTK14B',
+    name: 'Nguyễn Hoàng Mai',
+    role: 'Bí thư',
+    branch: 'CNTT 1605',
     term: '2024-2025',
-    email: 'b.tran@dnu.edu.vn',
-    phone: '0987 000 222',
+    email: 'mai.nh1605001@dnu.edu.vn',
+    phone: '0987 000 444',
+    studentCode: '1605001',
   },
   {
     id: 5,
-    name: 'Nguyễn Thị Phương',
-    role: 'Uỷ viên',
-    branch: 'CTK15A',
-    term: '2024-2025',
-    email: 'c.le@dnu.edu.vn',
-    phone: '0987 000 333',
-  },
-  {
-    id: 6,
-    name: 'Lê Thị Vân Anh',
-    role: 'Uỷ viên',
-    branch: 'CTK15B',
+    name: 'Phạm Hồ Điệp',
+    role: 'Phó Bí thư',
+    branch: 'CNTT 1605',
     term: '2023-2024',
-    email: 'd.pham@dnu.edu.vn',
-    phone: '0987 000 444',
+    email: 'diep.ph1605002@dnu.edu.vn',
+    phone: '0987 000 555',
+    studentCode: '1605002',
   },
 ];
 
 const TERMS = ['Tất cả', '2024-2025', '2023-2024'];
-const BRANCHES = ['Tất cả', 'CTK14A', 'CTK14B', 'CTK15A', 'CTK15B'];
+const BRANCHES = ['Tất cả', 'CNTT 1604', 'CNTT 1605', 'CNTT 1601', 'CNTT 1602', 'CNTT 1603'];
 
 // Helper function to get role badge styling
 const getRoleBadge = (role: Role) => {
@@ -109,15 +105,56 @@ const ExecutiveBoardPage: React.FC = () => {
   const [search, setSearch] = useState('');
   const [isFilterOpen, setIsFilterOpen] = useState(false);
 
+  const [officers, setOfficers] = useState<Officer[]>(OFFICERS_FAKE);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    const HAS_API = false;
+
+    if (!HAS_API) {
+      setOfficers(OFFICERS_FAKE);
+      return;
+    }
+
+    const fetchOfficers = async () => {
+      try {
+        setLoading(true);
+        setError(null);
+
+        const res = await fetch('/api/executive-board'); // TODO: thay bằng endpoint thật
+        if (!res.ok) throw new Error('Không thể lấy dữ liệu từ API');
+
+        const data: Officer[] = await res.json();
+        setOfficers(data);
+      } catch (err: any) {
+        console.error(err);
+        setError('Lỗi tải dữ liệu từ API. Đang sử dụng dữ liệu giả lập.');
+        setOfficers(OFFICERS_FAKE); // fallback về fake
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchOfficers();
+  }, []);
+
+  // ================== LỌC DỮ LIỆU ==================
   const filteredOfficers = useMemo(
     () =>
-      OFFICERS.filter((o) => {
+      officers.filter((o) => {
         const matchTerm = term === 'Tất cả' || o.term === term;
         const matchBranch = branch === 'Tất cả' || o.branch === branch;
-        const matchSearch = o.name.toLowerCase().includes(search.toLowerCase());
+        const lower = search.toLowerCase();
+        const matchSearch =
+          !lower ||
+          o.name.toLowerCase().includes(lower) ||
+          o.studentCode.toLowerCase().includes(lower) ||
+          o.phone.replace(/\s/g, '').includes(lower);
+
         return matchTerm && matchBranch && matchSearch;
       }),
-    [term, branch, search],
+    [term, branch, search, officers],
   );
 
   return (
@@ -131,16 +168,16 @@ const ExecutiveBoardPage: React.FC = () => {
           <div className="relative z-10 space-y-2">
             <div className="flex items-center gap-3 flex-wrap">
               <StarFilled className="text-yellow-300" style={{ fontSize: '28px' }} />
-              <h1 className="text-2xl md:text-4xl font-bold">BAN CHẤP HÀNH CHI ĐOÀN</h1>
+              <h1 className="text-2xl md:text-4xl font-bold">DANH SÁCH CÁN BỘ ĐOÀN THEO LỚP</h1>
             </div>
             <p className="text-blue-50 text-sm md:text-base max-w-2xl">
-              Thông tin Ban Chấp hành Liên chi đoàn Khoa Công nghệ thông tin - Nhiệm kỳ{' '}
-              {term !== 'Tất cả' ? term : '2024-2025'}
+              Thông tin Ban Chấp hành các chi đoàn – Liên chi đoàn Khoa Công nghệ Thông tin theo
+              từng lớp, nhiệm kỳ {term !== 'Tất cả' ? term : '2024-2025'}.
             </p>
             <div className="flex flex-wrap gap-4 mt-4 text-sm">
               <div className="flex items-center gap-2">
                 <UserOutlined />
-                <span>{filteredOfficers.length} thành viên</span>
+                <span>{filteredOfficers.length} cán bộ Đoàn</span>
               </div>
               <div className="flex items-center gap-2">
                 <TeamOutlined />
@@ -155,7 +192,7 @@ const ExecutiveBoardPage: React.FC = () => {
           <div className="flex items-center justify-between mb-4">
             <h2 className="text-lg font-semibold text-gray-800 flex items-center gap-2">
               <FilterOutlined className="text-blue-600" />
-              Bộ lọc & Tìm kiếm
+              Bộ lọc &amp; Tìm kiếm
             </h2>
             <button
               onClick={() => setIsFilterOpen(!isFilterOpen)}
@@ -187,7 +224,7 @@ const ExecutiveBoardPage: React.FC = () => {
               <div>
                 <label className="flex items-center gap-2 text-xs font-semibold text-gray-600 mb-2">
                   <TeamOutlined className="text-green-600" />
-                  Chi đoàn
+                  Chi đoàn (lớp)
                 </label>
                 <select
                   value={branch}
@@ -204,12 +241,12 @@ const ExecutiveBoardPage: React.FC = () => {
               <div>
                 <label className="flex items-center gap-2 text-xs font-semibold text-gray-600 mb-2">
                   <SearchOutlined className="text-purple-600" />
-                  Tìm theo họ tên
+                  Tìm theo tên / MSSV / SĐT
                 </label>
                 <div className="relative">
                   <input
                     type="text"
-                    placeholder="Nhập tên Ban Chấp hành..."
+                    placeholder="Nhập họ tên, mã sinh viên hoặc số điện thoại..."
                     value={search}
                     onChange={(e) => setSearch(e.target.value)}
                     className="w-full border-2 border-gray-200 rounded-lg pl-4 pr-10 py-2.5 text-sm focus:border-purple-500 focus:ring-2 focus:ring-purple-200 transition-all"
@@ -232,17 +269,20 @@ const ExecutiveBoardPage: React.FC = () => {
                 Xóa bộ lọc
               </button>
             )}
+
+            {loading && <p className="text-xs text-gray-500 italic">Đang tải dữ liệu từ API...</p>}
+            {error && <p className="text-xs text-red-500 italic">{error}</p>}
           </div>
         </section>
 
-        {/* Grid BCH với thiết kế cải tiến */}
+        {/* Bảng BCH theo lớp */}
         <section className="space-y-4">
           <div className="flex items-center justify-between">
             <h2 className="text-xl font-bold text-gray-800 flex items-center gap-2">
               <UserOutlined className="text-blue-600" />
-              Danh sách Ban Chấp hành
+              Danh sách Ban Chấp hành theo lớp
               <span className="text-sm font-normal text-gray-500">
-                ({filteredOfficers.length} thành viên)
+                ({filteredOfficers.length} cán bộ)
               </span>
             </h2>
           </div>
@@ -253,110 +293,94 @@ const ExecutiveBoardPage: React.FC = () => {
                 <UserOutlined style={{ fontSize: '64px' }} />
               </div>
               <p className="text-gray-500 font-medium">
-                Không tìm thấy Ban Chấp hành phù hợp với bộ lọc.
+                Không tìm thấy cán bộ Đoàn phù hợp với bộ lọc.
               </p>
               <p className="text-sm text-gray-400 mt-2">
-                Vui lòng thử điều chỉnh bộ lọc hoặc tìm kiếm khác.
+                Vui lòng điều chỉnh bộ lọc hoặc từ khóa tìm kiếm.
               </p>
             </div>
           ) : (
-            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
-              {filteredOfficers.map((o) => (
-                <article
-                  key={o.id}
-                  className="group bg-white rounded-xl shadow-md hover:shadow-xl border border-gray-200 hover:border-blue-300 transition-all duration-300 overflow-hidden"
-                >
-                  {/* Role indicator bar */}
-                  <div
-                    className={`h-1.5 ${
-                      o.role === 'Bí thư'
-                        ? 'bg-gradient-to-r from-red-500 to-red-600'
-                        : o.role === 'Phó Bí thư'
-                        ? 'bg-gradient-to-r from-blue-500 to-blue-600'
-                        : 'bg-gradient-to-r from-green-500 to-green-600'
-                    }`}
-                  />
-
-                  <div className="p-5">
-                    <div className="flex gap-4">
-                      {/* Avatar with role indicator */}
-                      <div className="relative flex-shrink-0">
-                        <div className="w-16 h-16 rounded-full bg-gradient-to-br from-blue-100 to-blue-200 flex items-center justify-center text-blue-700 font-bold text-xl ring-4 ring-blue-50 group-hover:ring-blue-100 transition-all">
-                          {o.name
-                            .split(' ')
-                            .slice(-2)
-                            .map((x) => x[0])
-                            .join('')}
-                        </div>
-                        <div className="absolute -bottom-1 -right-1 text-xl">
-                          {getRoleIcon(o.role)}
-                        </div>
-                      </div>
-
-                      <div className="flex-1 min-w-0">
-                        <h3 className="font-bold text-gray-900 text-base mb-1.5 truncate group-hover:text-blue-600 transition-colors">
+            <div className="bg-white rounded-xl shadow-md border border-gray-200 overflow-hidden">
+              <div className="overflow-x-auto">
+                <table className="min-w-full text-sm">
+                  <thead className="bg-gray-50 border-b border-gray-200">
+                    <tr>
+                      <th className="px-4 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">
+                        STT
+                      </th>
+                      <th className="px-4 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">
+                        Chi đoàn (lớp)
+                      </th>
+                      <th className="px-4 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">
+                        Chức vụ
+                      </th>
+                      <th className="px-4 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">
+                        Mã sinh viên
+                      </th>
+                      <th className="px-4 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">
+                        Họ tên
+                      </th>
+                      <th className="px-4 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">
+                        Liên hệ (SĐT)
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y divide-gray-100">
+                    {filteredOfficers.map((o, index) => (
+                      <tr key={o.id} className="hover:bg-blue-50/60 transition-colors">
+                        <td className="px-4 py-3 text-gray-700 font-medium">{index + 1}</td>
+                        <td className="px-4 py-3 text-gray-700">
+                          {o.branch}
+                          <div className="text-xs text-gray-400">Nhiệm kỳ {o.term}</div>
+                        </td>
+                        <td className="px-4 py-3">
+                          <span
+                            className={`inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-semibold border ${getRoleBadge(
+                              o.role,
+                            )}`}
+                          >
+                            {getRoleIcon(o.role)} {o.role}
+                          </span>
+                        </td>
+                        <td className="px-4 py-3 text-gray-700 font-mono">{o.studentCode}</td>
+                        <td className="px-4 py-3 text-gray-800 font-medium">
                           {o.name}
-                        </h3>
-                        <span
-                          className={`inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-semibold border ${getRoleBadge(
-                            o.role,
-                          )}`}
-                        >
-                          {getRoleIcon(o.role)} {o.role}
-                        </span>
-                      </div>
-                    </div>
-
-                    {/* Thông tin chi tiết */}
-                    <div className="mt-4 space-y-2 text-sm">
-                      <div className="flex items-start gap-2 text-gray-600">
-                        <TeamOutlined className="text-green-600 mt-0.5 flex-shrink-0" />
-                        <span>
-                          <span className="font-medium text-gray-700">Chi đoàn:</span> {o.branch}
-                        </span>
-                      </div>
-                      <div className="flex items-start gap-2 text-gray-600">
-                        <CalendarOutlined className="text-blue-600 mt-0.5 flex-shrink-0" />
-                        <span>
-                          <span className="font-medium text-gray-700">Nhiệm kỳ:</span> {o.term}
-                        </span>
-                      </div>
-                    </div>
-
-                    {/* Contact buttons */}
-                    <div className="mt-4 pt-4 border-t border-gray-100 flex gap-2">
-                      <a
-                        href={`mailto:${o.email}`}
-                        className="flex-1 flex items-center justify-center gap-2 px-3 py-2 bg-blue-50 text-blue-600 rounded-lg hover:bg-blue-100 transition-colors text-xs font-medium"
-                        title={o.email}
-                      >
-                        <MailOutlined />
-                        Email
-                      </a>
-                      <a
-                        href={`tel:${o.phone.replace(/\s/g, '')}`}
-                        className="flex-1 flex items-center justify-center gap-2 px-3 py-2 bg-green-50 text-green-600 rounded-lg hover:bg-green-100 transition-colors text-xs font-medium"
-                        title={o.phone}
-                      >
-                        <PhoneOutlined />
-                        Gọi
-                      </a>
-                    </div>
-                  </div>
-                </article>
-              ))}
+                          <div className="flex items-center gap-1 text-xs text-gray-400">
+                            <MailOutlined />
+                            <span className="truncate max-w-[220px]" title={o.email}>
+                              {o.email}
+                            </span>
+                          </div>
+                        </td>
+                        <td className="px-4 py-3 text-gray-700">
+                          <div className="flex items-center gap-2">
+                            <a
+                              href={`tel:${o.phone.replace(/\s/g, '')}`}
+                              className="inline-flex items-center gap-1 px-2 py-1 rounded-md bg-green-50 text-green-700 text-xs hover:bg-green-100 transition-colors"
+                              title={o.phone}
+                            >
+                              <PhoneOutlined />
+                              {o.phone}
+                            </a>
+                          </div>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
             </div>
           )}
         </section>
 
-        {/* Nhiệm vụ & giờ trực với thiết kế cải tiến */}
+        {/* Nhiệm vụ & giờ trực (giữ lại, chỉnh wording nhẹ) */}
         <section className="grid md:grid-cols-2 gap-6">
           <div className="bg-gradient-to-br from-blue-50 to-white rounded-xl shadow-md border border-blue-100 p-6 hover:shadow-lg transition-shadow">
             <div className="flex items-center gap-3 mb-4">
               <div className="w-10 h-10 rounded-lg bg-blue-600 flex items-center justify-center">
                 <TeamOutlined className="text-white text-lg" />
               </div>
-              <h2 className="text-xl font-bold text-gray-800">Chức năng – nhiệm vụ</h2>
+              <h2 className="text-xl font-bold text-gray-800">Chức năng – nhiệm vụ BCH</h2>
             </div>
             <ul className="space-y-3">
               {[
@@ -401,7 +425,7 @@ const ExecutiveBoardPage: React.FC = () => {
                   <p className="text-gray-600">
                     Văn phòng Liên chi Đoàn Khoa CNTT
                     <br />
-                    <span className="text-xs">(Tầng 3, nhà A)</span>
+                    <span className="text-xs">(Tầng 3, toà Center Building)</span>
                   </p>
                 </div>
               </div>
