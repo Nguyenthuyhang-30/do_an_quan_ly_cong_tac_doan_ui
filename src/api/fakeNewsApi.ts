@@ -15,17 +15,17 @@ export const fakeNewsApi = async (): Promise<NewsItem[]> => {
     {
       id: 1,
       title: 'Khai mạc Chiến dịch Mùa hè xanh 2025 – Sức trẻ Đại Nam ra quân!',
-      image: '/images/news/news1.jpg', // Thay thế link ảnh
+      image: '/images/news/news1.jpg',
       time: '1 ngày trước',
       summary:
-        'Hơn 300 đoàn viên khoa CNTT tham gia lễ ra quân Chiến dịch Mùa hè xanh 2025 với tinh thần nhiệt huyết, lan tỏa tinh thần tình nguyện vì cộng đồng.',
+        'Gian hàng gây quỹ thiện nguyện của sinh viên CNTT thu hút đông đảo sự quan tâm với nhiều hoạt động ý nghĩa.',
       category: 'Hoạt động tình nguyện',
       author: 'Ban Truyền thông LCĐ CNTT',
     },
     {
       id: 2,
-      title: 'Tọa đàm: Thanh niên và Chuyển đổi số trong kỷ nguyên AI',
-      image: '/images/news/news2.jpg', // Thay thế link ảnh
+      title: 'Gian hàng gây quỹ thiện nguyện của sinh viên CNTT tại Ngày hội Sinh viên 2025.',
+      image: '/images/news/news2.jpg',
       time: '2 ngày trước',
       summary:
         'Buổi tọa đàm thu hút hơn 200 sinh viên tham dự, cùng thảo luận về vai trò của AI và chuyển đổi số trong giáo dục và cuộc sống hiện đại.',
@@ -35,7 +35,7 @@ export const fakeNewsApi = async (): Promise<NewsItem[]> => {
     {
       id: 3,
       title: 'Đại hội Liên Chi Đoàn Khoa CNTT nhiệm kỳ 2024 – 2026',
-      image: '/images/news/news3.jpg', // Thay thế link ảnh
+      image: '/images/news/news3.jpg',
       time: '3 ngày trước',
       summary:
         'Đại hội đã bầu ra Ban Chấp hành mới gồm 15 đồng chí, tiếp tục sứ mệnh dẫn dắt phong trào Đoàn khoa CNTT ngày càng vững mạnh.',
@@ -44,7 +44,8 @@ export const fakeNewsApi = async (): Promise<NewsItem[]> => {
     },
     {
       id: 4,
-      title: 'Sinh viên CNTT đạt giải Nhì cuộc thi “Sinh viên với khởi nghiệp số”',
+      title:
+        'Sinh viên CNTT tham gia diễu hành – biểu diễn chào mừng Đại hội Đoàn TNCS Hồ Chí Minh.',
       image: '/images/news/news4.jpg', // Thay thế link ảnh
       time: '4 ngày trước',
       summary:
@@ -54,7 +55,7 @@ export const fakeNewsApi = async (): Promise<NewsItem[]> => {
     },
     {
       id: 5,
-      title: 'Ngày hội Hiến máu nhân đạo “Giọt hồng Đại Nam 2025”',
+      title: 'CHÚC MỪNG NGÀY NHÀ GIÁO VIỆT NAM 20-11: TRI ÂN CÁC THẦY CÔ GIÁO KHOA CNTT',
       image: '/images/news/news5.jpg', // Thay thế link ảnh
       time: '5 ngày trước',
       summary:
@@ -64,7 +65,7 @@ export const fakeNewsApi = async (): Promise<NewsItem[]> => {
     },
     {
       id: 6,
-      title: 'Lớp cảm tình Đoàn – Bồi dưỡng lý tưởng cách mạng cho sinh viên',
+      title: 'Tại sao giảng viên Đại học Đại Nam cần đi thực tế doanh nghiệp?',
       image: '/images/news/news6.jpg', // Thay thế link ảnh
       time: '6 ngày trước',
       summary:
@@ -74,7 +75,8 @@ export const fakeNewsApi = async (): Promise<NewsItem[]> => {
     },
     {
       id: 7,
-      title: 'Cuộc thi “Thiết kế Poster An toàn mạng” thu hút đông đảo sinh viên',
+      title:
+        'DOANH NGHIỆP ĐỒNG HÀNH TRONG BỒI DƯỠNG KIẾN THỨC THỰC TẾ HỌC PHẦN “CÔNG NGHỆ PHẦN MỀM” CHO SINH VIÊN KHÓA 17 - KHOA CNTT',
       image: '/images/news/news7.jpg', // Thay thế link ảnh
       time: '7 ngày trước',
       summary:
