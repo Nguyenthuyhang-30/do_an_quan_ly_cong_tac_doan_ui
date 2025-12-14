@@ -384,10 +384,25 @@ export default function MemberListPage() {
             <Search
               placeholder="Tìm kiếm đoàn viên..."
               allowClear
-              enterButton={<SearchOutlined />}
-              style={{ width: 300 }}
+              enterButton={
+                <Button
+                  type="primary"
+                  icon={<SearchOutlined />}
+                  style={{
+                    background:
+                      'linear-gradient(135deg, var(--primary-color) 0%, var(--primary-light) 100%)',
+                    border: 'none',
+                    borderRadius: '0 8px 8px 0',
+                  }}
+                />
+              }
+              style={{
+                width: 300,
+                borderRadius: '10px',
+              }}
               onSearch={handleSearch}
             />
+
             <BranchSelector
               placeholder="Lọc theo chi đoàn"
               style={{ width: 200 }}
@@ -406,14 +421,35 @@ export default function MemberListPage() {
               <Select.Option value="transferred">Đã chuyển</Select.Option>
             </Select>
           </Space>
+
           <Space>
             <Button icon={<ReloadOutlined />} onClick={fetchMembers}>
               Làm mới
             </Button>
+
             <Button
               type="primary"
               icon={<PlusOutlined />}
               onClick={() => navigate({ to: '/admin/member-management/create' })}
+              style={{
+                borderRadius: '10px',
+                background:
+                  'linear-gradient(135deg, var(--primary-color) 0%, var(--primary-light) 100%)',
+                border: 'none',
+                fontWeight: '600',
+                height: '40px',
+                padding: '0 20px',
+                boxShadow: '0 4px 12px rgba(21, 26, 166, 0.25)',
+                transition: 'all 0.3s ease',
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.transform = 'translateY(-2px)';
+                e.currentTarget.style.boxShadow = '0 6px 20px rgba(21, 26, 166, 0.35)';
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.transform = 'translateY(0)';
+                e.currentTarget.style.boxShadow = '0 4px 12px rgba(21, 26, 166, 0.25)';
+              }}
             >
               Thêm đoàn viên
             </Button>

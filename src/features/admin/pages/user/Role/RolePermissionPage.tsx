@@ -32,9 +32,23 @@ const RolePermissionManagement: React.FC = () => {
           <h1 className="text-2xl font-semibold text-gray-800">Quyền & Vai trò</h1>
           <p className="text-gray-500">Quản lý quyền truy cập (CRUD) theo từng loại tài khoản.</p>
         </div>
+
+        {/* Nút thêm quyền mới – đổi màu giống hệ thống */}
         <button
           onClick={() => setModal('create')}
-          className="px-4 py-2 rounded-lg bg-blue-600 text-white text-sm font-medium hover:bg-blue-700"
+          className="px-5 py-2.5 rounded-lg text-white text-sm font-medium transition-all shadow-md"
+          style={{
+            background:
+              'linear-gradient(135deg, var(--primary-color) 0%, var(--primary-light) 100%)',
+          }}
+          onMouseEnter={(e) => {
+            e.currentTarget.style.transform = 'translateY(-2px)';
+            e.currentTarget.style.boxShadow = '0 6px 20px rgba(21, 26, 166, 0.35)';
+          }}
+          onMouseLeave={(e) => {
+            e.currentTarget.style.transform = 'translateY(0)';
+            e.currentTarget.style.boxShadow = '0 4px 12px rgba(21, 26, 166, 0.25)';
+          }}
         >
           + Thêm quyền mới
         </button>
@@ -62,6 +76,7 @@ const RolePermissionManagement: React.FC = () => {
           }}
         />
       )}
+
       {modal === 'edit' && selectedRole && (
         <EditRoleModal
           role={selectedRole}

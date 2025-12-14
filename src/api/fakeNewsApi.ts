@@ -46,7 +46,7 @@ export const fakeNewsApi = async (): Promise<NewsItem[]> => {
       id: 4,
       title:
         'Sinh viên CNTT tham gia diễu hành – biểu diễn chào mừng Đại hội Đoàn TNCS Hồ Chí Minh.',
-      image: '/images/news/news4.jpg', // Thay thế link ảnh
+      image: '/images/news/news4.jpg',
       time: '4 ngày trước',
       summary:
         'Dự án “AI4Students” của nhóm sinh viên CNTT Đại Nam giành giải Nhì cuộc thi khởi nghiệp toàn quốc 2025.',
@@ -56,7 +56,7 @@ export const fakeNewsApi = async (): Promise<NewsItem[]> => {
     {
       id: 5,
       title: 'CHÚC MỪNG NGÀY NHÀ GIÁO VIỆT NAM 20-11: TRI ÂN CÁC THẦY CÔ GIÁO KHOA CNTT',
-      image: '/images/news/news5.jpg', // Thay thế link ảnh
+      image: '/images/news/news5.jpg',
       time: '5 ngày trước',
       summary:
         'Hơn 500 đơn vị máu được quyên góp trong ngày hội, thể hiện tinh thần nhân ái và trách nhiệm xã hội của tuổi trẻ Đại Nam.',
@@ -66,7 +66,7 @@ export const fakeNewsApi = async (): Promise<NewsItem[]> => {
     {
       id: 6,
       title: 'Tại sao giảng viên Đại học Đại Nam cần đi thực tế doanh nghiệp?',
-      image: '/images/news/news6.jpg', // Thay thế link ảnh
+      image: '/images/news/news6.jpg',
       time: '6 ngày trước',
       summary:
         'Chương trình giúp hơn 120 sinh viên hiểu rõ hơn về lịch sử Đoàn TNCS Hồ Chí Minh và định hướng phấn đấu trở thành đoàn viên ưu tú.',
@@ -77,7 +77,7 @@ export const fakeNewsApi = async (): Promise<NewsItem[]> => {
       id: 7,
       title:
         'DOANH NGHIỆP ĐỒNG HÀNH TRONG BỒI DƯỠNG KIẾN THỨC THỰC TẾ HỌC PHẦN “CÔNG NGHỆ PHẦN MỀM” CHO SINH VIÊN KHÓA 17 - KHOA CNTT',
-      image: '/images/news/news7.jpg', // Thay thế link ảnh
+      image: '/images/news/news7.jpg',
       time: '7 ngày trước',
       summary:
         'Sinh viên thể hiện hiểu biết về bảo mật thông tin và kỹ năng truyền thông qua những thiết kế sáng tạo và ý nghĩa.',
@@ -87,7 +87,7 @@ export const fakeNewsApi = async (): Promise<NewsItem[]> => {
     {
       id: 8,
       title: 'Giao lưu thể thao “Kết nối đoàn viên – Lan tỏa năng lượng tích cực”',
-      image: '/images/news/news8.jpg', // Thay thế link ảnh
+      image: '/images/news/news8.jpg',
       time: '8 ngày trước',
       summary:
         'Giải bóng đá và kéo co giao hữu giữa các chi đoàn đã tạo nên bầu không khí sôi nổi, tăng tinh thần đoàn kết trong sinh viên.',
@@ -96,7 +96,6 @@ export const fakeNewsApi = async (): Promise<NewsItem[]> => {
     },
   ];
 
-  // sinh thêm 8 tin “trang 2”
   const more = Array.from({ length: 8 }, (_, idx) => ({
     ...base[idx % base.length],
     id: base.length + idx + 1,

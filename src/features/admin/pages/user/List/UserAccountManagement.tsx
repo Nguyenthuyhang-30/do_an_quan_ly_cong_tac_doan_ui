@@ -265,12 +265,56 @@ const UserAccountManagement: React.FC = () => {
                 <Col>
                   <Space>
                     <Tooltip title="Làm mới">
-                      <Button icon={<ReloadOutlined />} onClick={() => fetchUsers()} />
+                      <Button
+                        icon={<ReloadOutlined />}
+                        onClick={() => fetchUsers()}
+                        style={{
+                          borderRadius: '10px',
+                          borderColor: '#e2e8f0',
+                          color: '#64748b',
+                          fontWeight: '500',
+                          height: '40px',
+                          padding: '0 20px',
+                          transition: 'all 0.3s ease',
+                        }}
+                        onMouseEnter={(e) => {
+                          e.currentTarget.style.borderColor = 'var(--primary-color)';
+                          e.currentTarget.style.color = 'var(--primary-color)';
+                          e.currentTarget.style.transform = 'translateY(-1px)';
+                          e.currentTarget.style.boxShadow = '0 4px 12px rgba(21, 26, 166, 0.15)';
+                        }}
+                        onMouseLeave={(e) => {
+                          e.currentTarget.style.borderColor = '#e2e8f0';
+                          e.currentTarget.style.color = '#64748b';
+                          e.currentTarget.style.transform = 'translateY(0)';
+                          e.currentTarget.style.boxShadow = 'none';
+                        }}
+                      />
                     </Tooltip>
+
                     <Button
                       type="primary"
                       icon={<PlusOutlined />}
                       onClick={() => setCreateModalVisible(true)}
+                      style={{
+                        borderRadius: '10px',
+                        background:
+                          'linear-gradient(135deg, var(--primary-color) 0%, var(--primary-light) 100%)',
+                        border: 'none',
+                        fontWeight: '600',
+                        height: '40px',
+                        padding: '0 20px',
+                        boxShadow: '0 4px 12px rgba(21, 26, 166, 0.25)',
+                        transition: 'all 0.3s ease',
+                      }}
+                      onMouseEnter={(e) => {
+                        e.currentTarget.style.transform = 'translateY(-2px)';
+                        e.currentTarget.style.boxShadow = '0 6px 20px rgba(21, 26, 166, 0.35)';
+                      }}
+                      onMouseLeave={(e) => {
+                        e.currentTarget.style.transform = 'translateY(0)';
+                        e.currentTarget.style.boxShadow = '0 4px 12px rgba(21, 26, 166, 0.25)';
+                      }}
                     >
                       Thêm tài khoản
                     </Button>
@@ -284,10 +328,25 @@ const UserAccountManagement: React.FC = () => {
                   <Search
                     placeholder="Tìm kiếm theo họ tên, email, số điện thoại..."
                     allowClear
-                    enterButton={<SearchOutlined />}
+                    enterButton={
+                      <Button
+                        type="primary"
+                        icon={<SearchOutlined />}
+                        style={{
+                          background:
+                            'linear-gradient(135deg, var(--primary-color) 0%, var(--primary-light) 100%)',
+                          border: 'none',
+                          borderRadius: '0 8px 8px 0',
+                        }}
+                      />
+                    }
                     size="large"
                     onSearch={handleSearch}
-                    style={{ maxWidth: 500 }}
+                    style={{
+                      maxWidth: 500,
+                      borderRadius: '10px',
+                    }}
+                    className="modern-search"
                   />
                 </Col>
               </Row>
