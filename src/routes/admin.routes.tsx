@@ -8,6 +8,7 @@ import { activityTree } from '@features/admin/routes/activity.route';
 import { activityManagementTree } from '@features/admin/routes/activity-management.route';
 import { branchTree } from '@features/admin/routes/branch.route';
 import { memberManagementTree } from '@features/admin/routes/member-management.route';
+import { sliderTree } from '@features/admin/routes/slider.route';
 import { createRoute } from '@tanstack/react-router';
 import { rootRoutes } from './routes';
 
@@ -26,6 +27,7 @@ const adminTree = adminRoute.addChildren([
   memberManagementTree,
   activityTree,
   activityManagementTree,
+  sliderTree,
   settingRouteAdmin,
 ]);
 
