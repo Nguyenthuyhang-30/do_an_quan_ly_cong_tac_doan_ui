@@ -14,6 +14,7 @@ import {
   CalendarOutlined,
   HighlightOutlined,
   HeartOutlined,
+  PictureOutlined,
 } from '@ant-design/icons';
 import { useLocation, useNavigate } from '@tanstack/react-router';
 import { Menu } from 'antd';
@@ -45,6 +46,7 @@ export const SidebarAdmin = ({ collapsed }: SidebarAdminProps) => {
     if (path.includes('/settings/system')) return ['system-settings'];
     if (path.includes('/settings/security')) return ['security-settings'];
     if (path.includes('/settings/notification')) return ['notification-settings'];
+    if (path.includes('/slider-management')) return ['slider-management'];
     if (path.includes('/settings')) return ['settings'];
 
     if (path.includes('/activity-management')) return ['activity-list'];
@@ -95,6 +97,7 @@ export const SidebarAdmin = ({ collapsed }: SidebarAdminProps) => {
       'system-settings': '/admin/settings/system',
       'security-settings': '/admin/settings/security',
       'notification-settings': '/admin/settings/notification',
+      'slider-management': '/admin/slider-management',
 
       'activity-list': '/admin/activity-management',
       'activity-selection': '/admin/activity',
@@ -178,6 +181,7 @@ export const SidebarAdmin = ({ collapsed }: SidebarAdminProps) => {
           { key: 'system-settings', icon: <DatabaseOutlined />, label: 'Hệ thống' },
           { key: 'security-settings', icon: <SafetyOutlined />, label: 'Bảo mật' },
           { key: 'notification-settings', icon: <NotificationOutlined />, label: 'Thông báo' },
+          { key: 'slider-management', icon: <PictureOutlined />, label: 'Slider Banner' },
         ],
       },
     ],

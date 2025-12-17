@@ -18,3 +18,7 @@ export { CohortSelector } from './CohortSelector';
 // Badge Components
 export { ActivityStatusBadge } from './ActivityStatusBadge';
 export { AttendanceStatusBadge } from './AttendanceStatusBadge';
+
+// Upload Components
+export { FileUpload } from './FileUpload';
+export { AvatarUpload } from './AvatarUpload';
