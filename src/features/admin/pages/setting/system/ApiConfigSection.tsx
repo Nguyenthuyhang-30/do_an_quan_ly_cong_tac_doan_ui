@@ -1,6 +1,10 @@
 // src/pages/settings/system/ApiConfigSection.tsx
 import React from 'react';
+import { Typography, Space, Row, Col, Form, Input } from 'antd';
+import { ApiOutlined } from '@ant-design/icons';
 import { ApiConfig } from './types';
+
+const { Title, Text } = Typography;
 
 interface Props {
   api: ApiConfig;
@@ -14,29 +18,38 @@ const ApiConfigSection: React.FC<Props> = ({ api, onChange }) => {
 
   return (
     <div>
-      <h2 className="text-lg font-semibold text-gray-800 mb-3">🌐 Cấu hình API Backend</h2>
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
-        <div>
-          <label className="block text-gray-600 mb-1">URL API</label>
-          <input
-            type="text"
-            value={api.baseUrl}
-            onChange={(e) => handleChange('baseUrl', e.target.value)}
-            className="w-full border border-gray-200 rounded-lg px-3 py-2"
-            placeholder="https://api.doan-truong.edu.vn"
-          />
-        </div>
-        <div>
-          <label className="block text-gray-600 mb-1">Phiên bản API</label>
-          <input
-            type="text"
-            value={api.version}
-            onChange={(e) => handleChange('version', e.target.value)}
-            className="w-full border border-gray-200 rounded-lg px-3 py-2"
-            placeholder="v1"
-          />
-        </div>
-      </div>
+      <Space direction="vertical" size="small" style={{ marginBottom: '16px' }}>
+        <Title level={4} style={{ margin: 0 }}>
+          <ApiOutlined style={{ marginRight: '8px', color: '#1890ff' }} />
+          Cấu hình API Backend
+        </Title>
+        <Text type="secondary" style={{ fontSize: '14px' }}>
+          Cấu hình URL và phiên bản API của hệ thống.
+        </Text>
+      </Space>
+
+      <Row gutter={16}>
+        <Col xs={24} md={12}>
+          <Form.Item label="URL API" style={{ marginBottom: 0 }}>
+            <Input
+              value={api.baseUrl}
+              onChange={(e) => handleChange('baseUrl', e.target.value)}
+              placeholder="https://api.doan-truong.edu.vn"
+              style={{ borderRadius: '8px' }}
+            />
+          </Form.Item>
+        </Col>
+        <Col xs={24} md={12}>
+          <Form.Item label="Phiên bản API" style={{ marginBottom: 0 }}>
+            <Input
+              value={api.version}
+              onChange={(e) => handleChange('version', e.target.value)}
+              placeholder="v1"
+              style={{ borderRadius: '8px' }}
+            />
+          </Form.Item>
+        </Col>
+      </Row>
     </div>
   );
 };

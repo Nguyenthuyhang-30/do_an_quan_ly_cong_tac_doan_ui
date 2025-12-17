@@ -280,7 +280,19 @@ export default function ActivityListPage() {
             <Search
               placeholder="Tìm kiếm hoạt động..."
               allowClear
-              enterButton={<SearchOutlined />}
+              enterButton={
+                <Button
+                  type="primary"
+                  icon={<SearchOutlined />}
+                  style={{
+                    background:
+                      'linear-gradient(135deg, var(--primary-color) 0%, var(--primary-light) 100%)',
+                    border: 'none',
+                    borderRadius: 8,
+                    height: 36,
+                  }}
+                />
+              }
               style={{ width: 300 }}
               onSearch={handleSearch}
             />
@@ -304,6 +316,15 @@ export default function ActivityListPage() {
               type="primary"
               icon={<PlusOutlined />}
               onClick={() => navigate({ to: '/admin/activity/create' })}
+              style={{
+                background:
+                  'linear-gradient(135deg, var(--primary-color) 0%, var(--primary-light) 100%)',
+                border: 'none',
+                borderRadius: 10,
+                height: 40,
+                padding: '0 20px',
+                boxShadow: '0 4px 12px rgba(21, 26, 166, 0.25)',
+              }}
             >
               Thêm hoạt động
             </Button>

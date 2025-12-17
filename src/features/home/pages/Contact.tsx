@@ -112,32 +112,23 @@ const ContactPage: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-slate-100">
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-red-50">
       <div className="max-w-6xl mx-auto px-4 py-8 md:py-12 space-y-6 md:space-y-8">
-        {/* Tiêu đề với banner – gradient đỏ → tím → xanh như hình 1 */}
-        <header className="relative bg-gradient-to-r from-red-500 via-purple-500 to-blue-600 rounded-3xl shadow-xl p-6 md:p-8 text-white overflow-hidden">
-          {/* Icon nền bên phải */}
-          <div className="absolute inset-y-0 right-0 flex items-center pr-10 opacity-20">
-            <CustomerServiceOutlined style={{ fontSize: '140px' }} />
+        {/* Tiêu đề với banner effect */}
+        <header className="relative bg-gradient-to-r from-red-600 to-blue-600 rounded-2xl shadow-lg p-6 md:p-8 text-white overflow-hidden">
+          <div className="absolute top-0 right-0 opacity-10">
+            <CustomerServiceOutlined style={{ fontSize: '120px' }} />
           </div>
-
-          <div className="relative z-10 space-y-3">
+          <div className="relative z-10 space-y-2">
             <div className="flex items-center gap-3 flex-wrap">
-              {/* ICON MỚI: SEND (GIẤY MÁY BAY) */}
-              <div className="w-11 h-11 rounded-2xl bg-white/10 border border-white/30 flex items-center justify-center shadow-[0_10px_30px_rgba(0,0,0,0.25)] backdrop-blur-sm">
-                <SendOutlined className="text-white text-2xl" />
-              </div>
-              <h1 className="text-2xl md:text-4xl font-extrabold tracking-wide">
-                LIÊN HỆ VÀ HỖ TRỢ
-              </h1>
+              <CustomerServiceOutlined className="text-yellow-300" style={{ fontSize: '28px' }} />
+              <h1 className="text-2xl md:text-4xl font-bold">LIÊN HỆ VÀ HỖ TRỢ</h1>
             </div>
-
-            <p className="text-sm md:text-base text-white/90 max-w-2xl">
+            <p className="text-blue-50 text-sm md:text-base max-w-2xl">
               Nếu bạn có thắc mắc về hoạt động Đoàn, điểm rèn luyện hoặc cần hỗ trợ, hãy gửi thông
               tin cho chúng tôi. Chúng tôi sẽ phản hồi trong vòng 24 giờ.
             </p>
-
-            <div className="flex flex-wrap gap-4 mt-4 text-xs md:text-sm text-white/90">
+            <div className="flex flex-wrap gap-4 mt-4 text-sm">
               <div className="flex items-center gap-2">
                 <ClockCircleOutlined />
                 <span>Phản hồi trong 24h</span>
@@ -154,8 +145,8 @@ const ContactPage: React.FC = () => {
           {/* Form liên hệ */}
           <section className="bg-white rounded-2xl shadow-lg border border-slate-100 p-6 md:p-8">
             <div className="flex items-center gap-3 mb-6">
-              <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-sky-500 to-blue-600 flex items-center justify-center shadow-md">
-                <MessageOutlined className="text-white text-lg" />
+              <div className="w-12 h-12 rounded-xl bg-gradient-to-r from-red-600 to-blue-600 flex items-center justify-center shadow-lg">
+                <MessageOutlined className="text-white text-xl" />
               </div>
               <div>
                 <h2 className="text-xl font-bold text-slate-900">Gửi góp ý / hỗ trợ</h2>
@@ -287,7 +278,7 @@ const ContactPage: React.FC = () => {
                   className={`flex items-center gap-2 px-6 py-3 rounded-xl font-semibold text-sm transition-all ${
                     isSubmitting
                       ? 'bg-slate-300 text-slate-500 cursor-not-allowed'
-                      : 'bg-gradient-to-r from-red-500 via-purple-500 to-blue-600 text-white shadow-md hover:shadow-lg hover:from-red-600 hover:via-purple-600 hover:to-blue-700'
+                      : 'bg-gradient-to-r from-red-600 to-blue-600 text-white shadow-md hover:shadow-lg hover:from-red-700 hover:to-blue-700'
                   }`}
                 >
                   {isSubmitting ? (
@@ -311,8 +302,8 @@ const ContactPage: React.FC = () => {
             {/* Contact Info Card */}
             <div className="bg-gradient-to-br from-blue-50 via-indigo-50 to-white rounded-2xl shadow-lg border border-blue-100 p-6 md:p-7">
               <div className="flex items-center gap-3 mb-5">
-                <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-blue-500 to-indigo-600 flex items-center justify-center shadow-md">
-                  <PhoneOutlined className="text-white text-lg" />
+                <div className="w-12 h-12 rounded-xl bg-gradient-to-r from-red-600 to-blue-600 flex items-center justify-center shadow-lg">
+                  <PhoneOutlined className="text-white text-xl" />
                 </div>
                 <h2 className="text-xl font-bold text-slate-900">Thông tin liên hệ</h2>
               </div>
@@ -377,10 +368,21 @@ const ContactPage: React.FC = () => {
                     href="https://facebook.com"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex items-center justify-center gap-2 w-full px-4 py-3 bg-gradient-to-r from-blue-600 to-indigo-600 text-white rounded-lg hover:from-blue-700 hover:to-indigo-700 transition-colors font-medium text-sm shadow-md"
+                    className="flex items-center justify-center gap-2 w-full px-4 py-3 text-white rounded-lg transition-colors font-bold text-base shadow-md"
+                    style={{
+                      backgroundColor: '#1E3A8A',
+                      color: '#ffffff',
+                      textShadow: '0 1px 2px rgba(0, 0, 0, 0.2)',
+                    }}
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.backgroundColor = '#2542ad';
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.backgroundColor = '#1E3A8A';
+                    }}
                   >
-                    <FacebookOutlined />
-                    Fanpage LCĐ Khoa CNTT
+                    <FacebookOutlined className="text-lg" style={{ color: '#ffffff' }} />
+                    <span style={{ color: '#ffffff', fontWeight: 700 }}>Fanpage LCĐ Khoa CNTT</span>
                   </a>
                 </div>
               </div>

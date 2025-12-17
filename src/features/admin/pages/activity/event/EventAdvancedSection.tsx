@@ -1,6 +1,7 @@
 // src/features/admin/pages/activity/event/components/EventAdvancedSection.tsx
-import { Col, Form, Switch, Row } from 'antd';
+import { Col, Form, Row } from 'antd';
 import TextArea from 'antd/es/input/TextArea';
+import StyledSwitch from '../../../../../components/common/StyledSwitch';
 
 const EventAdvancedSection: React.FC = () => {
   return (
@@ -13,7 +14,7 @@ const EventAdvancedSection: React.FC = () => {
 
       <Col span={8}>
         <Form.Item label="Yêu cầu điểm danh" name="isRequiredCheckin" valuePropName="checked">
-          <Switch checkedChildren="Bắt buộc" unCheckedChildren="Không bắt buộc" />
+          <StyledSwitch checkedChildren="Bắt buộc" unCheckedChildren="Không bắt buộc" />
         </Form.Item>
 
         <Form.Item label="Ghi chú cho BTC" name="note">

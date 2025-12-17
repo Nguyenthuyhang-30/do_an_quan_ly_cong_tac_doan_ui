@@ -1,6 +1,11 @@
 // src/pages/settings/notification/TemplateManager.tsx
 import React, { useState } from 'react';
+import { Card, Typography, Space, Button, Input, Form, Divider, List } from 'antd';
+import { FileTextOutlined, PlusOutlined, EditOutlined, SaveOutlined, CloseOutlined } from '@ant-design/icons';
 import { NotificationTemplate } from './types';
+
+const { Title, Text } = Typography;
+const { TextArea } = Input;
 
 interface Props {
   templates: NotificationTemplate[];
@@ -28,81 +33,133 @@ const TemplateManager: React.FC<Props> = ({ templates, onChange }) => {
 
   return (
     <div>
-      <h2 className="text-lg font-semibold text-gray-800 mb-3">🧩 Mẫu thông báo</h2>
-      <p className="text-sm text-gray-500 mb-4">
-        Quản lý nội dung mẫu thông báo cho các loại sự kiện.
-      </p>
+      <Space direction="vertical" size="small" style={{ marginBottom: '16px' }}>
+        <Title level={4} style={{ margin: 0 }}>
+          <FileTextOutlined style={{ marginRight: '8px', color: '#1890ff' }} />
+          Mẫu thông báo
+        </Title>
+        <Text type="secondary" style={{ fontSize: '14px' }}>
+          Quản lý nội dung mẫu thông báo cho các loại sự kiện.
+        </Text>
+      </Space>
 
-      {/* Danh sách mẫu */}
-      <div className="border border-gray-200 rounded-lg">
-        {templates.map((tpl) => (
-          <div
-            key={tpl.id}
-            className="flex justify-between items-center px-4 py-3 border-b border-gray-100 hover:bg-gray-50"
-          >
-            <div>
-              <p className="font-medium text-gray-800">{tpl.name}</p>
-              <p className="text-xs text-gray-500">{tpl.subject}</p>
-            </div>
-            <button
-              className="text-xs text-blue-600 hover:underline"
+      <Card
+        style={{
+          borderRadius: '12px',
+          border: '1px solid #e8e8e8',
+        }}
+        bodyStyle={{ padding: 0 }}
+      >
+        <List
+          dataSource={templates}
+          renderItem={(tpl) => (
+            <List.Item
+              style={{
+                padding: '16px',
+                borderBottom: '1px solid #f0f0f0',
+                cursor: 'pointer',
+              }}
               onClick={() => setSelected(tpl)}
             >
-              Chỉnh sửa
-            </button>
-          </div>
-        ))}
-        <div className="p-3">
-          <button onClick={handleAdd} className="text-sm text-blue-600 hover:underline">
-            + Thêm mẫu thông báo
-          </button>
-        </div>
-      </div>
-
-      {/* Form chỉnh sửa */}
-      {selected && (
-        <div className="mt-6 bg-gray-50 p-4 rounded-lg border border-gray-200">
-          <h3 className="font-medium text-gray-700 mb-3">✏️ Chỉnh sửa mẫu: {selected.name}</h3>
-
-          <div className="space-y-3 text-sm">
-            <input
-              type="text"
-              placeholder="Tên mẫu"
-              value={selected.name}
-              onChange={(e) => setSelected({ ...selected, name: e.target.value })}
-              className="w-full border border-gray-200 rounded-lg px-3 py-2"
-            />
-            <input
-              type="text"
-              placeholder="Tiêu đề (Subject)"
-              value={selected.subject}
-              onChange={(e) => setSelected({ ...selected, subject: e.target.value })}
-              className="w-full border border-gray-200 rounded-lg px-3 py-2"
-            />
-            <textarea
-              placeholder="Nội dung thông báo (có thể dùng biến {{name}}, {{branch}}, ...)"
-              rows={4}
-              value={selected.content}
-              onChange={(e) => setSelected({ ...selected, content: e.target.value })}
-              className="w-full border border-gray-200 rounded-lg px-3 py-2"
-            />
-
-            <div className="flex justify-end gap-3">
-              <button
-                onClick={() => setSelected(null)}
-                className="px-3 py-2 rounded-lg border border-gray-300 text-gray-600 hover:bg-gray-100 text-sm"
+              <List.Item.Meta
+                title={<Text strong>{tpl.name}</Text>}
+                description={<Text type="secondary" style={{ fontSize: '12px' }}>{tpl.subject}</Text>}
+              />
+              <Button
+                type="link"
+                icon={<EditOutlined />}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setSelected(tpl);
+                }}
               >
-                Hủy
-              </button>
-              <button
-                onClick={() => handleSave(selected)}
-                className="px-3 py-2 rounded-lg bg-blue-600 text-white hover:bg-blue-700 text-sm"
+                Chỉnh sửa
+              </Button>
+            </List.Item>
+          )}
+          footer={
+            <div style={{ padding: '12px', textAlign: 'center' }}>
+              <Button
+                type="link"
+                icon={<PlusOutlined />}
+                onClick={handleAdd}
+                style={{ color: '#1890ff' }}
               >
-                Lưu
-              </button>
+                Thêm mẫu thông báo
+              </Button>
             </div>
-          </div>
-        </div>
+          }
+        />
+      </Card>
+
+      {selected && (
+        <Card
+          style={{
+            marginTop: '16px',
+            borderRadius: '12px',
+            border: '1px solid #e8e8e8',
+            backgroundColor: '#fafafa',
+          }}
+        >
+          <Space direction="vertical" size="middle" style={{ width: '100%' }}>
+            <Title level={5} style={{ margin: 0 }}>
+              Chỉnh sửa mẫu: {selected.name}
+            </Title>
+
+            <Form layout="vertical">
+              <Form.Item label="Tên mẫu">
+                <Input
+                  value={selected.name}
+                  onChange={(e) => setSelected({ ...selected, name: e.target.value })}
+                  placeholder="Tên mẫu"
+                  style={{ borderRadius: '8px' }}
+                />
+              </Form.Item>
+
+              <Form.Item label="Tiêu đề (Subject)">
+                <Input
+                  value={selected.subject}
+                  onChange={(e) => setSelected({ ...selected, subject: e.target.value })}
+                  placeholder="Tiêu đề thông báo"
+                  style={{ borderRadius: '8px' }}
+                />
+              </Form.Item>
+
+              <Form.Item label="Nội dung thông báo">
+                <TextArea
+                  rows={4}
+                  value={selected.content}
+                  onChange={(e) => setSelected({ ...selected, content: e.target.value })}
+                  placeholder="Nội dung thông báo (có thể dùng biến {{name}}, {{branch}}, ...)"
+                  style={{ borderRadius: '8px' }}
+                />
+              </Form.Item>
+
+              <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '8px' }}>
+                <Button
+                  icon={<CloseOutlined />}
+                  onClick={() => setSelected(null)}
+                  style={{ borderRadius: '8px' }}
+                >
+                  Hủy
+                </Button>
+                <Button
+                  type="primary"
+                  icon={<SaveOutlined />}
+                  onClick={() => handleSave(selected)}
+                  style={{
+                    background:
+                      'linear-gradient(135deg, var(--primary-color) 0%, var(--primary-light) 100%)',
+                    border: 'none',
+                    borderRadius: '8px',
+                  }}
+                >
+                  Lưu
+                </Button>
+              </div>
+            </Form>
+          </Space>
+        </Card>
       )}
     </div>
   );

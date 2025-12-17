@@ -6,21 +6,21 @@ import {
   UserOutlined,
 } from '@ant-design/icons';
 import type { MenuProps } from 'antd';
-import { Avatar, Dropdown, Space, Typography } from 'antd';
+import { Avatar, Dropdown, Space, Typography, Menu } from 'antd';
 import React from 'react';
 import { useAuth } from '../../hooks/useAuth';
+import { useNavigate } from '@tanstack/react-router';
+import { profile, userSettings } from '../../config/paths';
 import './UserMenu.scss';
 
 const { Text } = Typography;
 
 const UserMenu: React.FC = () => {
   const { user, logout } = useAuth();
+  const navigate = useNavigate();
 
   if (!user) return null;
 
-  const navigateTo = (path: string) => {
-    window.location.href = path;
-  };
   const items: MenuProps['items'] = [
     {
       key: 'user-info',
@@ -37,28 +37,37 @@ const UserMenu: React.FC = () => {
       key: 'home',
       icon: <HomeOutlined />,
       label: 'Home',
-      onClick: () => navigateTo('/'),
+      onClick: () => navigate({ to: '/' }),
     },
     {
       key: 'dashboard',
       icon: <DashboardOutlined />,
       label: 'Dashboard',
-      onClick: () => navigateTo('/admin/dashboard/overview'),
+      onClick: () => navigate({ to: '/admin/dashboard/overview' }),
     },
     {
       key: 'profile',
       icon: <UserOutlined />,
       label: 'Thông tin cá nhân',
-      onClick: () => navigateTo('/profile'),
+      onClick: () => navigate({ to: profile }),
     },
     {
       key: 'settings',
       icon: <SettingOutlined />,
       label: 'Cài đặt',
-      onClick: () => navigateTo('/settings'),
+      onClick: () => navigate({ to: userSettings }),
     },
     { type: 'divider' },
-    { key: 'logout', icon: <LogoutOutlined />, label: 'Đăng xuất', danger: true, onClick: logout },
+    {
+      key: 'logout',
+      icon: <LogoutOutlined />,
+      label: 'Đăng xuất',
+      danger: true,
+      onClick: () => {
+        logout();
+        navigate({ to: '/login' });
+      },
+    },
   ];
 
   const avatarContent = user.avatar ? (

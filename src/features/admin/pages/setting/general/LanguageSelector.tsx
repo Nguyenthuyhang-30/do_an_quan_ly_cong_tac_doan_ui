@@ -1,5 +1,10 @@
 // src/pages/settings/general/LanguageSelector.tsx
 import React from 'react';
+import { Typography, Space, Radio } from 'antd';
+import { GlobalOutlined } from '@ant-design/icons';
+import '../../activity/styles/RadioGroup.scss';
+
+const { Title, Text } = Typography;
 
 interface Props {
   language: 'vi' | 'en';
@@ -8,31 +13,25 @@ interface Props {
 
 const LanguageSelector: React.FC<Props> = ({ language, onChange }) => {
   return (
-    <div className="pt-4 border-t border-gray-100">
-      <h2 className="text-lg font-semibold text-gray-800 mb-3">🌐 Ngôn ngữ</h2>
-      <div className="flex items-center gap-4 text-sm">
-        <label className="flex items-center gap-2 cursor-pointer">
-          <input
-            type="radio"
-            name="lang"
-            checked={language === 'vi'}
-            onChange={() => onChange('vi')}
-            className="accent-blue-600"
-          />
-          <span>Tiếng Việt</span>
-        </label>
+    <div style={{ paddingTop: '24px', borderTop: '1px solid #f0f0f0' }}>
+      <Space direction="vertical" size="small" style={{ marginBottom: '16px' }}>
+        <Title level={4} style={{ margin: 0 }}>
+          <GlobalOutlined style={{ marginRight: '8px', color: '#1890ff' }} />
+          Ngôn ngữ
+        </Title>
+        <Text type="secondary" style={{ fontSize: '14px' }}>
+          Chọn ngôn ngữ hiển thị cho hệ thống.
+        </Text>
+      </Space>
 
-        <label className="flex items-center gap-2 cursor-pointer">
-          <input
-            type="radio"
-            name="lang"
-            checked={language === 'en'}
-            onChange={() => onChange('en')}
-            className="accent-blue-600"
-          />
-          <span>English</span>
-        </label>
-      </div>
+      <Radio.Group
+        value={language}
+        onChange={(e) => onChange(e.target.value)}
+        className="activity-radio-group"
+      >
+        <Radio value="vi">Tiếng Việt</Radio>
+        <Radio value="en">English</Radio>
+      </Radio.Group>
     </div>
   );
 };

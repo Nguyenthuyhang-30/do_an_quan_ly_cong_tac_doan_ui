@@ -1,0 +1,105 @@
+.styled-switch-wrapper {
+  display: inline-block;
+
+  .checkbox-style-switch {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    user-select: none;
+    transition: all 0.2s ease;
+
+    &:hover:not(.disabled) {
+      .checkbox-custom {
+        border-color: var(--primary-color);
+        box-shadow: 0 0 0 3px rgba(21, 26, 166, 0.1);
+      }
+    }
+
+    &.disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    input[type="checkbox"] {
+      position: absolute;
+      opacity: 0;
+      width: 0;
+      height: 0;
+      pointer-events: none;
+    }
+
+    .checkbox-custom {
+      position: relative;
+      width: 20px;
+      height: 20px;
+      border: 2px solid #cbd5e1;
+      border-radius: 5px;
+      background: #ffffff;
+      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+
+      .check-icon {
+        font-size: 12px;
+        color: #ffffff;
+        opacity: 0;
+        transform: scale(0.5);
+        transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+        line-height: 1;
+      }
+    }
+
+    &.checked {
+      .checkbox-custom {
+        background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-light) 100%);
+        border-color: transparent;
+        box-shadow: 0 2px 6px rgba(21, 26, 166, 0.25);
+
+        .check-icon {
+          opacity: 1;
+          transform: scale(1);
+        }
+      }
+
+      &:hover:not(.disabled) .checkbox-custom {
+        box-shadow: 0 3px 10px rgba(21, 26, 166, 0.35);
+        transform: translateY(-1px);
+      }
+    }
+
+    .checkbox-label {
+      font-size: 13px;
+      font-weight: 500;
+      color: #475569;
+      line-height: 1.4;
+      transition: color 0.2s ease;
+      user-select: none;
+    }
+
+    &.checked .checkbox-label {
+      color: #1e293b;
+      font-weight: 600;
+    }
+
+    &:hover:not(.disabled) .checkbox-label {
+      color: #334155;
+    }
+
+    &.disabled {
+      .checkbox-custom {
+        cursor: not-allowed;
+        background: #f1f5f9;
+        border-color: #e2e8f0;
+      }
+
+      .checkbox-label {
+        color: #94a3b8;
+      }
+    }
+  }
+}
+
