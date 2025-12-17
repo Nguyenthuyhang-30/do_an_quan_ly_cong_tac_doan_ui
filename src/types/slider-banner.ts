@@ -1,4 +1,5 @@
-import type { BaseResponse, BasePaginated } from '../base/models/base';
+import type { BaseResponse } from '../base/models/base';
+import type { BasePaginatedResponse } from '@base/models/basePaginated';
 
 // Slider Banner Entity
 export interface SliderBanner {
@@ -64,7 +65,7 @@ export interface SliderHomeParams {
 // Response Types
 export interface SliderBannerResponse extends BaseResponse<SliderBanner> {}
 
-export interface SliderBannerListResponse extends BasePaginated<SliderBanner> {}
+export interface SliderBannerListResponse extends BasePaginatedResponse<SliderBanner> {}
 
 export interface SliderBannerSelectOption {
   id: number;
