@@ -7,7 +7,7 @@ import type {
   YouthUnionBranch,
   CreateBranchRequest,
   UpdateBranchRequest,
-} from '../../../../types/youth-union-branch';
+} from '../../../../app-types/youth-union-branch';
 import dayjs from 'dayjs';
 
 const { TextArea } = Input;

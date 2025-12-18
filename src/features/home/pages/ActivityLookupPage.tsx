@@ -23,8 +23,8 @@ import type {
   ActivityParticipant,
   ActivityStatus,
   AttendanceStatus,
-} from '../../../types/activity';
-import type { YouthUnionMember } from '../../../types/youth-union-member';
+} from '../../../app-types/activity';
+import type { YouthUnionMember } from '../../../app-types/youth-union-member';
 
 const { Title, Text } = Typography;
 

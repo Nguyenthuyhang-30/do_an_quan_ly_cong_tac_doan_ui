@@ -30,7 +30,7 @@ import type {
   Activity,
   ActivityAttendanceStatistics,
   ActivityParticipant,
-} from '../../../../types/activity';
+} from '../../../../app-types/activity';
 import dayjs from 'dayjs';
 
 export default function ActivityDetailPage() {

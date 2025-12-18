@@ -2,7 +2,7 @@
 import { Select, SelectProps } from 'antd';
 import { useEffect, useState } from 'react';
 import cohortService from '../../services/api/cohort.service';
-import type { CohortSelectOption } from '../../types/general-category/cohort';
+import type { CohortSelectOption } from '../../app-types/general-category/cohort';
 
 interface CohortSelectorProps extends Omit<SelectProps, 'options'> {
   value?: number;

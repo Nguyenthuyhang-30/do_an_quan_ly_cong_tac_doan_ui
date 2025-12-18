@@ -8,8 +8,8 @@ import {
   MemberListParams,
   MemberStatistics,
   MemberSelectOption,
-} from '../../types/youth-union-member';
-import { Activity } from '../../types/activity';
+} from '../../app-types/youth-union-member';
+import { Activity } from '../../app-types/activity';
 
 /**
  * Youth Union Member Service

@@ -26,7 +26,10 @@ import {
 import { useNavigate, useParams } from '@tanstack/react-router';
 import ActivityService from '../../../../services/api/activity.service';
 import { AttendanceStatusBadge } from '../../../../components/common/AttendanceStatusBadge';
-import type { ActivityParticipant, ActivityAttendanceStatistics } from '../../../../types/activity';
+import type {
+  ActivityParticipant,
+  ActivityAttendanceStatistics,
+} from '../../../../app-types/activity';
 import dayjs from 'dayjs';
 
 const { Search } = Input;

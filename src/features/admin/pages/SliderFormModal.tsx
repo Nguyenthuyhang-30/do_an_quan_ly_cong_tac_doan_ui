@@ -2,10 +2,10 @@ import React, { useState, useEffect } from 'react';
 import { Modal, Form, Input, InputNumber, Switch, message, Alert, Space, Button, Card } from 'antd';
 import { DeleteOutlined, CloudUploadOutlined, InfoCircleOutlined } from '@ant-design/icons';
 import { FileUpload } from '../../../components/common';
-import { UploadFolder } from '../../../types/upload';
+import { UploadFolder } from '../../../app-types/upload';
 import { ImageVersionPreference } from '../../../services/api/upload.service';
-import type { SliderBannerFormValues } from '../../../types/slider-banner';
-import type { UploadedFile } from '../../../types/upload';
+import type { SliderBannerFormValues } from '../../../app-types/slider-banner';
+import type { UploadedFile } from '../../../app-types/upload';
 
 interface SliderFormModalProps {
   open: boolean;

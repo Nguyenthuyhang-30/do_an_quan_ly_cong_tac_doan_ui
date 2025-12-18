@@ -29,7 +29,7 @@ import ToggleStatusModal from './ToggleStatusModal';
 import AssignRoleModal from './AssignRoleModal';
 import CreateUserModal from './CreateUserModal';
 import MemberService from '../../../../../services/api/member.service';
-import type { YouthUnionMember } from '../../../../../types/youth-union-member';
+import type { YouthUnionMember } from '../../../../../app-types/youth-union-member';
 
 const { Title } = Typography;
 const { Search } = Input;

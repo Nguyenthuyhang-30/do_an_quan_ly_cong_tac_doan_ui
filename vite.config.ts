@@ -48,7 +48,7 @@ export default defineConfig({
       '@services': '/src/services',
       '@utils': '/src/utils',
       '@constants': '/src/constants',
-      '@types': '/src/types',
+      '@app-types': '/src/types',
       '@stores': '/src/stores',
       '@assets': '/src/assets',
       '@styles': '/src/styles',

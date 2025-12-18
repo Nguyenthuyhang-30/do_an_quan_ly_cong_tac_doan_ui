@@ -7,7 +7,7 @@ import {
 } from '@ant-design/icons';
 import { Card, Col, Descriptions, Modal, Row, Space, Tag, Typography } from 'antd';
 import React from 'react';
-import type { Cohort } from '../../../../../types/general-category/cohort';
+import type { Cohort } from '../../../../../app-types/general-category/cohort';
 import './ViewCohortModal.scss';
 
 const { Title, Text } = Typography;

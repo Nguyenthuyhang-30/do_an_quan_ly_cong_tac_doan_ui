@@ -2,7 +2,7 @@
 import { Select, SelectProps } from 'antd';
 import { useEffect, useState } from 'react';
 import ActivityService from '../../services/api/activity.service';
-import { ActivitySelectOption } from '../../types/activity';
+import { ActivitySelectOption } from '../../app-types/activity';
 
 interface ActivitySelectorProps extends Omit<SelectProps, 'options'> {
   value?: number;

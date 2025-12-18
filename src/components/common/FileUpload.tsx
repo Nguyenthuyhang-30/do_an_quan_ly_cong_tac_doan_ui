@@ -9,8 +9,8 @@ import {
 } from '@ant-design/icons';
 import type { UploadFile, UploadProps } from 'antd/es/upload/interface';
 import { useUpload } from '../../hooks/useUpload';
-import type { UploadedFile } from '../../types/upload';
-import { UploadFolder } from '../../types/upload';
+import type { UploadedFile } from '../../app-types/upload';
+import { UploadFolder } from '../../app-types/upload';
 import { uploadService, ImageVersionPreference } from '../../services/api/upload.service';
 
 const { Dragger } = Upload;

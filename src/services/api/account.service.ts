@@ -6,7 +6,7 @@ import {
   ChangePasswordRequest,
   ResetPasswordRequest,
   AccountListParams,
-} from '../../types/account';
+} from '../../app-types/account';
 
 /**
  * Account Service

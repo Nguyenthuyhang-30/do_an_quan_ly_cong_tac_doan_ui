@@ -7,7 +7,7 @@ import type {
   UpdateCohortRequest,
   CohortSelectOption,
   DeleteCohortsRequest,
-} from '../../types/general-category/cohort';
+} from '../../app-types/general-category/cohort';
 
 export interface CohortListParams {
   page?: number;

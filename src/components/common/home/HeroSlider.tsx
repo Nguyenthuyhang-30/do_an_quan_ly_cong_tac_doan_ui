@@ -1,7 +1,7 @@
 import ImageWithFallback from '@components/common/ImageWithFallback';
 import '@features/home/pages/Home.css';
-import { SliderBanner } from '@types/slider-banner';
 import { Carousel } from 'antd';
+import { SliderBanner } from 'app-types/slider-banner';
 
 interface HeroSliderProps {
   sliders: SliderBanner[];

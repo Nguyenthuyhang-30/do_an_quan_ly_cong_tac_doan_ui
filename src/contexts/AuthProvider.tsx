@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useCallback } from 'react';
-import { User } from '../types/auth';
+import { User } from '../app-types/auth';
 import authService from '../services/api/auth.service';
 import { notification } from 'antd';
 import { AuthContext } from './AuthContext';

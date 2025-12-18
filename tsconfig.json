@@ -18,7 +18,7 @@
       "@services/*": ["services/*"],
       "@utils/*": ["utils/*"],
       "@constants/*": ["constants/*"],
-      "@types/*": ["types/*"],
+      "@app-types/*": ["types/*"],
       "@stores/*": ["stores/*"],
       "@assets/*": ["assets/*"],
       "@styles/*": ["styles/*"],
@@ -35,8 +35,5 @@
   "files": [],
   "include": ["src"],
   "exclude": ["node_modules", "dist"],
-  "references": [
-    { "path": "./tsconfig.app.json" },
-    { "path": "./tsconfig.node.json" }
-  ]
+  "references": [{ "path": "./tsconfig.app.json" }, { "path": "./tsconfig.node.json" }]
 }

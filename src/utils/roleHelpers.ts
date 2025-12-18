@@ -1,4 +1,4 @@
-import { User, Role, UserRole } from '../types/auth';
+import { User, Role, UserRole } from '../app-types/auth';
 
 /**
  * Helper functions for working with user roles

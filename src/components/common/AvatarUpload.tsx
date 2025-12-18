@@ -3,8 +3,8 @@ import { Upload, Avatar, Button, Spin, message } from 'antd';
 import { UserOutlined, CameraOutlined, LoadingOutlined } from '@ant-design/icons';
 import type { UploadProps } from 'antd/es/upload/interface';
 import { useUpload } from '../../hooks/useUpload';
-import type { UploadedFile } from '../../types/upload';
-import { ALLOWED_IMAGE_TYPES, MAX_AVATAR_SIZE } from '../../types/upload';
+import type { UploadedFile } from '../../app-types/upload';
+import { ALLOWED_IMAGE_TYPES, MAX_AVATAR_SIZE } from '../../app-types/upload';
 import { uploadService } from '../../services/api/upload.service';
 
 interface AvatarUploadProps {

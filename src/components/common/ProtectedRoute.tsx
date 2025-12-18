@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { useAuth } from '../../hooks/useAuth';
 import LoadingSpinner from './LoadingSpinner';
-import { UserRole } from '../../types/auth';
+import { UserRole } from '../../app-types/auth';
 import { notification } from 'antd';
 import * as roleHelpers from '../../utils/roleHelpers';
 
