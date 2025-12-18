@@ -1,6 +1,6 @@
-import { useState } from 'react';
 import { PictureOutlined } from '@ant-design/icons';
 import { Skeleton, Typography } from 'antd';
+import { useState, useEffect } from 'react';
 
 const { Text } = Typography;
 
@@ -16,7 +16,7 @@ export interface ImageWithFallbackProps {
 const ImageWithFallback = ({
   src,
   alt,
-  fallback = '/images/fallback.png',
+  fallback = '/images/news/fallback.png',
   className = '',
   style = {},
   showErrorMessage = true,
@@ -24,6 +24,12 @@ const ImageWithFallback = ({
   const [imgSrc, setImgSrc] = useState(src);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
+
+  useEffect(() => {
+    setImgSrc(src);
+    setLoading(true);
+    setError(false);
+  }, [src]);
 
   const handleError = () => {
     if (imgSrc !== fallback) {
@@ -47,7 +53,7 @@ const ImageWithFallback = ({
         <div className="absolute inset-0 flex items-center justify-center bg-gray-100">
           <Skeleton.Image
             active
-            className="w-full h-full !w-full !h-full"
+            className="!w-full !h-full"
             style={{ width: '100%', height: '100%' }}
           />
         </div>

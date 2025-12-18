@@ -1,21 +1,22 @@
 import ImageWithFallback from '@components/common/ImageWithFallback';
 import '@features/home/pages/Home.css';
+import { SliderBanner } from '@types/slider-banner';
 import { Carousel } from 'antd';
 
 interface HeroSliderProps {
-  images: string[];
+  sliders: SliderBanner[];
 }
 
-const HeroSlider = ({ images }: HeroSliderProps) => {
+const HeroSlider = ({ sliders }: HeroSliderProps) => {
   return (
     <div className="w-full">
       <Carousel autoplay autoplaySpeed={3000} effect="fade">
-        {images.map((img, index) => (
+        {sliders?.map((slr, index) => (
           <div key={index}>
             <div className="relative w-full h-[400px] sm:h-[500px] md:h-[600px] lg:h-[760px]">
               <ImageWithFallback
-                src={img}
-                alt={`Slider ${index + 1}`}
+                src={slr?.image}
+                alt={`${slr?.name}`}
                 className="w-full h-full"
                 style={{ objectFit: 'cover' }}
               />

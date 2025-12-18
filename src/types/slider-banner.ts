@@ -1,4 +1,4 @@
-import type { BaseResponse, BasePaginated } from '../base/models/base';
+import type { BasePaginated, BaseResponse } from '../base/models/base';
 
 // Slider Banner Entity
 export interface SliderBanner {

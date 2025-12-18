@@ -31,7 +31,15 @@ const Home = () => {
         setSliders(data);
       } catch (error) {
         console.error('Failed to load sliders:', error);
-        // Keep using fallback images on error
+        setSliders(
+          fallbackSliderImages?.map((imgUrl, index) => ({
+            id: index,
+            code: `fallback-${index}`,
+            name: `Fallback Slider ${index + 1}`,
+            image: imgUrl,
+            isActive: true,
+          })),
+        );
       } finally {
         setSlidersLoading(false);
       }
@@ -46,14 +54,10 @@ const Home = () => {
       .finally(() => setLoading(false));
   }, []);
 
-  // Get slider images - use API data if available, otherwise use fallback
-  const sliderImages =
-    sliders.length > 0 ? sliders.map((slider) => slider.image) : fallbackSliderImages;
-
   return (
     <div className="w-full">
       <BirthdayCard />
-      <HeroSlider images={sliderImages} />
+      <HeroSlider sliders={sliders} />
       <SectionIntro />
       <SectionBCH />
       <SectionTinTuc allNews={allNews} loading={loading} />
