@@ -1,6 +1,7 @@
 // src/features/admin/pages/activity/create-activity/VoteBasicInfoSection.tsx
 import React from 'react';
-import { Col, DatePicker, Form, Input, Row, Switch } from 'antd';
+import { Col, DatePicker, Form, Input, Row } from 'antd';
+import StyledSwitch from '../../../../../components/common/StyledSwitch';
 
 const { TextArea } = Input;
 
@@ -30,7 +31,7 @@ const VoteBasicInfoSection: React.FC = () => {
 
       <Col span={12}>
         <Form.Item label="Biểu quyết ẩn danh" name="isAnonymous" valuePropName="checked">
-          <Switch checkedChildren="Ẩn danh" unCheckedChildren="Hiển tên" />
+          <StyledSwitch checkedChildren="Ẩn danh" unCheckedChildren="Hiển tên" />
         </Form.Item>
       </Col>
 
@@ -40,7 +41,7 @@ const VoteBasicInfoSection: React.FC = () => {
           name="allowMultiple"
           valuePropName="checked"
         >
-          <Switch checkedChildren="Nhiều lựa chọn" unCheckedChildren="Một lựa chọn" />
+          <StyledSwitch checkedChildren="Nhiều lựa chọn" unCheckedChildren="Một lựa chọn" />
         </Form.Item>
       </Col>
 

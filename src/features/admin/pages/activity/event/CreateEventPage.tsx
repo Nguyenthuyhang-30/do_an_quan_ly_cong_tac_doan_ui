@@ -61,7 +61,21 @@ const CreateEventPage: React.FC = () => {
           <EventAdvancedSection />
 
           <Form.Item>
-            <Button type="primary" htmlType="submit" loading={loading}>
+            <Button
+              type="primary"
+              htmlType="submit"
+              loading={loading}
+              style={{
+                background:
+                  'linear-gradient(135deg, var(--primary-color) 0%, var(--primary-light) 100%)',
+                border: 'none',
+                borderRadius: '10px',
+                height: '40px',
+                padding: '0 20px',
+                fontWeight: '600',
+                boxShadow: '0 4px 12px rgba(21, 26, 166, 0.25)',
+              }}
+            >
               Lưu & tạo hoạt động
             </Button>
           </Form.Item>

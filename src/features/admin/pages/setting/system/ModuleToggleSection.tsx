@@ -1,6 +1,11 @@
 // src/pages/settings/system/ModuleToggleSection.tsx
 import React from 'react';
+import { Card, Typography, Space, Row, Col } from 'antd';
+import { AppstoreOutlined } from '@ant-design/icons';
+import StyledSwitch from '@components/common/StyledSwitch';
 import { ModuleToggle } from './types';
+
+const { Title, Text } = Typography;
 
 interface Props {
   modules: ModuleToggle;
@@ -12,37 +17,50 @@ const ModuleToggleSection: React.FC<Props> = ({ modules, onChange }) => {
     onChange({ ...modules, [key]: !modules[key] });
   };
 
+  const moduleLabels: Record<keyof ModuleToggle, string> = {
+    news: 'Tin tức',
+    activities: 'Hoạt động',
+    achievements: 'Điểm rèn luyện',
+    feedback: 'Phản hồi / Góp ý',
+  };
+
   return (
     <div>
-      <h2 className="text-lg font-semibold text-gray-800 mb-3">🧩 Module hệ thống</h2>
-      <p className="text-sm text-gray-500 mb-4">
+      <Space direction="vertical" size="small" style={{ marginBottom: '16px' }}>
+        <Title level={4} style={{ margin: 0 }}>
+          <AppstoreOutlined style={{ marginRight: '8px', color: '#1890ff' }} />
+          Module hệ thống
+        </Title>
+        <Text type="secondary" style={{ fontSize: '14px' }}>
         Bật hoặc tắt các chức năng tùy theo nhu cầu sử dụng.
-      </p>
+        </Text>
+      </Space>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm">
+      <Row gutter={[16, 16]}>
         {Object.entries(modules).map(([key, value]) => (
-          <label
-            key={key}
-            className="flex items-center justify-between border border-gray-200 rounded-lg px-4 py-3 hover:bg-gray-50 cursor-pointer"
+          <Col xs={24} sm={12} key={key}>
+            <Card
+              hoverable
+              style={{
+                borderRadius: '12px',
+                border: '1px solid #e8e8e8',
+                transition: 'all 0.3s ease',
+              }}
+              bodyStyle={{ padding: '16px' }}
           >
-            <span className="capitalize text-gray-700">
-              {key === 'news'
-                ? 'Tin tức'
-                : key === 'activities'
-                ? 'Hoạt động'
-                : key === 'achievements'
-                ? 'Điểm rèn luyện'
-                : 'Phản hồi / Góp ý'}
-            </span>
-            <input
-              type="checkbox"
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                <Text strong style={{ fontSize: '14px', color: '#1e293b' }}>
+                  {moduleLabels[key as keyof ModuleToggle]}
+                </Text>
+                <StyledSwitch
               checked={value}
               onChange={() => handleToggle(key as keyof ModuleToggle)}
-              className="w-4 h-4 accent-blue-600"
             />
-          </label>
+              </div>
+            </Card>
+          </Col>
         ))}
-      </div>
+      </Row>
     </div>
   );
 };

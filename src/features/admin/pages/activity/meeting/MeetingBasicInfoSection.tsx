@@ -1,6 +1,8 @@
 // src/features/admin/pages/activity/create-activity/MeetingBasicInfoSection.tsx
 import React from 'react';
-import { Col, DatePicker, Form, Input, Radio, Row, Switch } from 'antd';
+import { Col, DatePicker, Form, Input, Radio, Row } from 'antd';
+import StyledSwitch from '../../../../../components/common/StyledSwitch';
+import '../styles/RadioGroup.scss';
 
 const { TextArea } = Input;
 
@@ -41,7 +43,7 @@ const MeetingBasicInfoSection: React.FC = () => {
 
       <Col span={8}>
         <Form.Item label="Hình thức sinh hoạt" name="meetingType">
-          <Radio.Group>
+          <Radio.Group className="activity-radio-group">
             <Radio value="offline">Trực tiếp</Radio>
             <Radio value="online">Online</Radio>
             <Radio value="hybrid">Kết hợp</Radio>
@@ -63,13 +65,13 @@ const MeetingBasicInfoSection: React.FC = () => {
 
       <Col span={12}>
         <Form.Item label="Bắt buộc điểm danh" name="isRequiredAttendance" valuePropName="checked">
-          <Switch checkedChildren="Bắt buộc" unCheckedChildren="Không bắt buộc" />
+          <StyledSwitch checkedChildren="Bắt buộc" unCheckedChildren="Không bắt buộc" />
         </Form.Item>
       </Col>
 
       <Col span={12}>
         <Form.Item label="Cho phép check-in bằng QR" name="allowQrCheckin" valuePropName="checked">
-          <Switch checkedChildren="Có" unCheckedChildren="Không" />
+          <StyledSwitch checkedChildren="Có" unCheckedChildren="Không" />
         </Form.Item>
       </Col>
 

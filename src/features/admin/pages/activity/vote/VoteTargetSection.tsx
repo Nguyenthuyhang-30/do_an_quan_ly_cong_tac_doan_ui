@@ -1,13 +1,14 @@
 // src/features/admin/pages/activity/create-activity/VoteTargetSection.tsx
 import React from 'react';
 import { Col, Form, Radio, Row, Select } from 'antd';
+import '../styles/RadioGroup.scss';
 
 const VoteTargetSection: React.FC = () => {
   return (
     <Row gutter={16}>
       <Col span={24}>
         <Form.Item label="Đối tượng tham gia" name="targetType">
-          <Radio.Group>
+          <Radio.Group className="activity-radio-group">
             <Radio value="all">Toàn bộ Đoàn viên (mặc định)</Radio>
             <Radio value="branch">Theo chi đoàn</Radio>
             <Radio value="role">Theo vai trò</Radio>

@@ -1,5 +1,9 @@
 // src/pages/settings/general/ColorPicker.tsx
 import React from 'react';
+import { Space, Typography } from 'antd';
+import { BgColorsOutlined } from '@ant-design/icons';
+
+const { Text } = Typography;
 
 interface Props {
   color: string;
@@ -8,16 +12,30 @@ interface Props {
 
 const ColorPicker: React.FC<Props> = ({ color, onChange }) => {
   return (
-    <div className="mt-4 flex items-center gap-3">
-      <label className="text-gray-600 text-sm">Màu chủ đạo:</label>
-      <input
-        type="color"
-        value={color}
-        onChange={(e) => onChange(e.target.value)}
-        className="w-10 h-10 rounded cursor-pointer border border-gray-300"
-      />
-      <span className="text-sm text-gray-600">{color}</span>
-    </div>
+    <Space direction="vertical" size="small" style={{ width: '100%' }}>
+      <Text strong style={{ fontSize: '14px' }}>
+        <BgColorsOutlined style={{ marginRight: '8px', color: '#1890ff' }} />
+        Màu chủ đạo
+      </Text>
+      <Space size="middle" align="center">
+        <input
+          type="color"
+          value={color}
+          onChange={(e) => onChange(e.target.value)}
+          style={{
+            width: '48px',
+            height: '48px',
+            borderRadius: '8px',
+            cursor: 'pointer',
+            border: '2px solid #e8e8e8',
+            boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)',
+          }}
+        />
+        <Text style={{ fontSize: '14px', color: '#64748b', fontFamily: 'monospace' }}>
+          {color.toUpperCase()}
+        </Text>
+      </Space>
+    </Space>
   );
 };
 

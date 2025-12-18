@@ -1,5 +1,9 @@
 // src/pages/settings/security/LoginLimitSection.tsx
 import React from 'react';
+import { Card, Typography, Space, InputNumber } from 'antd';
+import { StopOutlined } from '@ant-design/icons';
+
+const { Title, Text } = Typography;
 
 interface Props {
   maxAttempts: number;
@@ -9,22 +13,36 @@ interface Props {
 const LoginLimitSection: React.FC<Props> = ({ maxAttempts, onChange }) => {
   return (
     <div>
-      <h2 className="text-lg font-semibold text-gray-800 mb-3">🚫 Giới hạn đăng nhập sai</h2>
-      <p className="text-sm text-gray-500 mb-4">
-        Giới hạn số lần nhập sai mật khẩu trước khi tài khoản bị tạm khóa.
-      </p>
+      <Space direction="vertical" size="small" style={{ marginBottom: '16px' }}>
+        <Title level={4} style={{ margin: 0 }}>
+          <StopOutlined style={{ marginRight: '8px', color: '#1890ff' }} />
+          Giới hạn đăng nhập sai
+        </Title>
+        <Text type="secondary" style={{ fontSize: '14px' }}>
+          Giới hạn số lần nhập sai mật khẩu trước khi tài khoản bị tạm khóa.
+        </Text>
+      </Space>
 
-      <div className="flex items-center gap-3">
-        <input
-          type="number"
-          min={1}
-          max={10}
-          value={maxAttempts}
-          onChange={(e) => onChange(parseInt(e.target.value))}
-          className="border border-gray-200 rounded-lg px-3 py-2 w-24 text-sm"
-        />
-        <span className="text-sm text-gray-600">lần cho phép trước khi khóa</span>
-      </div>
+      <Card
+        style={{
+          borderRadius: '12px',
+          border: '1px solid #e8e8e8',
+        }}
+        bodyStyle={{ padding: '16px' }}
+      >
+        <Space size="middle" align="center">
+          <InputNumber
+            min={1}
+            max={10}
+            value={maxAttempts}
+            onChange={(val) => onChange(val || 1)}
+            style={{ width: '100px' }}
+          />
+          <Text style={{ fontSize: '14px', color: '#64748b' }}>
+            lần cho phép trước khi khóa
+          </Text>
+        </Space>
+      </Card>
     </div>
   );
 };

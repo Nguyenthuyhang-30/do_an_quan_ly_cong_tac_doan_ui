@@ -1,6 +1,7 @@
 // src/features/admin/pages/activity/create-activity/VolunteerBasicInfoSection.tsx
 import React from 'react';
-import { Col, DatePicker, Form, Input, InputNumber, Row, Switch } from 'antd';
+import { Col, DatePicker, Form, Input, InputNumber, Row } from 'antd';
+import StyledSwitch from '../../../../../components/common/StyledSwitch';
 
 const { RangePicker } = DatePicker;
 const { TextArea } = Input;
@@ -71,13 +72,13 @@ const VolunteerBasicInfoSection: React.FC = () => {
 
       <Col span={12}>
         <Form.Item label="Yêu cầu sức khỏe tốt" name="requireHealthCheck" valuePropName="checked">
-          <Switch checkedChildren="Có" unCheckedChildren="Không" />
+          <StyledSwitch checkedChildren="Có" unCheckedChildren="Không" />
         </Form.Item>
       </Col>
 
       <Col span={12}>
         <Form.Item label="Yêu cầu tập huấn trước" name="requireTraining" valuePropName="checked">
-          <Switch checkedChildren="Có" unCheckedChildren="Không" />
+          <StyledSwitch checkedChildren="Có" unCheckedChildren="Không" />
         </Form.Item>
       </Col>
 

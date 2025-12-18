@@ -1,0 +1,78 @@
+// Custom Radio Group Styles for Activity Pages
+.activity-radio-group {
+  .ant-radio-wrapper {
+    margin-right: 16px;
+    font-size: 14px;
+    color: #475569;
+    transition: all 0.2s ease;
+
+    &:hover {
+      color: var(--primary-color);
+    }
+
+    .ant-radio {
+      .ant-radio-inner {
+        width: 18px;
+        height: 18px;
+        border-width: 2px;
+        border-color: #cbd5e1;
+        transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+
+        &::after {
+          width: 18px;
+          height: 18px;
+          background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-light) 100%);
+          border-radius: 50%;
+          transform: scale(0.5);
+          opacity: 0;
+          transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+      }
+
+      &:hover .ant-radio-inner {
+        border-color: var(--primary-color);
+        box-shadow: 0 0 0 3px rgba(21, 26, 166, 0.1);
+      }
+
+      &.ant-radio-checked {
+        .ant-radio-inner {
+          border-color: transparent;
+          background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-light) 100%);
+          box-shadow: 0 2px 6px rgba(21, 26, 166, 0.25);
+
+          &::after {
+            opacity: 1;
+            transform: scale(0.5);
+            background: #ffffff;
+          }
+        }
+
+        &:hover .ant-radio-inner {
+          box-shadow: 0 3px 10px rgba(21, 26, 166, 0.35);
+          transform: translateY(-1px);
+        }
+      }
+
+      &.ant-radio-disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+
+        .ant-radio-inner {
+          background: #f1f5f9;
+          border-color: #e2e8f0;
+        }
+      }
+    }
+
+    span.ant-radio + * {
+      padding-left: 8px;
+      font-weight: 500;
+    }
+
+    &.ant-radio-wrapper-checked {
+      color: #1e293b;
+      font-weight: 600;
+    }
+  }
+}
+

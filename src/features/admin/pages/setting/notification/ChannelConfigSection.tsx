@@ -1,6 +1,11 @@
 // src/pages/settings/notification/ChannelConfigSection.tsx
 import React from 'react';
+import { Card, Typography, Space, Row, Col } from 'antd';
+import { SendOutlined, MailOutlined, MessageOutlined, BellOutlined } from '@ant-design/icons';
+import StyledSwitch from '@components/common/StyledSwitch';
 import { NotificationChannel } from './types';
+
+const { Title, Text } = Typography;
 
 interface Props {
   channels: NotificationChannel;
@@ -12,44 +17,49 @@ const ChannelConfigSection: React.FC<Props> = ({ channels, onChange }) => {
     onChange({ ...channels, [key]: !channels[key] });
   };
 
+  const channelConfig = [
+    { key: 'email' as const, label: 'Email', icon: <MailOutlined /> },
+    { key: 'sms' as const, label: 'SMS', icon: <MessageOutlined /> },
+    { key: 'push' as const, label: 'Thông báo hệ thống', icon: <BellOutlined /> },
+  ];
+
   return (
     <div>
-      <h2 className="text-lg font-semibold text-gray-800 mb-3">📡 Kênh gửi thông báo</h2>
-      <p className="text-sm text-gray-500 mb-4">
-        Chọn kênh sẽ được dùng để gửi thông báo hệ thống.
-      </p>
+      <Space direction="vertical" size="small" style={{ marginBottom: '16px' }}>
+        <Title level={4} style={{ margin: 0 }}>
+          <SendOutlined style={{ marginRight: '8px', color: '#1890ff' }} />
+          Kênh gửi thông báo
+        </Title>
+        <Text type="secondary" style={{ fontSize: '14px' }}>
+          Chọn kênh sẽ được dùng để gửi thông báo hệ thống.
+        </Text>
+      </Space>
 
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 text-sm">
-        <label className="flex items-center justify-between border border-gray-200 rounded-lg px-4 py-3 hover:bg-gray-50 cursor-pointer">
-          <span>Email</span>
-          <input
-            type="checkbox"
-            checked={channels.email}
-            onChange={() => toggle('email')}
-            className="w-4 h-4 accent-blue-600"
-          />
-        </label>
-
-        <label className="flex items-center justify-between border border-gray-200 rounded-lg px-4 py-3 hover:bg-gray-50 cursor-pointer">
-          <span>SMS</span>
-          <input
-            type="checkbox"
-            checked={channels.sms}
-            onChange={() => toggle('sms')}
-            className="w-4 h-4 accent-blue-600"
-          />
-        </label>
-
-        <label className="flex items-center justify-between border border-gray-200 rounded-lg px-4 py-3 hover:bg-gray-50 cursor-pointer">
-          <span>Thông báo hệ thống</span>
-          <input
-            type="checkbox"
-            checked={channels.push}
-            onChange={() => toggle('push')}
-            className="w-4 h-4 accent-blue-600"
-          />
-        </label>
-      </div>
+      <Row gutter={[16, 16]}>
+        {channelConfig.map(({ key, label, icon }) => (
+          <Col xs={24} sm={12} lg={8} key={key}>
+            <Card
+              hoverable
+              style={{
+                borderRadius: '12px',
+                border: '1px solid #e8e8e8',
+                transition: 'all 0.3s ease',
+              }}
+              bodyStyle={{ padding: '16px' }}
+            >
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                <Space>
+                  <span style={{ color: '#1890ff', fontSize: '16px' }}>{icon}</span>
+                  <Text strong style={{ fontSize: '14px', color: '#1e293b' }}>
+                    {label}
+                  </Text>
+                </Space>
+                <StyledSwitch checked={channels[key]} onChange={() => toggle(key)} />
+              </div>
+            </Card>
+          </Col>
+        ))}
+      </Row>
     </div>
   );
 };

@@ -1,6 +1,10 @@
 // src/pages/settings/general/OrganizationInfoForm.tsx
 import React from 'react';
+import { Typography, Space, Row, Col, Form, Input } from 'antd';
+import { BankOutlined } from '@ant-design/icons';
 import { OrganizationSettings } from './types';
+
+const { Title, Text } = Typography;
 
 interface Props {
   settings: OrganizationSettings;
@@ -9,39 +13,50 @@ interface Props {
 
 const OrganizationInfoForm: React.FC<Props> = ({ settings, onChange }) => (
   <div>
-    <h2 className="text-lg font-semibold text-gray-800 mb-4">🏫 Thông tin tổ chức</h2>
+    <Space direction="vertical" size="small" style={{ marginBottom: '16px' }}>
+      <Title level={4} style={{ margin: 0 }}>
+        <BankOutlined style={{ marginRight: '8px', color: '#1890ff' }} />
+        Thông tin tổ chức
+      </Title>
+      <Text type="secondary" style={{ fontSize: '14px' }}>
+        Cập nhật thông tin về trường và tổ chức Đoàn.
+      </Text>
+    </Space>
 
-    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
-      <div>
-        <label className="block text-gray-600 mb-1">Tên trường</label>
-        <input
-          type="text"
-          value={settings.schoolName}
-          onChange={(e) => onChange('schoolName', e.target.value)}
-          className="w-full border border-gray-200 rounded-lg px-3 py-2"
-        />
-      </div>
+    <Row gutter={16}>
+      <Col xs={24} md={12}>
+        <Form.Item label="Tên trường" style={{ marginBottom: 16 }}>
+          <Input
+            value={settings.schoolName}
+            onChange={(e) => onChange('schoolName', e.target.value)}
+            placeholder="Nhập tên trường"
+            style={{ borderRadius: '8px' }}
+          />
+        </Form.Item>
+      </Col>
 
-      <div>
-        <label className="block text-gray-600 mb-1">Liên chi đoàn</label>
-        <input
-          type="text"
-          value={settings.unionName}
-          onChange={(e) => onChange('unionName', e.target.value)}
-          className="w-full border border-gray-200 rounded-lg px-3 py-2"
-        />
-      </div>
+      <Col xs={24} md={12}>
+        <Form.Item label="Liên chi đoàn" style={{ marginBottom: 16 }}>
+          <Input
+            value={settings.unionName}
+            onChange={(e) => onChange('unionName', e.target.value)}
+            placeholder="Nhập tên liên chi đoàn"
+            style={{ borderRadius: '8px' }}
+          />
+        </Form.Item>
+      </Col>
 
-      <div className="md:col-span-2">
-        <label className="block text-gray-600 mb-1">Khẩu hiệu</label>
-        <input
-          type="text"
-          value={settings.slogan}
-          onChange={(e) => onChange('slogan', e.target.value)}
-          className="w-full border border-gray-200 rounded-lg px-3 py-2"
-        />
-      </div>
-    </div>
+      <Col xs={24}>
+        <Form.Item label="Khẩu hiệu" style={{ marginBottom: 0 }}>
+          <Input
+            value={settings.slogan}
+            onChange={(e) => onChange('slogan', e.target.value)}
+            placeholder="Nhập khẩu hiệu"
+            style={{ borderRadius: '8px' }}
+          />
+        </Form.Item>
+      </Col>
+    </Row>
   </div>
 );
 
