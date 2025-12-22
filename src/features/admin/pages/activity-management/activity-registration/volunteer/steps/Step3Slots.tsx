@@ -7,7 +7,7 @@ interface Step3SlotsProps {
   form: FormInstance;
 }
 
-export default function Step3Slots({ form }: Step3SlotsProps) {
+export default function Step3Slots({ form: _form }: Step3SlotsProps) {
   return (
     <div>
       <h3 style={{ marginBottom: '24px', color: 'var(--text-primary)', fontSize: '18px' }}>

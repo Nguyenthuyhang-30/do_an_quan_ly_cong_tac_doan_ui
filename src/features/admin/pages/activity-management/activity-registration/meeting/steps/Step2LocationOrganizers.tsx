@@ -6,7 +6,7 @@ interface Step2LocationOrganizersProps {
   form: FormInstance;
 }
 
-export default function Step2LocationOrganizers({ form }: Step2LocationOrganizersProps) {
+export default function Step2LocationOrganizers({ form: _form }: Step2LocationOrganizersProps) {
   return (
     <div>
       <h3 style={{ marginBottom: '24px', color: 'var(--text-primary)', fontSize: '18px' }}>

@@ -99,10 +99,7 @@ export default function CreateEventRegistrationPage() {
         location: values.location?.trim(),
         maxParticipants: values.expectedParticipants,
         status: 'planned',
-        organizer: values.organizer,
-        isRequiredCheckin: values.isRequiredCheckin,
-        note: values.note,
-        attachments: values.attachments,
+        organizer: (values as any).organizer,
       });
       message.success('Tạo phiếu đăng ký sự kiện thành công!');
       navigate({ to: '/admin/activity-management/registration' });

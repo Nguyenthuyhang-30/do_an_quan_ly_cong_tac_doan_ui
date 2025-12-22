@@ -95,11 +95,6 @@ export default function CreateVoteRegistrationPage() {
         startDate: now,
         endDate: deadline,
         status: 'planned',
-        isAnonymous: values.isAnonymous || false,
-        allowMultiple: values.allowMultiple || false,
-        options: values.options || [],
-        minChoice: values.minChoice,
-        maxChoice: values.maxChoice,
       });
 
       message.success('Tạo phiếu đăng ký biểu quyết thành công!');

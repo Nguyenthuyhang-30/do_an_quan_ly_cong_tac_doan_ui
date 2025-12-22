@@ -106,7 +106,7 @@ export default function ActivityTypeSelectionPage() {
         </div>
 
         <Row gutter={[24, 24]} className="selection-grid">
-          {activityTypes.map((activity, index) => (
+          {activityTypes.map((activity) => (
             <Col xs={24} sm={12} key={activity.key}>
               <Card
                 hoverable

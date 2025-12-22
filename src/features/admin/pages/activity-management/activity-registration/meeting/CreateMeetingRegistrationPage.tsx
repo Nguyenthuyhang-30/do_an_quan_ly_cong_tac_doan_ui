@@ -104,10 +104,6 @@ export default function CreateMeetingRegistrationPage() {
         endDate: endDate,
         status: 'planned',
         location: values.location?.trim(),
-        agenda: values.agenda,
-        isRequiredAttendance: values.isRequiredAttendance,
-        allowQrCheckin: values.allowQrCheckin,
-        attachments: values.attachments,
       });
 
       message.success('Tạo phiếu đăng ký sinh hoạt thành công!');

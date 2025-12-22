@@ -7,7 +7,7 @@ interface Step3AgendaProps {
   form: FormInstance;
 }
 
-export default function Step3Agenda({ form }: Step3AgendaProps) {
+export default function Step3Agenda({ form: _form }: Step3AgendaProps) {
   return (
     <div>
       <h3 style={{ marginBottom: '24px', color: 'var(--text-primary)', fontSize: '18px' }}>

@@ -10,7 +10,7 @@ interface Step1BasicInfoProps {
   form: FormInstance;
 }
 
-export default function Step1BasicInfo({ form }: Step1BasicInfoProps) {
+export default function Step1BasicInfo({ form: _form }: Step1BasicInfoProps) {
   return (
     <div>
       <h3 style={{ marginBottom: '24px', color: 'var(--text-primary)', fontSize: '18px' }}>

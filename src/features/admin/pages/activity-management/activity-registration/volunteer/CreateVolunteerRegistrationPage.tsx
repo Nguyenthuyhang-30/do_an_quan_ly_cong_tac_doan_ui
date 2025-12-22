@@ -94,12 +94,6 @@ export default function CreateVolunteerRegistrationPage() {
           values.timeRange?.[1] || new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString(),
         status: 'planned',
         location: values.location?.trim(),
-        maxVolunteers: values.maxVolunteers,
-        slots: values.slots,
-        requireHealthCheck: values.requireHealthCheck,
-        requireTraining: values.requireTraining,
-        benefits: values.benefits,
-        attachments: values.attachments,
       });
 
       message.success('Tạo phiếu đăng ký tình nguyện thành công!');

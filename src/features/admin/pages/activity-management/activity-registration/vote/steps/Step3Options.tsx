@@ -7,7 +7,7 @@ interface Step3OptionsProps {
   form: FormInstance;
 }
 
-export default function Step3Options({ form }: Step3OptionsProps) {
+export default function Step3Options({ form: _form }: Step3OptionsProps) {
   return (
     <div>
       <h3 style={{ marginBottom: '24px', color: 'var(--text-primary)', fontSize: '18px' }}>

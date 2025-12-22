@@ -1084,7 +1084,7 @@ export default function RegistrationListPage() {
                   optionFilterProp="children"
                   onChange={handleActivityFilter}
                   filterOption={(input, option) =>
-                    (option?.label ?? '').toLowerCase().includes(input.toLowerCase())
+                    String(option?.label ?? '').toLowerCase().includes(input.toLowerCase())
                   }
                 >
                   {activities.map((activity) => (

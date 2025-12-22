@@ -100,11 +100,6 @@ export default function ActivityRegistrationPage() {
             maxParticipants: 200,
             currentParticipants: 0,
             status: 'planned',
-            isRequiredCheckin: true,
-            note: '',
-            documents: [],
-            created_at: '2024-11-01T00:00:00Z',
-            modified_at: '2024-11-01T00:00:00Z',
           },
           {
             id: 2,
@@ -118,11 +113,6 @@ export default function ActivityRegistrationPage() {
             maxParticipants: 50,
             currentParticipants: 0,
             status: 'planned',
-            isRequiredCheckin: true,
-            note: '',
-            documents: [],
-            created_at: '2024-11-05T00:00:00Z',
-            modified_at: '2024-11-05T00:00:00Z',
           },
           {
             id: 3,
@@ -136,11 +126,6 @@ export default function ActivityRegistrationPage() {
             maxParticipants: 30,
             currentParticipants: 0,
             status: 'ongoing',
-            isRequiredCheckin: true,
-            note: '',
-            documents: [],
-            created_at: '2024-11-10T00:00:00Z',
-            modified_at: '2024-11-10T00:00:00Z',
           },
         ];
         setActivities(mockActivities);
@@ -161,11 +146,6 @@ export default function ActivityRegistrationPage() {
           maxParticipants: 200,
           currentParticipants: 0,
           status: 'planned',
-          isRequiredCheckin: true,
-          note: '',
-          documents: [],
-          created_at: '2024-11-01T00:00:00Z',
-          modified_at: '2024-11-01T00:00:00Z',
         },
         {
           id: 2,
@@ -179,11 +159,6 @@ export default function ActivityRegistrationPage() {
           maxParticipants: 50,
           currentParticipants: 0,
           status: 'planned',
-          isRequiredCheckin: true,
-          note: '',
-          documents: [],
-          created_at: '2024-11-05T00:00:00Z',
-          modified_at: '2024-11-05T00:00:00Z',
         },
         {
           id: 3,
@@ -197,14 +172,9 @@ export default function ActivityRegistrationPage() {
           maxParticipants: 30,
           currentParticipants: 0,
           status: 'ongoing',
-          isRequiredCheckin: true,
-          note: '',
-          documents: [],
-          created_at: '2024-11-10T00:00:00Z',
-          modified_at: '2024-11-10T00:00:00Z',
         },
       ];
-      setActivities(mockActivities);
+      setActivities(mockActivities as Activity[]);
     }
   };
 
@@ -237,7 +207,7 @@ export default function ActivityRegistrationPage() {
               registeredAt: participant.registeredAt,
               attendanceStatus: participant.attendanceStatus,
               notes: participant.notes,
-              approvalStatus: participant.approvalStatus || 'pending',
+              approvalStatus: (participant as any).approvalStatus || 'pending',
             };
             // CHỈ THÊM CÁC ĐĂNG KÝ ĐÃ ĐƯỢC DUYỆT VÀ CHƯA LƯU TRỮ
             if (registration.approvalStatus === 'approved' && !registration.isArchived) {
@@ -265,11 +235,6 @@ export default function ActivityRegistrationPage() {
             maxParticipants: 200,
             currentParticipants: 0,
             status: 'planned',
-            isRequiredCheckin: true,
-            note: '',
-            documents: [],
-            created_at: '2024-11-01T00:00:00Z',
-            modified_at: '2024-11-01T00:00:00Z',
           },
           {
             id: 2,
@@ -283,11 +248,6 @@ export default function ActivityRegistrationPage() {
             maxParticipants: 50,
             currentParticipants: 0,
             status: 'planned',
-            isRequiredCheckin: true,
-            note: '',
-            documents: [],
-            created_at: '2024-11-05T00:00:00Z',
-            modified_at: '2024-11-05T00:00:00Z',
           },
           {
             id: 3,
@@ -301,11 +261,6 @@ export default function ActivityRegistrationPage() {
             maxParticipants: 30,
             currentParticipants: 0,
             status: 'ongoing',
-            isRequiredCheckin: true,
-            note: '',
-            documents: [],
-            created_at: '2024-11-10T00:00:00Z',
-            modified_at: '2024-11-10T00:00:00Z',
           },
         ];
 
@@ -447,63 +402,48 @@ export default function ActivityRegistrationPage() {
       // Nếu có lỗi, sử dụng mock data
       console.error('Error fetching registrations:', error);
       
-      // Mock activities nếu chưa có
-      const mockActivities: Activity[] = activities.length > 0 ? activities : [
-        {
-          id: 1,
-          code: 'EVENT-001',
-          name: 'Hội nghị Đoàn viên 2024',
-          description: 'Hội nghị tổng kết năm 2024',
-          activityType: 'van-hoa',
-          startDate: '2024-12-15T08:00:00Z',
-          endDate: '2024-12-15T17:00:00Z',
-          location: 'Hội trường A',
-          maxParticipants: 200,
-          currentParticipants: 0,
-          status: 'planned',
-          isRequiredCheckin: true,
-          note: '',
-          documents: [],
-          created_at: '2024-11-01T00:00:00Z',
-          modified_at: '2024-11-01T00:00:00Z',
-        },
-        {
-          id: 2,
-          code: 'VOL-002',
-          name: 'Tình nguyện dọn dẹp môi trường',
-          description: 'Hoạt động tình nguyện bảo vệ môi trường',
-          activityType: 'tinh-nguyen',
-          startDate: '2024-12-20T07:00:00Z',
-          endDate: '2024-12-20T11:00:00Z',
-          location: 'Công viên thành phố',
-          maxParticipants: 50,
-          currentParticipants: 0,
-          status: 'planned',
-          isRequiredCheckin: true,
-          note: '',
-          documents: [],
-          created_at: '2024-11-05T00:00:00Z',
-          modified_at: '2024-11-05T00:00:00Z',
-        },
-        {
-          id: 3,
-          code: 'MEET-003',
-          name: 'Sinh hoạt chi đoàn tháng 12',
-          description: 'Sinh hoạt định kỳ chi đoàn',
-          activityType: 'hoc-tap',
-          startDate: '2024-12-10T14:00:00Z',
-          endDate: '2024-12-10T16:00:00Z',
-          location: 'Phòng học 101',
-          maxParticipants: 30,
-          currentParticipants: 0,
-          status: 'ongoing',
-          isRequiredCheckin: true,
-          note: '',
-          documents: [],
-          created_at: '2024-11-10T00:00:00Z',
-          modified_at: '2024-11-10T00:00:00Z',
-        },
-      ];
+        // Mock activities nếu chưa có
+        const mockActivities: Activity[] = activities.length > 0 ? activities : [
+          {
+            id: 1,
+            code: 'EVENT-001',
+            name: 'Hội nghị Đoàn viên 2024',
+            description: 'Hội nghị tổng kết năm 2024',
+            activityType: 'van-hoa',
+            startDate: '2024-12-15T08:00:00Z',
+            endDate: '2024-12-15T17:00:00Z',
+            location: 'Hội trường A',
+            maxParticipants: 200,
+            currentParticipants: 0,
+            status: 'planned',
+          },
+          {
+            id: 2,
+            code: 'VOL-002',
+            name: 'Tình nguyện dọn dẹp môi trường',
+            description: 'Hoạt động tình nguyện bảo vệ môi trường',
+            activityType: 'tinh-nguyen',
+            startDate: '2024-12-20T07:00:00Z',
+            endDate: '2024-12-20T11:00:00Z',
+            location: 'Công viên thành phố',
+            maxParticipants: 50,
+            currentParticipants: 0,
+            status: 'planned',
+          },
+          {
+            id: 3,
+            code: 'MEET-003',
+            name: 'Sinh hoạt chi đoàn tháng 12',
+            description: 'Sinh hoạt định kỳ chi đoàn',
+            activityType: 'hoc-tap',
+            startDate: '2024-12-10T14:00:00Z',
+            endDate: '2024-12-10T16:00:00Z',
+            location: 'Phòng học 101',
+            maxParticipants: 30,
+            currentParticipants: 0,
+            status: 'ongoing',
+          },
+        ];
 
       // Mock members
       const mockMembers = [
@@ -871,7 +811,7 @@ export default function ActivityRegistrationPage() {
                   optionFilterProp="children"
                   onChange={handleActivityFilter}
                   filterOption={(input, option) =>
-                    (option?.label ?? '').toLowerCase().includes(input.toLowerCase())
+                    String(option?.label ?? '').toLowerCase().includes(input.toLowerCase())
                   }
                 >
                   {activities.map((activity) => (

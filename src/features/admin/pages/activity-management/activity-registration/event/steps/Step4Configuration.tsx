@@ -9,7 +9,7 @@ interface Step4ConfigurationProps {
   form: FormInstance;
 }
 
-export default function Step4Configuration({ form }: Step4ConfigurationProps) {
+export default function Step4Configuration({ form: _form }: Step4ConfigurationProps) {
   return (
     <div>
       <h3 style={{ marginBottom: '24px', color: 'var(--text-primary)', fontSize: '18px' }}>
