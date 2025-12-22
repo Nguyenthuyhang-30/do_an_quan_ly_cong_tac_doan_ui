@@ -27,7 +27,7 @@ import {
 import { useNavigate } from '@tanstack/react-router';
 import ActivityService from '../../../../services/api/activity.service';
 import { ActivityStatusBadge } from '../../../../components/common/ActivityStatusBadge';
-import type { Activity, ActivityStatistics, ActivityStatus } from '../../../../types/activity';
+import type { Activity, ActivityStatistics, ActivityStatus } from '../../../../app-types/activity';
 import type { BasePaginatedResponse } from '../../../../base/models/basePaginated';
 
 const { Search } = Input;

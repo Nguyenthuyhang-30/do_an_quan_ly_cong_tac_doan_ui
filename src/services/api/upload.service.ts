@@ -7,7 +7,7 @@ import type {
   DeleteFileResponse,
   UploadedFile,
   ApiUploadData,
-} from '../../types/upload';
+} from '../../app-types/upload';
 
 /**
  * Image version preference for different use cases

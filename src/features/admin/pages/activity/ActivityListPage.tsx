@@ -4,7 +4,7 @@ import { useNavigate } from '@tanstack/react-router';
 import { Button, Card, message } from 'antd';
 import { PlusOutlined, EyeOutlined, EditOutlined, DeleteOutlined } from '@ant-design/icons';
 import ActivityService from '../../../../services/api/activity.service';
-import { Activity } from '../../../../types/activity';
+import { Activity } from '../../../../app-types/activity';
 import { ActivityStatusBadge } from '../../../../components/common/ActivityStatusBadge';
 
 const ActivityListPage: React.FC = () => {

@@ -1,5 +1,5 @@
 import authService from '../services/api/auth.service';
-import { UserRole } from '../types/auth';
+import { UserRole } from '../app-types/auth';
 import { notification } from 'antd';
 import * as roleHelpers from './roleHelpers';
 

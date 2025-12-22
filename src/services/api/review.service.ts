@@ -11,7 +11,7 @@ import {
   ReviewStatistics,
   ReviewListParams,
   ReviewSelectOption,
-} from '../../types/member-review';
+} from '../../app-types/member-review';
 
 /**
  * Member Review Service

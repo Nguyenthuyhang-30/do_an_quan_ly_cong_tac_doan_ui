@@ -32,7 +32,7 @@ import { useNavigate } from '@tanstack/react-router';
 import dayjs from 'dayjs';
 import MemberService from '../../../../services/api/member.service';
 import { BranchSelector } from '../../../../components/common/BranchSelector';
-import type { YouthUnionMember, MemberStatistics } from '../../../../types/youth-union-member';
+import type { YouthUnionMember, MemberStatistics } from '../../../../app-types/youth-union-member';
 import type { BasePaginatedResponse } from '../../../../base/models/basePaginated';
 
 const { Search } = Input;

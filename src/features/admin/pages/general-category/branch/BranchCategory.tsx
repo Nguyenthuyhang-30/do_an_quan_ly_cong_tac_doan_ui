@@ -23,7 +23,7 @@ import type { ColumnsType, TablePaginationConfig } from 'antd/es/table';
 import React, { useCallback, useEffect, useState } from 'react';
 import { BaseAntTable } from '../../../../../components/tables/BaseAntTable';
 import { branchService } from '@services/api';
-import type { YouthUnionBranch } from '../../../../../types/youth-union-branch';
+import type { YouthUnionBranch } from '../../../../../app-types/youth-union-branch';
 import CreateBranchModal from './modals/CreateBranchModal';
 import UpdateBranchModal from './modals/UpdateBranchModal';
 import DeleteBranchModal from './modals/DeleteBranchModal';

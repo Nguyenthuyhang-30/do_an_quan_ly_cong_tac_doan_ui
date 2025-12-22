@@ -3,7 +3,7 @@ import { Layout } from 'antd';
 import HeaderAdmin from '@components/headers/admin/HeaderAdmin';
 import { SidebarAdmin } from '@components/sidebars/admin/SidebarAdmin';
 import ProtectedRoute from '@components/common/ProtectedRoute';
-import { UserRole } from '../../../types/auth';
+import { UserRole } from '../../../app-types/auth';
 import { useState } from 'react';
 
 const { Header, Sider, Content } = Layout;

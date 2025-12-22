@@ -15,7 +15,7 @@ import {
 import { ArrowLeftOutlined, SaveOutlined } from '@ant-design/icons';
 import { useNavigate, useParams } from '@tanstack/react-router';
 import ActivityService from '../../../../services/api/activity.service';
-import type { UpdateActivityRequest } from '../../../../types/activity';
+import type { UpdateActivityRequest } from '../../../../app-types/activity';
 import dayjs from 'dayjs';
 
 const { TextArea } = Input;

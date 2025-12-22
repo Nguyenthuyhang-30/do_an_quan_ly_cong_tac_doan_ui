@@ -63,9 +63,9 @@ export interface SliderHomeParams {
 }
 
 // Response Types
-export interface SliderBannerResponse extends BaseResponse<SliderBanner> {}
+export type SliderBannerResponse = BaseResponse<SliderBanner>;
 
-export interface SliderBannerListResponse extends BasePaginatedResponse<SliderBanner> {}
+export type SliderBannerListResponse = BasePaginatedResponse<SliderBanner>;
 
 export interface SliderBannerSelectOption {
   id: number;

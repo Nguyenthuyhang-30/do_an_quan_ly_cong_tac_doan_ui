@@ -15,7 +15,7 @@ export {
   type RegisterResponse,
   type AuthTokens,
   type ApiResponse,
-} from '../types/auth';
+} from '../app-types/auth';
 
 // Hooks
 export { useAuth } from '../hooks/useAuth';

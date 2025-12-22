@@ -1,6 +1,6 @@
 // Attendance Status Badge Component
 import { Tag } from 'antd';
-import { AttendanceStatus } from '../../types/activity';
+import { AttendanceStatus } from '../../app-types/activity';
 
 interface AttendanceStatusBadgeProps {
   status?: AttendanceStatus;

@@ -7,7 +7,7 @@ import {
   AssignMultipleRolesRequest,
   EndRoleRequest,
   RoleStatistics,
-} from '../../types/member-role';
+} from '../../app-types/member-role';
 
 /**
  * Member Role Service

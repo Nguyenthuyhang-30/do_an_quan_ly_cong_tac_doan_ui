@@ -10,7 +10,7 @@ import {
   ResetPasswordRequest,
   User,
   VerifyTokenResponse,
-} from '../../types/auth';
+} from '../../app-types/auth';
 import HttpService from './http.service';
 
 class AuthService {

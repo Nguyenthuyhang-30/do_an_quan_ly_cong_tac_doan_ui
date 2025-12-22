@@ -6,8 +6,8 @@ import {
   UpdateBranchRequest,
   BranchStatistics,
   BranchSelectOption,
-} from '../../types/youth-union-branch';
-import { YouthUnionMember } from '../../types/youth-union-member';
+} from '../../app-types/youth-union-branch';
+import { YouthUnionMember } from '../../app-types/youth-union-member';
 
 /**
  * Youth Union Branch Service

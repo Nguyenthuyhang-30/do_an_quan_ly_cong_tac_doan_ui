@@ -2,7 +2,7 @@
 import { Select, SelectProps } from 'antd';
 import { useEffect, useState } from 'react';
 import BranchService from '../../services/api/branch.service';
-import { BranchSelectOption } from '../../types/youth-union-branch';
+import { BranchSelectOption } from '../../app-types/youth-union-branch';
 
 interface BranchSelectorProps extends Omit<SelectProps, 'options'> {
   value?: number;

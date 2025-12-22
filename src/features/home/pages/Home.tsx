@@ -6,14 +6,13 @@ import SectionTinTuc from '@components/common/home/SectionTinTuc';
 import { useEffect, useState } from 'react';
 import { fakeNewsApi, type NewsItem } from '../../../api/fakeNewsApi';
 import { sliderBannerService } from '../../../services/api/slider-banner.service';
-import type { SliderBanner } from '../../../types/slider-banner';
+import type { SliderBanner } from '../../../app-types/slider-banner';
 import './Home.css';
 
 const Home = () => {
   const [allNews, setAllNews] = useState<NewsItem[]>([]);
   const [loading, setLoading] = useState(true);
   const [sliders, setSliders] = useState<SliderBanner[]>([]);
-  const [slidersLoading, setSlidersLoading] = useState(true);
 
   // Fallback slider images nếu API không có data
   const fallbackSliderImages = [
@@ -26,14 +25,21 @@ const Home = () => {
   useEffect(() => {
     const loadSliders = async () => {
       try {
-        setSlidersLoading(true);
         const data = await sliderBannerService.getHomeSliders({ limit: 5 });
         setSliders(data);
       } catch (error) {
         console.error('Failed to load sliders:', error);
-        // Keep using fallback images on error
+        setSliders(
+          fallbackSliderImages?.map((imgUrl, index) => ({
+            id: index,
+            code: `fallback-${index}`,
+            name: `Fallback Slider ${index + 1}`,
+            image: imgUrl,
+            isActive: true,
+          })),
+        );
       } finally {
-        setSlidersLoading(false);
+        // No additional actions needed here for now
       }
     };
 
@@ -46,14 +52,10 @@ const Home = () => {
       .finally(() => setLoading(false));
   }, []);
 
-  // Get slider images - use API data if available, otherwise use fallback
-  const sliderImages =
-    sliders.length > 0 ? sliders.map((slider) => slider.image) : fallbackSliderImages;
-
   return (
     <div className="w-full">
       <BirthdayCard />
-      <HeroSlider images={sliderImages} />
+      <HeroSlider sliders={sliders} />
       <SectionIntro />
       <SectionBCH />
       <SectionTinTuc allNews={allNews} loading={loading} />

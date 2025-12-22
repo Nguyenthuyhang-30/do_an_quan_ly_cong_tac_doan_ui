@@ -13,7 +13,7 @@ import type {
   SliderBannerListResponse,
   SliderBannerSelectOption,
   SliderBannerStatistics,
-} from '../../types/slider-banner';
+} from '../../app-types/slider-banner';
 import type { BaseResponse } from '../../base/models/base';
 
 /**

@@ -2,7 +2,7 @@
 import { Select, SelectProps } from 'antd';
 import { useEffect, useState } from 'react';
 import MemberService from '../../services/api/member.service';
-import { MemberSelectOption } from '../../types/youth-union-member';
+import { MemberSelectOption } from '../../app-types/youth-union-member';
 
 interface MemberSelectorProps extends Omit<SelectProps, 'options'> {
   value?: number;

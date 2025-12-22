@@ -7,13 +7,13 @@ import type {
   UploadAvatarRequest,
   UploadedFile,
   UploadStatistics,
-} from '../types/upload';
+} from '../app-types/upload';
 import {
   ALLOWED_FILE_TYPES,
   ALLOWED_IMAGE_TYPES,
   MAX_FILE_SIZE,
   MAX_AVATAR_SIZE,
-} from '../types/upload';
+} from '../app-types/upload';
 
 interface UseUploadOptions {
   onSuccess?: (data: UploadedFile | UploadedFile[]) => void;

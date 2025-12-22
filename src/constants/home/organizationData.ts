@@ -4,6 +4,7 @@ export const organizationData = {
     name: 'Lê Văn Phong',
     role: 'Bí thư',
     avatar: '/images/people/bt_lvp.JPG',
+    quote: 'Xin chào!',
   },
   viceSecretaries: [
     {

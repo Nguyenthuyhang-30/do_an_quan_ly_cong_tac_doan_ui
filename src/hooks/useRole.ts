@@ -1,5 +1,5 @@
 import { useAuth } from './useAuth';
-import { UserRole } from '../types/auth';
+import { UserRole } from '../app-types/auth';
 import * as roleHelpers from '../utils/roleHelpers';
 
 /**

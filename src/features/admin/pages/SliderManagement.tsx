@@ -33,7 +33,7 @@ import type {
   SliderBanner,
   SliderBannerFormValues,
   SliderBannerStatistics,
-} from '../../../types/slider-banner';
+} from '../../../app-types/slider-banner';
 import { SliderFormModal } from './SliderFormModal';
 import './SliderManagement.scss';
 

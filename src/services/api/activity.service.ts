@@ -11,7 +11,7 @@ import {
   ActivityAttendanceStatistics,
   ActivityListParams,
   ActivitySelectOption,
-} from '../../types/activity';
+} from '../../app-types/activity';
 
 /**
  * Activity Service

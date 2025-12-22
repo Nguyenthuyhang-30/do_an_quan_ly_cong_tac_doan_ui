@@ -25,7 +25,10 @@ import type { ColumnsType, TablePaginationConfig } from 'antd/es/table';
 import { useNavigate } from '@tanstack/react-router';
 import { BaseAntTable } from '../../../../../components/tables/BaseAntTable';
 import BranchService from '../../../../../services/api/branch.service';
-import type { YouthUnionBranch, BranchStatistics } from '../../../../../types/youth-union-branch';
+import type {
+  YouthUnionBranch,
+  BranchStatistics,
+} from '../../../../../app-types/youth-union-branch';
 import type { BasePaginatedResponse } from '../../../../../base/models/basePaginated';
 
 const { Title } = Typography;

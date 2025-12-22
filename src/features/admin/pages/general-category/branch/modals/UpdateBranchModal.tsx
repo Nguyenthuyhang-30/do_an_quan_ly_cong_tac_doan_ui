@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { Modal, Form, Input, message, DatePicker } from 'antd';
 import dayjs from 'dayjs';
-import type { UpdateBranchRequest } from '../../../../../../types/youth-union-branch';
+import type { UpdateBranchRequest } from '../../../../../../app-types/youth-union-branch';
 import { branchService } from '@services/api';
 import { Branch } from '../types';
 import { MemberSelector } from '../../../../../../components/common/MemberSelector';

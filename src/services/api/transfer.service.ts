@@ -7,7 +7,7 @@ import {
   RejectTransferRequest,
   TransferStatistics,
   TransferListParams,
-} from '../../types/member-transfer';
+} from '../../app-types/member-transfer';
 
 /**
  * Member Transfer Service

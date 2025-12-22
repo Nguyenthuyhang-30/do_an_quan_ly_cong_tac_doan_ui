@@ -6,7 +6,7 @@ import {
   UserOutlined,
 } from '@ant-design/icons';
 import type { MenuProps } from 'antd';
-import { Avatar, Dropdown, Space, Typography, Menu } from 'antd';
+import { Avatar, Dropdown, Space, Typography } from 'antd';
 import React from 'react';
 import { useAuth } from '../../hooks/useAuth';
 import { useNavigate } from '@tanstack/react-router';

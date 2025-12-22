@@ -1,7 +1,7 @@
 import { Form, Input, message, Modal, DatePicker } from 'antd';
 import React from 'react';
 import { branchService } from '@services/api';
-import type { CreateBranchRequest } from '../../../../../../types/youth-union-branch';
+import type { CreateBranchRequest } from '../../../../../../app-types/youth-union-branch';
 import { MemberSelector } from '../../../../../../components/common/MemberSelector';
 
 interface CreateBranchModalProps {

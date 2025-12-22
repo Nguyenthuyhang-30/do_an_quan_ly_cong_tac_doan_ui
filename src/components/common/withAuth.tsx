@@ -1,6 +1,6 @@
 import React from 'react';
 import ProtectedRoute from './ProtectedRoute';
-import { UserRole } from '../../types/auth';
+import { UserRole } from '../../app-types/auth';
 
 /**
  * Higher-Order Component for protecting routes with authentication
