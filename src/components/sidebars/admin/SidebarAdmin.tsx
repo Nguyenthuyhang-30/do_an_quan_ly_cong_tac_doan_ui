@@ -35,7 +35,6 @@ export const SidebarAdmin = ({ collapsed }: SidebarAdminProps) => {
     if (path.includes('/dashboard/overview')) return ['dashboard'];
 
     if (path.includes('/users/list')) return ['users'];
-    if (path.includes('/users/roles')) return ['user-roles'];
 
     if (path.includes('/general-category/cohorts')) return ['cohorts'];
     if (path.includes('/general-category/branches')) return ['branches'];
@@ -83,7 +82,6 @@ export const SidebarAdmin = ({ collapsed }: SidebarAdminProps) => {
       reports: '/admin/dashboard/reports',
 
       users: '/admin/users/list',
-      'user-roles': '/admin/users/roles',
 
       'general-category': '/admin/general-category',
       cohorts: '/admin/general-category/cohorts',
@@ -148,7 +146,6 @@ export const SidebarAdmin = ({ collapsed }: SidebarAdminProps) => {
         label: 'Quản lý người dùng',
         children: [
           { key: 'users', icon: <TeamOutlined />, label: 'Tài khoản người dùng' },
-          { key: 'user-roles', icon: <IdcardOutlined />, label: 'Quyền & vai trò' },
         ],
       },
 

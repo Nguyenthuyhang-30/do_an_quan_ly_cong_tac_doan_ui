@@ -19,14 +19,12 @@ import {
   ReloadOutlined,
   SearchOutlined,
   UnlockOutlined,
-  UserOutlined,
 } from '@ant-design/icons';
 import type { ColumnsType, TablePaginationConfig } from 'antd/es/table';
 import { BaseAntTable } from '../../../../../components/tables/BaseAntTable';
 import { UserAccount } from './types';
 import ResetPasswordModal from './ResetPasswordModal';
 import ToggleStatusModal from './ToggleStatusModal';
-import AssignRoleModal from './AssignRoleModal';
 import CreateUserModal from './CreateUserModal';
 import MemberService from '../../../../../services/api/member.service';
 import type { YouthUnionMember } from '../../../../../types/youth-union-member';
@@ -49,7 +47,6 @@ const UserAccountManagement: React.FC = () => {
   const [createModalVisible, setCreateModalVisible] = useState(false);
   const [resetPasswordModalVisible, setResetPasswordModalVisible] = useState(false);
   const [toggleStatusModalVisible, setToggleStatusModalVisible] = useState(false);
-  const [assignRoleModalVisible, setAssignRoleModalVisible] = useState(false);
   const [selectedUser, setSelectedUser] = useState<UserAccount | null>(null);
 
   // Fetch users data - Sử dụng MemberService vì account và member dùng chung bảng
@@ -64,16 +61,11 @@ const UserAccountManagement: React.FC = () => {
 
       // Map Member data to UserAccount type (focus on account/login features)
       const mappedUsers: UserAccount[] = response.data.list.map((member: YouthUnionMember) => {
-        // Default role is member, có thể extend logic để detect admin/secretary
-        const role: 'member' | 'admin' | 'secretary' = 'member';
-
         return {
           id: member.id,
           fullName: member.fullName,
           email: member.email,
           studentCode: member.phoneNumber || member.studentId || '-',
-          role: role,
-          roleId: undefined, // Sẽ được set qua AssignRoleModal
           branch: member.branch?.name || '-',
           status: member.status === 'active' ? ('active' as const) : ('locked' as const),
           lastLoginAt: undefined, // Member không track lastLoginAt
@@ -122,12 +114,6 @@ const UserAccountManagement: React.FC = () => {
     setToggleStatusModalVisible(true);
   };
 
-  // Handle assign role
-  const handleAssignRole = (record: UserAccount) => {
-    setSelectedUser(record);
-    setAssignRoleModalVisible(true);
-  };
-
   // Handle row selection
   const rowSelection = {
     selectedRowKeys,
@@ -170,21 +156,6 @@ const UserAccountManagement: React.FC = () => {
       render: (text: string) => text || '-',
     },
     {
-      title: 'Vai trò',
-      dataIndex: 'role',
-      key: 'role',
-      width: 150,
-      render: (role: string) => {
-        const roleConfig = {
-          admin: { text: 'Quản trị viên', color: 'red' },
-          secretary: { text: 'Bí thư chi đoàn', color: 'blue' },
-          member: { text: 'Đoàn viên', color: 'default' },
-        };
-        const config = roleConfig[role as keyof typeof roleConfig] || roleConfig.member;
-        return <Tag color={config.color}>{config.text}</Tag>;
-      },
-    },
-    {
       title: 'Trạng thái',
       dataIndex: 'status',
       key: 'status',
@@ -199,19 +170,9 @@ const UserAccountManagement: React.FC = () => {
       title: 'Thao tác',
       key: 'action',
       fixed: 'right',
-      width: 220,
+      width: 180,
       render: (_: unknown, record: UserAccount) => (
         <Space size="small">
-          <Tooltip title="Phân quyền">
-            <Button
-              type="link"
-              size="small"
-              icon={<UserOutlined />}
-              onClick={() => handleAssignRole(record)}
-            >
-              Phân quyền
-            </Button>
-          </Tooltip>
           <Tooltip title="Đặt lại mật khẩu">
             <Button
               type="link"
@@ -259,7 +220,7 @@ const UserAccountManagement: React.FC = () => {
                     Tài khoản người dùng
                   </Title>
                   <p style={{ margin: '8px 0 0', color: '#666' }}>
-                    Quản lý tài khoản, phân quyền và trạng thái truy cập hệ thống
+                    Quản lý tài khoản và trạng thái truy cập hệ thống
                   </p>
                 </Col>
                 <Col>
@@ -404,16 +365,6 @@ const UserAccountManagement: React.FC = () => {
         />
       )}
 
-      {assignRoleModalVisible && selectedUser && (
-        <AssignRoleModal
-          user={selectedUser}
-          onClose={() => {
-            setAssignRoleModalVisible(false);
-            setSelectedUser(null);
-            fetchUsers(pagination.current, pagination.pageSize, searchText);
-          }}
-        />
-      )}
     </div>
   );
 };

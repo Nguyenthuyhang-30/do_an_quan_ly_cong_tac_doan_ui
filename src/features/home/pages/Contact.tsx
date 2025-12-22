@@ -130,11 +130,11 @@ const ContactPage: React.FC = () => {
             </p>
             <div className="flex flex-wrap gap-4 mt-4 text-sm">
               <div className="flex items-center gap-2">
-                <ClockCircleOutlined />
+                <ClockCircleOutlined style={{ color: '#ffffff' }} />
                 <span>Phản hồi trong 24h</span>
               </div>
               <div className="flex items-center gap-2">
-                <CustomerServiceOutlined />
+                <CustomerServiceOutlined style={{ color: '#ffffff' }} />
                 <span>Hỗ trợ tận tình</span>
               </div>
             </div>
@@ -146,7 +146,7 @@ const ContactPage: React.FC = () => {
           <section className="bg-white rounded-2xl shadow-lg border border-slate-100 p-6 md:p-8">
             <div className="flex items-center gap-3 mb-6">
               <div className="w-12 h-12 rounded-xl bg-gradient-to-r from-red-600 to-blue-600 flex items-center justify-center shadow-lg">
-                <MessageOutlined className="text-white text-xl" />
+                <MessageOutlined className="text-white text-xl" style={{ color: '#ffffff' }} />
               </div>
               <div>
                 <h2 className="text-xl font-bold text-slate-900">Gửi góp ý / hỗ trợ</h2>
@@ -303,7 +303,7 @@ const ContactPage: React.FC = () => {
             <div className="bg-gradient-to-br from-blue-50 via-indigo-50 to-white rounded-2xl shadow-lg border border-blue-100 p-6 md:p-7">
               <div className="flex items-center gap-3 mb-5">
                 <div className="w-12 h-12 rounded-xl bg-gradient-to-r from-red-600 to-blue-600 flex items-center justify-center shadow-lg">
-                  <PhoneOutlined className="text-white text-xl" />
+                  <PhoneOutlined className="text-white text-xl" style={{ color: '#ffffff' }} />
                 </div>
                 <h2 className="text-xl font-bold text-slate-900">Thông tin liên hệ</h2>
               </div>
@@ -365,7 +365,7 @@ const ContactPage: React.FC = () => {
 
                 <div className="pt-4 border-t border-blue-100">
                   <a
-                    href="https://facebook.com"
+                    href="https://www.facebook.com/dainam.fit"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="flex items-center justify-center gap-2 w-full px-4 py-3 text-white rounded-lg transition-colors font-bold text-base shadow-md"

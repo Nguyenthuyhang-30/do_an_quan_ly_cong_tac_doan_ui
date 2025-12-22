@@ -1,8 +1,8 @@
 // Branch Management Routes
 import { adminRoute } from '@routes/admin.routes';
 import { createRoute } from '@tanstack/react-router';
-import BranchListPage from '../pages/branch/BranchListPage';
-import BranchFormPage from '../pages/branch/BranchFormPage';
+import BranchListPage from '../pages/member-management/branch/BranchListPage';
+import BranchFormPage from '../pages/member-management/branch/BranchFormPage';
 
 // Parent: /admin/branch
 export const branchRouteAdmin = createRoute({

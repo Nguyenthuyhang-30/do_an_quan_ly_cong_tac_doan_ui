@@ -1,4 +1,4 @@
 // Application Paths Configuration
-export const profile = '/admin/profile';
-export const userSettings = '/admin/user-settings';
+export const profile = '/profile';
+export const userSettings = '/user-settings';
 

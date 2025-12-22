@@ -7,11 +7,11 @@ import {
   FilterOutlined,
   StarFilled,
   TeamOutlined,
-  CalendarOutlined,
   EnvironmentOutlined,
   ClockCircleOutlined,
   WhatsAppOutlined,
 } from '@ant-design/icons';
+import { Pagination } from 'antd';
 
 type Role = 'Bí thư' | 'Phó Bí thư' | 'Uỷ viên';
 
@@ -209,8 +209,8 @@ const OFFICERS_FAKE: Officer[] = [
   },
 ];
 
-const TERMS = ['Tất cả', '2024-2025', '2023-2024'];
 const BRANCHES = ['Tất cả', 'CNTT 1604', 'CNTT 1605', 'CNTT 1601', 'CNTT 1602', 'CNTT 1603'];
+const PAGE_SIZE = 10;
 
 // Helper function to get role badge styling
 const getRoleBadge = (role: Role) => {
@@ -230,10 +230,10 @@ const getRoleIcon = (role: Role) => {
 };
 
 const ExecutiveBoardPage: React.FC = () => {
-  const [term, setTerm] = useState('Tất cả');
   const [branch, setBranch] = useState('Tất cả');
   const [search, setSearch] = useState('');
   const [isFilterOpen, setIsFilterOpen] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
 
   const [officers, setOfficers] = useState<Officer[]>(OFFICERS_FAKE);
   const [loading, setLoading] = useState(false);
@@ -273,7 +273,6 @@ const ExecutiveBoardPage: React.FC = () => {
   const filteredOfficers = useMemo(
     () =>
       officers.filter((o) => {
-        const matchTerm = term === 'Tất cả' || o.term === term;
         const matchBranch = branch === 'Tất cả' || o.branch === branch;
         const lower = search.toLowerCase();
         const matchSearch =
@@ -282,10 +281,19 @@ const ExecutiveBoardPage: React.FC = () => {
           o.studentCode.toLowerCase().includes(lower) ||
           o.phone.replace(/\s/g, '').includes(lower);
 
-        return matchTerm && matchBranch && matchSearch;
+        return matchBranch && matchSearch;
       }),
-    [term, branch, search, officers],
+    [branch, search, officers],
   );
+
+  // ================== PHÂN TRANG ==================
+  const paginatedOfficers = useMemo(() => {
+    const startIndex = (currentPage - 1) * PAGE_SIZE;
+    const endIndex = startIndex + PAGE_SIZE;
+    return filteredOfficers.slice(startIndex, endIndex);
+  }, [filteredOfficers, currentPage]);
+
+  const totalPages = Math.ceil(filteredOfficers.length / PAGE_SIZE);
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-red-50">
@@ -302,7 +310,7 @@ const ExecutiveBoardPage: React.FC = () => {
             </div>
             <p className="text-blue-50 text-sm md:text-base max-w-2xl">
               Thông tin Ban Chấp hành các chi đoàn – Liên chi đoàn Khoa Công nghệ Thông tin theo
-              từng lớp, nhiệm kỳ {term !== 'Tất cả' ? term : '2024-2025'}.
+              từng lớp.
             </p>
             <div className="flex flex-wrap gap-4 mt-4 text-sm">
               <div className="flex items-center gap-2">
@@ -333,24 +341,7 @@ const ExecutiveBoardPage: React.FC = () => {
           </div>
 
           <div className={`space-y-4 ${isFilterOpen || 'hidden md:block'}`}>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-              <div>
-                <label className="flex items-center gap-2 text-xs font-semibold text-gray-600 mb-2">
-                  <CalendarOutlined className="text-blue-600" />
-                  Nhiệm kỳ
-                </label>
-                <select
-                  value={term}
-                  onChange={(e) => setTerm(e.target.value)}
-                  className="w-full border-2 border-gray-200 rounded-lg px-4 py-2.5 text-sm focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all"
-                >
-                  {TERMS.map((t) => (
-                    <option key={t} value={t}>
-                      {t}
-                    </option>
-                  ))}
-                </select>
-              </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
                 <label className="flex items-center gap-2 text-xs font-semibold text-gray-600 mb-2">
                   <TeamOutlined className="text-green-600" />
@@ -358,7 +349,10 @@ const ExecutiveBoardPage: React.FC = () => {
                 </label>
                 <select
                   value={branch}
-                  onChange={(e) => setBranch(e.target.value)}
+                  onChange={(e) => {
+                    setBranch(e.target.value);
+                    setCurrentPage(1); // Reset về trang 1 khi filter thay đổi
+                  }}
                   className="w-full border-2 border-gray-200 rounded-lg px-4 py-2.5 text-sm focus:border-green-500 focus:ring-2 focus:ring-green-200 transition-all"
                 >
                   {BRANCHES.map((b) => (
@@ -378,7 +372,10 @@ const ExecutiveBoardPage: React.FC = () => {
                     type="text"
                     placeholder="Nhập họ tên, mã sinh viên hoặc số điện thoại..."
                     value={search}
-                    onChange={(e) => setSearch(e.target.value)}
+                    onChange={(e) => {
+                      setSearch(e.target.value);
+                      setCurrentPage(1); // Reset về trang 1 khi search thay đổi
+                    }}
                     className="w-full border-2 border-gray-200 rounded-lg pl-4 pr-10 py-2.5 text-sm focus:border-purple-500 focus:ring-2 focus:ring-purple-200 transition-all"
                   />
                   <SearchOutlined className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400" />
@@ -387,12 +384,12 @@ const ExecutiveBoardPage: React.FC = () => {
             </div>
 
             {/* Quick reset */}
-            {(term !== 'Tất cả' || branch !== 'Tất cả' || search) && (
+            {(branch !== 'Tất cả' || search) && (
               <button
                 onClick={() => {
-                  setTerm('Tất cả');
                   setBranch('Tất cả');
                   setSearch('');
+                  setCurrentPage(1);
                 }}
                 className="text-sm text-blue-600 hover:text-blue-700 font-medium underline"
               >
@@ -456,13 +453,14 @@ const ExecutiveBoardPage: React.FC = () => {
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-gray-100">
-                    {filteredOfficers.map((o, index) => (
-                      <tr key={o.id} className="hover:bg-blue-50/60 transition-colors">
-                        <td className="px-4 py-3 text-gray-700 font-medium">{index + 1}</td>
-                        <td className="px-4 py-3 text-gray-700">
-                          {o.branch}
-                          <div className="text-xs text-gray-400">Nhiệm kỳ {o.term}</div>
-                        </td>
+                    {paginatedOfficers.map((o, index) => {
+                      const globalIndex = (currentPage - 1) * PAGE_SIZE + index + 1;
+                      return (
+                        <tr key={o.id} className="hover:bg-blue-50/60 transition-colors">
+                          <td className="px-4 py-3 text-gray-700 font-medium">{globalIndex}</td>
+                          <td className="px-4 py-3 text-gray-700">
+                            {o.branch}
+                          </td>
                         <td className="px-4 py-3">
                           <span
                             className={`inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-semibold border ${getRoleBadge(
@@ -495,10 +493,27 @@ const ExecutiveBoardPage: React.FC = () => {
                           </div>
                         </td>
                       </tr>
-                    ))}
+                    );
+                    })}
                   </tbody>
                 </table>
               </div>
+              {/* Phân trang */}
+              {totalPages > 1 && (
+                <div className="flex justify-center mt-6 pb-4">
+                  <Pagination
+                    current={currentPage}
+                    total={filteredOfficers.length}
+                    pageSize={PAGE_SIZE}
+                    onChange={(page) => setCurrentPage(page)}
+                    showSizeChanger={false}
+                    showTotal={(total, range) =>
+                      `${range[0]}-${range[1]} của ${total} cán bộ`
+                    }
+                    className="custom-pagination"
+                  />
+                </div>
+              )}
             </div>
           )}
         </section>

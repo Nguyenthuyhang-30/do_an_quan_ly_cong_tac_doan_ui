@@ -2,12 +2,12 @@
 import { useState, useEffect } from 'react';
 import { Card, Form, Input, Button, DatePicker, Select, message } from 'antd';
 import { useNavigate, useParams } from '@tanstack/react-router';
-import BranchService from '../../../../services/api/branch.service';
+import BranchService from '../../../../../services/api/branch.service';
 import type {
   YouthUnionBranch,
   CreateBranchRequest,
   UpdateBranchRequest,
-} from '../../../../types/youth-union-branch';
+} from '../../../../../types/youth-union-branch';
 import dayjs from 'dayjs';
 
 const { TextArea } = Input;

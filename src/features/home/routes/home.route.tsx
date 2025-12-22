@@ -4,6 +4,8 @@ import Home from '@features/home/pages/Home';
 import checkActivitesRoute from './checkActivities.route';
 import executiveBoardRoute from './executiveBoard.route';
 import contactRoute from './contact.route';
+import profileRoute from './profile.route';
+import userSettingsRoute from './user-settings.route';
 
 const homeRoute = createRoute({
   getParentRoute: () => mainRoute,
@@ -11,6 +13,6 @@ const homeRoute = createRoute({
   component: Home,
 });
 
-const homeTree = homeRoute.addChildren([checkActivitesRoute, executiveBoardRoute, contactRoute]);
+const homeTree = homeRoute.addChildren([checkActivitesRoute, executiveBoardRoute, contactRoute, profileRoute, userSettingsRoute]);
 
 export { homeTree, homeRoute, contactRoute };

@@ -146,19 +146,6 @@ const CommandPalette: React.FC<CommandPaletteProps> = ({ open, onClose }) => {
           setTimeout(() => navigate({ to: '/admin/users/list' }), 100);
         },
       },
-      {
-        id: 'user-roles',
-        title: 'Quyền & vai trò',
-        description: 'Quản lý quyền hạn và vai trò người dùng',
-        icon: <IdcardOutlined />,
-        category: 'pages',
-        keywords: ['roles', 'quyền', 'vai trò', 'permissions', 'phân quyền'],
-        action: () => {
-          onClose();
-          setTimeout(() => navigate({ to: '/admin/users/roles' }), 100);
-        },
-      },
-
       // ========== CÀI ĐẶT ==========
       {
         id: 'settings-general',
@@ -219,7 +206,7 @@ const CommandPalette: React.FC<CommandPaletteProps> = ({ open, onClose }) => {
         keywords: ['profile', 'hồ sơ', 'thông tin', 'cá nhân', 'account'],
         action: () => {
           onClose();
-          setTimeout(() => navigate({ to: '/admin/profile' }), 100);
+          setTimeout(() => navigate({ to: '/profile' }), 100);
         },
       },
       {
