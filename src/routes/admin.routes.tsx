@@ -4,7 +4,6 @@ import { homeRouteAdmin } from '@features/admin/routes/home.route';
 import { settingRouteAdmin } from '@features/admin/routes/setting.route';
 import { userTree } from '@features/admin/routes/users.route';
 import { generalCategoryTree } from '@features/admin/routes/generalCategory.routes';
-import { activityTree } from '@features/admin/routes/activity.route';
 import { activityManagementTree } from '@features/admin/routes/activity-management.route';
 import { branchTree } from '@features/admin/routes/branch.route';
 import { memberManagementTree } from '@features/admin/routes/member-management.route';
@@ -25,7 +24,6 @@ const adminTree = adminRoute.addChildren([
   generalCategoryTree,
   branchTree,
   memberManagementTree,
-  activityTree,
   activityManagementTree,
   sliderTree,
   settingRouteAdmin,

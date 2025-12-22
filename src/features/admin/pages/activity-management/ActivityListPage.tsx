@@ -15,7 +15,6 @@ import {
   Tag,
 } from 'antd';
 import {
-  PlusOutlined,
   EditOutlined,
   DeleteOutlined,
   EyeOutlined,
@@ -23,6 +22,7 @@ import {
   ReloadOutlined,
   UsergroupAddOutlined,
   CheckCircleOutlined,
+  UserAddOutlined,
 } from '@ant-design/icons';
 import { useNavigate } from '@tanstack/react-router';
 import ActivityService from '../../../../services/api/activity.service';
@@ -314,8 +314,8 @@ export default function ActivityListPage() {
             </Button>
             <Button
               type="primary"
-              icon={<PlusOutlined />}
-              onClick={() => navigate({ to: '/admin/activity/create' })}
+              icon={<UserAddOutlined />}
+              onClick={() => navigate({ to: '/admin/activity-management/registration' })}
               style={{
                 background:
                   'linear-gradient(135deg, var(--primary-color) 0%, var(--primary-light) 100%)',
@@ -326,7 +326,7 @@ export default function ActivityListPage() {
                 boxShadow: '0 4px 12px rgba(21, 26, 166, 0.25)',
               }}
             >
-              Thêm hoạt động
+              Đăng ký hoạt động
             </Button>
           </Space>
         </Space>

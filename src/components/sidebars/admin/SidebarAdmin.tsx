@@ -15,6 +15,7 @@ import {
   HighlightOutlined,
   HeartOutlined,
   PictureOutlined,
+  UserAddOutlined,
 } from '@ant-design/icons';
 import { useLocation, useNavigate } from '@tanstack/react-router';
 import { Menu } from 'antd';
@@ -48,12 +49,8 @@ export const SidebarAdmin = ({ collapsed }: SidebarAdminProps) => {
     if (path.includes('/slider-management')) return ['slider-management'];
     if (path.includes('/settings')) return ['settings'];
 
+    if (path.includes('/activity-management/registration')) return ['activity-registration'];
     if (path.includes('/activity-management')) return ['activity-list'];
-    if (path === '/admin/activity') return ['activity-selection'];
-    if (path.includes('/activity/event')) return ['activity-event'];
-    if (path.includes('/activity/vote')) return ['activity-vote'];
-    if (path.includes('/activity/meeting')) return ['activity-meeting'];
-    if (path.includes('/activity/volunteer')) return ['activity-volunteer'];
 
     return ['dashboard'];
   };
@@ -69,7 +66,6 @@ export const SidebarAdmin = ({ collapsed }: SidebarAdminProps) => {
     if (path.includes('/member-management')) openKeys.push('organization-menu');
     if (path.includes('/settings')) openKeys.push('settings-menu');
     if (path.includes('/activity-management')) openKeys.push('activity-management-menu');
-    if (path.includes('/activity')) openKeys.push('activity-menu');
 
     return openKeys;
   };
@@ -97,12 +93,8 @@ export const SidebarAdmin = ({ collapsed }: SidebarAdminProps) => {
       'notification-settings': '/admin/settings/notification',
       'slider-management': '/admin/slider-management',
 
+      'activity-registration': '/admin/activity-management/registration',
       'activity-list': '/admin/activity-management',
-      'activity-selection': '/admin/activity',
-      'activity-event': '/admin/activity/event',
-      'activity-vote': '/admin/activity/vote',
-      'activity-meeting': '/admin/activity/meeting',
-      'activity-volunteer': '/admin/activity/volunteer',
     };
 
     if (routeMap[key]) {
@@ -154,19 +146,8 @@ export const SidebarAdmin = ({ collapsed }: SidebarAdminProps) => {
         icon: <CalendarOutlined />,
         label: 'Quản lý hoạt động',
         children: [
+          { key: 'activity-registration', icon: <UserAddOutlined />, label: 'Đăng ký hoạt động' },
           { key: 'activity-list', icon: <ProfileOutlined />, label: 'Danh sách hoạt động' },
-        ],
-      },
-      {
-        key: 'activity-menu',
-        icon: <HighlightOutlined />,
-        label: 'Tạo hoạt động',
-        children: [
-          { key: 'activity-selection', icon: <HighlightOutlined />, label: 'Chọn loại hoạt động' },
-          { key: 'activity-event', icon: <CalendarOutlined />, label: 'Sự kiện' },
-          { key: 'activity-vote', icon: <BarChartOutlined />, label: 'Biểu quyết' },
-          { key: 'activity-meeting', icon: <TeamOutlined />, label: 'Sinh hoạt' },
-          { key: 'activity-volunteer', icon: <HeartOutlined />, label: 'Tình nguyện' },
         ],
       },
       {
