@@ -2,6 +2,7 @@ import BirthdayCard from '@components/common/home/BirthdayCard';
 import HeroSlider from '@components/common/home/HeroSlider';
 import SectionBCH from '@components/common/home/SectionBCH';
 import SectionIntro from '@components/common/home/SectionIntro';
+import SectionDevelopmentJourney from '@components/common/home/SectionDevelopmentJourney';
 import SectionTinTuc from '@components/common/home/SectionTinTuc';
 import { useEffect, useState } from 'react';
 import { fakeNewsApi, type NewsItem } from '../../../api/fakeNewsApi';
@@ -57,6 +58,7 @@ const Home = () => {
       <BirthdayCard />
       <HeroSlider sliders={sliders} />
       <SectionIntro />
+      <SectionDevelopmentJourney />
       <SectionBCH />
       <SectionTinTuc allNews={allNews} loading={loading} />
     </div>

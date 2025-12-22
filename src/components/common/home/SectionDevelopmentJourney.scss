@@ -1,0 +1,667 @@
+.development-journey-section {
+  position: relative;
+  padding: 80px 20px;
+  background: linear-gradient(to bottom, #f8fafc 0%, #ffffff 100%);
+  overflow: hidden;
+
+  .journey-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 10;
+  }
+
+  .journey-header {
+    text-align: center;
+    margin-bottom: 60px;
+    padding-bottom: 30px;
+    position: relative;
+
+    &::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 120px;
+      height: 4px;
+      background: linear-gradient(90deg, transparent 0%, #2563eb 50%, transparent 100%);
+    }
+
+    .journey-title {
+      font-size: 2.5rem;
+      font-weight: 800;
+      color: #1e3a8a;
+      margin-bottom: 16px;
+      line-height: 1.2;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      position: relative;
+      display: inline-block;
+
+      &::before,
+      &::after {
+        content: '';
+        position: absolute;
+        top: 50%;
+        width: 60px;
+        height: 2px;
+        background: linear-gradient(90deg, transparent, #2563eb);
+      }
+
+      &::before {
+        left: -80px;
+      }
+
+      &::after {
+        right: -80px;
+        background: linear-gradient(90deg, #2563eb, transparent);
+      }
+
+      @media (max-width: 768px) {
+        font-size: 1.75rem;
+
+        &::before,
+        &::after {
+          display: none;
+        }
+      }
+    }
+
+    .journey-subtitle {
+      font-size: 1.25rem;
+      font-weight: 600;
+      color: #1e40af;
+      margin: 0;
+      font-style: italic;
+
+      @media (max-width: 768px) {
+        font-size: 1rem;
+      }
+    }
+  }
+
+  .journey-content {
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+
+    @media (max-width: 768px) {
+      gap: 30px;
+    }
+  }
+
+  .journey-grid-layout {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: auto auto;
+    gap: 30px;
+    margin-bottom: 40px;
+
+    @media (max-width: 1024px) {
+      grid-template-columns: 1fr;
+      grid-template-rows: repeat(4, auto);
+      gap: 24px;
+    }
+
+    @media (max-width: 768px) {
+      gap: 20px;
+      margin-bottom: 30px;
+    }
+  }
+
+  .journey-grid-cell {
+    padding: 35px;
+    background: #ffffff;
+    border-radius: 24px;
+    border: 1px solid #e2e8f0;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    position: relative;
+    overflow: hidden;
+    animation: fadeInUp 0.6s ease-out forwards;
+    opacity: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    &:hover {
+      background: linear-gradient(135deg, #eff6ff 0%, #ffffff 100%);
+      box-shadow: 0 8px 24px rgba(37, 99, 235, 0.15);
+      transform: translateY(-4px);
+    }
+
+    @media (max-width: 1024px) {
+      padding: 24px;
+    }
+
+    @media (max-width: 640px) {
+      padding: 20px;
+    }
+  }
+
+  .journey-logo-cell {
+    grid-column: 1;
+    grid-row: 1;
+    animation-delay: 0.1s;
+    border-left: 5px solid #2563eb;
+    padding: 35px;
+    align-items: flex-start;
+    justify-content: flex-start;
+
+    @media (max-width: 1024px) {
+      grid-column: 1;
+      grid-row: 1;
+      padding: 24px;
+    }
+
+    @media (max-width: 640px) {
+      padding: 20px;
+    }
+  }
+
+  .journey-text-cell {
+    align-items: flex-start;
+    justify-content: flex-start;
+    text-align: left;
+
+    .journey-item-title {
+      margin-top: 0;
+    }
+  }
+
+  .journey-text-top {
+    grid-column: 2;
+    grid-row: 1;
+    animation-delay: 0.2s;
+
+    @media (max-width: 1024px) {
+      grid-column: 1;
+      grid-row: 2;
+    }
+  }
+
+  .journey-text-bottom {
+    grid-column: 1;
+    grid-row: 2;
+    animation-delay: 0.3s;
+
+    @media (max-width: 1024px) {
+      grid-column: 1;
+      grid-row: 3;
+    }
+  }
+
+  .journey-image-cell {
+    grid-column: 2;
+    grid-row: 2;
+    animation-delay: 0.4s;
+    padding: 35px;
+    align-items: flex-start;
+    justify-content: flex-start;
+
+    @media (max-width: 1024px) {
+      grid-column: 1;
+      grid-row: 4;
+      padding: 24px;
+    }
+
+    @media (max-width: 640px) {
+      padding: 20px;
+    }
+  }
+
+  .journey-image-container-large {
+    width: 100%;
+    max-width: 100%;
+    height: auto;
+    border-radius: 24px;
+    overflow: hidden;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+    position: relative;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    background: #f0f0f0;
+    aspect-ratio: 4 / 3;
+    cursor: pointer;
+
+    // Hiệu ứng bóng loáng
+    &::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(
+        90deg,
+        transparent 0%,
+        rgba(255, 255, 255, 0.6) 50%,
+        transparent 100%
+      );
+      transition: left 0.8s ease;
+      z-index: 2;
+      pointer-events: none;
+      border-radius: 24px;
+    }
+
+    .journey-image {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 24px;
+      transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+      display: block;
+      position: relative;
+      z-index: 1;
+    }
+
+    // Hover trực tiếp vào container
+    &:hover {
+      box-shadow: 0 12px 32px rgba(37, 99, 235, 0.4);
+
+      .journey-image {
+        transform: scale(1.15);
+      }
+
+      &::after {
+        left: 100%;
+      }
+    }
+
+    // Cũng hoạt động khi hover vào cell
+    .journey-grid-cell:hover & {
+      box-shadow: 0 12px 32px rgba(37, 99, 235, 0.4);
+
+      .journey-image {
+        transform: scale(1.15);
+      }
+
+      &::after {
+        left: 100%;
+      }
+    }
+  }
+
+  .journey-image-container {
+    width: 100%;
+    height: 100%;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+    position: relative;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    background: #f0f0f0;
+
+    .journey-image {
+      width: 100%;
+      height: 100%;
+      border-radius: 16px;
+      transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+  }
+
+  .journey-logo-large {
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 80px;
+    color: white;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+    background: linear-gradient(135deg, var(--tw-gradient-stops));
+    position: relative;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    border: 6px solid rgba(255, 255, 255, 0.3);
+
+    &::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: 50%;
+      background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.4) 0%, transparent 60%);
+    }
+
+    .journey-grid-cell:hover & {
+      transform: scale(1.05) rotate(5deg);
+      box-shadow: 0 12px 32px rgba(0, 0, 0, 0.25);
+    }
+
+    @media (max-width: 1024px) {
+      width: 150px;
+      height: 150px;
+      font-size: 60px;
+      border-width: 4px;
+    }
+
+    @media (max-width: 640px) {
+      width: 120px;
+      height: 120px;
+      font-size: 48px;
+    }
+
+    // Gradient colors
+    &.from-blue-500 {
+      background: linear-gradient(135deg, #3b82f6, #2563eb);
+    }
+
+    &.from-purple-500 {
+      background: linear-gradient(135deg, #a855f7, #9333ea);
+    }
+
+    &.from-green-500 {
+      background: linear-gradient(135deg, #10b981, #059669);
+    }
+
+    &.from-orange-500 {
+      background: linear-gradient(135deg, #f97316, #ea580c);
+    }
+
+    &.from-red-500 {
+      background: linear-gradient(135deg, #dc2626, #b91c1c);
+    }
+
+    &.from-yellow-500 {
+      background: linear-gradient(135deg, #eab308, #ca8a04);
+    }
+  }
+
+  // Animation for items on scroll
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(30px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  // Typing cursor animation
+  @keyframes blink {
+    0%,
+    50% {
+      opacity: 1;
+    }
+    51%,
+    100% {
+      opacity: 0;
+    }
+  }
+
+  .typing-cursor {
+    display: inline-block;
+    margin-left: 2px;
+    color: #2563eb;
+    font-weight: 700;
+    animation: blink 1s infinite;
+    vertical-align: baseline;
+  }
+
+  // Fade up animation cho nội dung
+  .fade-up-hidden {
+    opacity: 0 !important;
+    transform: translateY(40px) !important;
+    transition: opacity 0.8s ease-out, transform 0.8s ease-out !important;
+  }
+
+  .fade-up-visible {
+    opacity: 1 !important;
+    transform: translateY(0) !important;
+    transition: opacity 0.8s ease-out, transform 0.8s ease-out !important;
+  }
+
+  // Đảm bảo journey-item-description có thể nhận fade-up classes
+  .journey-item-description.fade-up-hidden,
+  .journey-item-description.fade-up-visible {
+    margin: 0;
+    text-align: justify;
+  }
+
+  .journey-item {
+    display: grid;
+    grid-template-columns: 140px 1fr;
+    gap: 35px;
+    align-items: flex-start;
+    padding: 35px;
+    background: #ffffff;
+    border-radius: 24px;
+    border-left: 5px solid #2563eb;
+    border-top: 1px solid #e2e8f0;
+    border-right: 1px solid #e2e8f0;
+    border-bottom: 1px solid #e2e8f0;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    position: relative;
+    overflow: hidden;
+    animation: fadeInUp 0.6s ease-out forwards;
+    opacity: 0;
+
+    @for $i from 1 through 6 {
+      &:nth-child(#{$i}) {
+        animation-delay: #{$i * 0.1}s;
+      }
+    }
+
+    &::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 5px;
+      height: 100%;
+      background: linear-gradient(180deg, #2563eb 0%, #3b82f6 100%);
+      transition: width 0.4s ease;
+    }
+
+    &:hover {
+      background: linear-gradient(to right, #eff6ff 0%, #ffffff 100%);
+      box-shadow: 0 8px 24px rgba(37, 99, 235, 0.15);
+      transform: translateY(-4px) translateX(4px);
+      border-left-color: #1e40af;
+
+      &::before {
+        width: 8px;
+      }
+
+      .journey-logo {
+        transform: scale(1.1) rotate(5deg);
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+      }
+    }
+
+    @media (max-width: 768px) {
+      grid-template-columns: 100px 1fr;
+      gap: 24px;
+      padding: 24px;
+    }
+
+    @media (max-width: 640px) {
+      grid-template-columns: 1fr;
+      gap: 20px;
+      text-align: center;
+      padding: 20px;
+    }
+  }
+
+  .journey-item-left {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+
+    @media (max-width: 640px) {
+      justify-content: center;
+    }
+  }
+
+  .journey-logo {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 48px;
+    color: white;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+    background: linear-gradient(135deg, var(--tw-gradient-stops));
+    position: relative;
+    flex-shrink: 0;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    border: 4px solid rgba(255, 255, 255, 0.3);
+
+    // Tạo hiệu ứng giống logo Đoàn với cờ đỏ sao vàng
+    &::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: 50%;
+      background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.4) 0%, transparent 60%);
+    }
+
+    &::after {
+      content: '';
+      position: absolute;
+      inset: -4px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.2), transparent);
+      opacity: 0;
+      transition: opacity 0.4s ease;
+    }
+
+    &:hover::after {
+      opacity: 1;
+    }
+
+    @media (max-width: 768px) {
+      width: 80px;
+      height: 80px;
+      font-size: 36px;
+      border-width: 3px;
+    }
+
+    @media (max-width: 640px) {
+      margin: 0 auto;
+    }
+
+    // Gradient colors
+    &.from-blue-500 {
+      background: linear-gradient(135deg, #3b82f6, #2563eb);
+    }
+
+    &.from-purple-500 {
+      background: linear-gradient(135deg, #a855f7, #9333ea);
+    }
+
+    &.from-green-500 {
+      background: linear-gradient(135deg, #10b981, #059669);
+    }
+
+    &.from-orange-500 {
+      background: linear-gradient(135deg, #f97316, #ea580c);
+    }
+
+    &.from-red-500 {
+      background: linear-gradient(135deg, #dc2626, #b91c1c);
+    }
+
+    &.from-yellow-500 {
+      background: linear-gradient(135deg, #eab308, #ca8a04);
+    }
+  }
+
+  .journey-item-right {
+    flex: 1;
+
+    @media (max-width: 640px) {
+      text-align: left;
+    }
+  }
+
+  .journey-item-title {
+    font-size: 1.75rem;
+    font-weight: 700;
+    color: #1e293b;
+    margin: 0 0 20px 0;
+    line-height: 1.4;
+    position: relative;
+    padding-bottom: 16px;
+    letter-spacing: 0.3px;
+
+    &::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 80px;
+      height: 4px;
+      background: linear-gradient(90deg, #2563eb 0%, #3b82f6 100%);
+      border-radius: 2px;
+      transition: width 0.4s ease;
+    }
+
+    .journey-item:hover &::after {
+      width: 120px;
+    }
+
+    @media (max-width: 768px) {
+      font-size: 1.35rem;
+      margin-bottom: 16px;
+      padding-bottom: 12px;
+
+      &::after {
+        width: 60px;
+        height: 3px;
+      }
+    }
+
+    @media (max-width: 640px) {
+      text-align: center;
+
+      &::after {
+        left: 50%;
+        transform: translateX(-50%);
+      }
+    }
+  }
+
+  .journey-item-description {
+    font-size: 1.05rem;
+    line-height: 1.9;
+    color: #475569;
+    margin: 0;
+    text-align: justify;
+    transition: color 0.3s ease;
+
+    .journey-item:hover & {
+      color: #334155;
+    }
+
+    @media (max-width: 768px) {
+      font-size: 0.95rem;
+      line-height: 1.75;
+    }
+
+    @media (max-width: 640px) {
+      text-align: left;
+    }
+  }
+
+  // Responsive adjustments
+  @media (max-width: 640px) {
+    padding: 50px 16px;
+
+    .journey-header {
+      margin-bottom: 40px;
+      padding-bottom: 24px;
+    }
+
+    .journey-item {
+      border-left: 4px solid #2563eb;
+      padding: 20px;
+    }
+  }
+}
