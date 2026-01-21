@@ -10,8 +10,10 @@ import {
   EnvironmentOutlined,
   ClockCircleOutlined,
   WhatsAppOutlined,
+  CalendarOutlined,
+  CrownOutlined,
 } from '@ant-design/icons';
-import { Pagination } from 'antd';
+import { Pagination, Modal, Descriptions, Tag, Avatar } from 'antd';
 
 type Role = 'Bí thư' | 'Phó Bí thư' | 'Uỷ viên';
 
@@ -24,6 +26,8 @@ interface Officer {
   email: string;
   phone: string;
   studentCode: string; // mã sinh viên
+  cohort?: string; // khóa (extracted từ studentCode hoặc term)
+  avatar?: string; // URL ảnh đại diện
 }
 
 const OFFICERS_FAKE: Officer[] = [
@@ -36,6 +40,7 @@ const OFFICERS_FAKE: Officer[] = [
     email: 'hien.1604001@dnu.edu.vn',
     phone: '0987 000 111',
     studentCode: '1604001',
+    avatar: 'https://i.pravatar.cc/150?img=1',
   },
   {
     id: 2,
@@ -46,6 +51,7 @@ const OFFICERS_FAKE: Officer[] = [
     email: 'thang.nt1604002@dnu.edu.vn',
     phone: '0987 000 222',
     studentCode: '1604002',
+    avatar: 'https://i.pravatar.cc/150?img=12',
   },
   {
     id: 3,
@@ -56,6 +62,7 @@ const OFFICERS_FAKE: Officer[] = [
     email: 'huy.tm1604003@dnu.edu.vn',
     phone: '0987 000 333',
     studentCode: '1604003',
+    avatar: 'https://i.pravatar.cc/150?img=13',
   },
   {
     id: 4,
@@ -66,6 +73,7 @@ const OFFICERS_FAKE: Officer[] = [
     email: 'mai.nh1605001@dnu.edu.vn',
     phone: '0987 000 444',
     studentCode: '1605004',
+    avatar: 'https://i.pravatar.cc/150?img=20',
   },
   {
     id: 5,
@@ -76,9 +84,10 @@ const OFFICERS_FAKE: Officer[] = [
     email: 'diep.ph1605002@dnu.edu.vn',
     phone: '0987 000 555',
     studentCode: '1605005',
+    avatar: 'https://i.pravatar.cc/150?img=21',
   },
   {
-    id: 5,
+    id: 6,
     name: 'Phạm Xuân Dũng',
     role: 'Uỷ viên',
     branch: 'CNTT 1602',
@@ -86,9 +95,10 @@ const OFFICERS_FAKE: Officer[] = [
     email: 'dung.ph1605002@dnu.edu.vn',
     phone: '0987 000 555',
     studentCode: '1605006',
+    avatar: 'https://i.pravatar.cc/150?img=22',
   },
   {
-    id: 6,
+    id: 7,
     name: 'Phạm Minh Chiến',
     role: 'Bí thư',
     branch: 'CNTT 1603',
@@ -96,9 +106,10 @@ const OFFICERS_FAKE: Officer[] = [
     email: 'chien.ph1605002@dnu.edu.vn',
     phone: '0987 000 666',
     studentCode: '1605007',
+    avatar: 'https://i.pravatar.cc/150?img=23',
   },
   {
-    id: 7,
+    id: 8,
     name: 'Nguyễn Thị Tuyết',
     role: 'Phó Bí thư',
     branch: 'CNTT 1603',
@@ -106,9 +117,10 @@ const OFFICERS_FAKE: Officer[] = [
     email: 'tuyet.nt1605002@dnu.edu.vn',
     phone: '0987 000 777',
     studentCode: '1605008',
+    avatar: 'https://i.pravatar.cc/150?img=24',
   },
   {
-    id: 8,
+    id: 9,
     name: 'Trần Thanh Tâm',
     role: 'Uỷ viên',
     branch: 'CNTT 1603',
@@ -116,9 +128,10 @@ const OFFICERS_FAKE: Officer[] = [
     email: 'tam.tt1605002@dnu.edu.vn',
     phone: '0987 000 888',
     studentCode: '1605009',
+    avatar: 'https://i.pravatar.cc/150?img=25',
   },
   {
-    id: 9,
+    id: 10,
     name: 'Phạm Thị Hồng Ngọc',
     role: 'Bí thư',
     branch: 'CNTT 1604',
@@ -126,9 +139,10 @@ const OFFICERS_FAKE: Officer[] = [
     email: 'ngoc.pt1605002@dnu.edu.vn',
     phone: '0987 000 999',
     studentCode: '1605010',
+    avatar: 'https://i.pravatar.cc/150?img=26',
   },
   {
-    id: 10,
+    id: 11,
     name: 'Đặng Thanh Bình ',
     role: 'Phó Bí thư',
     branch: 'CNTT 1605',
@@ -136,9 +150,10 @@ const OFFICERS_FAKE: Officer[] = [
     email: 'binh.dt1605002@dnu.edu.vn',
     phone: '0987 000 101',
     studentCode: '1605011',
+    avatar: 'https://i.pravatar.cc/150?img=27',
   },
   {
-    id: 11,
+    id: 12,
     name: 'Nguyễn Tiến Đạt',
     role: 'Uỷ viên',
     branch: 'CNTT 1604',
@@ -146,9 +161,10 @@ const OFFICERS_FAKE: Officer[] = [
     email: 'dat.nt1605002@dnu.edu.vn',
     phone: '0987 000 102',
     studentCode: '1605012',
+    avatar: 'https://i.pravatar.cc/150?img=28',
   },
   {
-    id: 12,
+    id: 13,
     name: 'Trần Thanh Hằng',
     role: 'Bí thư',
     branch: 'CNTT 1605',
@@ -156,9 +172,10 @@ const OFFICERS_FAKE: Officer[] = [
     email: 'hang.tt1605002@dnu.edu.vn',
     phone: '0987 000 103',
     studentCode: '1605013',
+    avatar: 'https://i.pravatar.cc/150?img=29',
   },
   {
-    id: 13,
+    id: 14,
     name: 'Phạm Tuấn Anh',
     role: 'Phó Bí thư',
     branch: 'CNTT 1605',
@@ -166,9 +183,10 @@ const OFFICERS_FAKE: Officer[] = [
     email: 'tuan.ph1605002@dnu.edu.vn',
     phone: '0987 000 104',
     studentCode: '1605014',
+    avatar: 'https://i.pravatar.cc/150?img=30',
   },
   {
-    id: 14,
+    id: 15,
     name: 'Đặng Hồng Diệp',
     role: 'Uỷ viên',
     branch: 'CNTT 1605',
@@ -176,9 +194,10 @@ const OFFICERS_FAKE: Officer[] = [
     email: 'diep.ph1605002@dnu.edu.vn',
     phone: '0987 000 105',
     studentCode: '1605015',
+    avatar: 'https://i.pravatar.cc/150?img=31',
   },
   {
-    id: 15,
+    id: 16,
     name: 'Lương Minh Đức',
     role: 'Bí thư',
     branch: 'CNTT 1606',
@@ -186,9 +205,10 @@ const OFFICERS_FAKE: Officer[] = [
     email: 'duc.lm1605002@dnu.edu.vn',
     phone: '0987 000 106',
     studentCode: '1605016',
+    avatar: 'https://i.pravatar.cc/150?img=32',
   },
   {
-    id: 16,
+    id: 17,
     name: 'Lê Thu Ngân',
     role: 'Phó Bí thư',
     branch: 'CNTT 1606',
@@ -196,6 +216,7 @@ const OFFICERS_FAKE: Officer[] = [
     email: 'ngan.lt1605002@dnu.edu.vn',
     phone: '0987 000 107',
     studentCode: '1605017',
+    avatar: 'https://i.pravatar.cc/150?img=33',
   },
   {
     id: 18,
@@ -206,11 +227,30 @@ const OFFICERS_FAKE: Officer[] = [
     email: 'duy.cv1605002@dnu.edu.vn',
     phone: '0987 000 108',
     studentCode: '1605018',
+    avatar: 'https://i.pravatar.cc/150?img=34',
   },
 ];
 
 const BRANCHES = ['Tất cả', 'CNTT 1604', 'CNTT 1605', 'CNTT 1601', 'CNTT 1602', 'CNTT 1603'];
+const ROLES: Role[] = ['Bí thư', 'Phó Bí thư', 'Uỷ viên'];
 const PAGE_SIZE = 10;
+
+// Helper function to extract cohort from studentCode or term
+const extractCohort = (officer: Officer): string => {
+  // Extract từ nhiệm kỳ (term): "2024-2025" -> "2024"
+  if (officer.term) {
+    const year = officer.term.split('-')[0];
+    return `Khóa ${year}`;
+  }
+  // Hoặc extract từ studentCode: "1604001" -> "2016" (nếu 16 là năm nhập học)
+  if (officer.studentCode && officer.studentCode.length >= 2) {
+    const prefix = officer.studentCode.substring(0, 2);
+    // Giả sử 16 -> 2016, 17 -> 2017, etc.
+    const year = `20${prefix}`;
+    return `Khóa ${year}`;
+  }
+  return 'Không xác định';
+};
 
 // Helper function to get role badge styling
 const getRoleBadge = (role: Role) => {
@@ -231,13 +271,33 @@ const getRoleIcon = (role: Role) => {
 
 const ExecutiveBoardPage: React.FC = () => {
   const [branch, setBranch] = useState('Tất cả');
+  const [cohort, setCohort] = useState('Tất cả');
+  const [role, setRole] = useState('Tất cả');
   const [search, setSearch] = useState('');
   const [isFilterOpen, setIsFilterOpen] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
+  const [selectedOfficer, setSelectedOfficer] = useState<Officer | null>(null);
+  const [isDetailModalOpen, setIsDetailModalOpen] = useState(false);
 
   const [officers, setOfficers] = useState<Officer[]>(OFFICERS_FAKE);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+
+  // Extract và thêm cohort vào officers
+  const officersWithCohort = useMemo(() => {
+    return officers.map((o) => ({
+      ...o,
+      cohort: extractCohort(o),
+    }));
+  }, [officers]);
+
+  // Lấy danh sách khóa duy nhất từ dữ liệu
+  const cohorts = useMemo(() => {
+    const uniqueCohorts = Array.from(
+      new Set(officersWithCohort.map((o) => o.cohort || 'Không xác định')),
+    ).sort();
+    return ['Tất cả', ...uniqueCohorts];
+  }, [officersWithCohort]);
 
   useEffect(() => {
     const HAS_API = false;
@@ -272,8 +332,10 @@ const ExecutiveBoardPage: React.FC = () => {
   // ================== LỌC DỮ LIỆU ==================
   const filteredOfficers = useMemo(
     () =>
-      officers.filter((o) => {
+      officersWithCohort.filter((o) => {
         const matchBranch = branch === 'Tất cả' || o.branch === branch;
+        const matchCohort = cohort === 'Tất cả' || o.cohort === cohort;
+        const matchRole = role === 'Tất cả' || o.role === role;
         const lower = search.toLowerCase();
         const matchSearch =
           !lower ||
@@ -281,9 +343,9 @@ const ExecutiveBoardPage: React.FC = () => {
           o.studentCode.toLowerCase().includes(lower) ||
           o.phone.replace(/\s/g, '').includes(lower);
 
-        return matchBranch && matchSearch;
+        return matchBranch && matchCohort && matchRole && matchSearch;
       }),
-    [branch, search, officers],
+    [branch, cohort, role, search, officersWithCohort],
   );
 
   // ================== PHÂN TRANG ==================
@@ -306,7 +368,7 @@ const ExecutiveBoardPage: React.FC = () => {
           <div className="relative z-10 space-y-2">
             <div className="flex items-center gap-3 flex-wrap">
               <StarFilled className="text-yellow-300" style={{ fontSize: '28px' }} />
-              <h1 className="text-2xl md:text-4xl font-bold">DANH SÁCH CÁN BỘ ĐOÀN THEO LỚP</h1>
+              <h1 className="text-2xl md:text-4xl font-bold">DANH SÁCH BAN CHẤP HÀNH CHI ĐOÀN</h1>
             </div>
             <p className="text-blue-50 text-sm md:text-base max-w-2xl">
               Thông tin Ban Chấp hành các chi đoàn – Liên chi đoàn Khoa Công nghệ Thông tin theo
@@ -315,7 +377,7 @@ const ExecutiveBoardPage: React.FC = () => {
             <div className="flex flex-wrap gap-4 mt-4 text-sm">
               <div className="flex items-center gap-2">
                 <UserOutlined />
-                <span>{filteredOfficers.length} cán bộ Đoàn</span>
+                <span>{filteredOfficers.length} thành viên BCH</span>
               </div>
               <div className="flex items-center gap-2">
                 <TeamOutlined />
@@ -341,7 +403,27 @@ const ExecutiveBoardPage: React.FC = () => {
           </div>
 
           <div className={`space-y-4 ${isFilterOpen || 'hidden md:block'}`}>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+              <div>
+                <label className="flex items-center gap-2 text-xs font-semibold text-gray-600 mb-2">
+                  <CalendarOutlined className="text-orange-600" />
+                  Khóa
+                </label>
+                <select
+                  value={cohort}
+                  onChange={(e) => {
+                    setCohort(e.target.value);
+                    setCurrentPage(1);
+                  }}
+                  className="w-full border-2 border-gray-200 rounded-lg px-4 py-2.5 text-sm focus:border-orange-500 focus:ring-2 focus:ring-orange-200 transition-all"
+                >
+                  {cohorts.map((c) => (
+                    <option key={c} value={c}>
+                      {c}
+                    </option>
+                  ))}
+                </select>
+              </div>
               <div>
                 <label className="flex items-center gap-2 text-xs font-semibold text-gray-600 mb-2">
                   <TeamOutlined className="text-green-600" />
@@ -351,13 +433,34 @@ const ExecutiveBoardPage: React.FC = () => {
                   value={branch}
                   onChange={(e) => {
                     setBranch(e.target.value);
-                    setCurrentPage(1); // Reset về trang 1 khi filter thay đổi
+                    setCurrentPage(1);
                   }}
                   className="w-full border-2 border-gray-200 rounded-lg px-4 py-2.5 text-sm focus:border-green-500 focus:ring-2 focus:ring-green-200 transition-all"
                 >
                   {BRANCHES.map((b) => (
                     <option key={b} value={b}>
                       {b}
+                    </option>
+                  ))}
+                </select>
+              </div>
+              <div>
+                <label className="flex items-center gap-2 text-xs font-semibold text-gray-600 mb-2">
+                  <CrownOutlined className="text-yellow-600" />
+                  Chức vụ
+                </label>
+                <select
+                  value={role}
+                  onChange={(e) => {
+                    setRole(e.target.value);
+                    setCurrentPage(1);
+                  }}
+                  className="w-full border-2 border-gray-200 rounded-lg px-4 py-2.5 text-sm focus:border-yellow-500 focus:ring-2 focus:ring-yellow-200 transition-all"
+                >
+                  <option value="Tất cả">Tất cả</option>
+                  {ROLES.map((r) => (
+                    <option key={r} value={r}>
+                      {r}
                     </option>
                   ))}
                 </select>
@@ -374,7 +477,7 @@ const ExecutiveBoardPage: React.FC = () => {
                     value={search}
                     onChange={(e) => {
                       setSearch(e.target.value);
-                      setCurrentPage(1); // Reset về trang 1 khi search thay đổi
+                      setCurrentPage(1);
                     }}
                     className="w-full border-2 border-gray-200 rounded-lg pl-4 pr-10 py-2.5 text-sm focus:border-purple-500 focus:ring-2 focus:ring-purple-200 transition-all"
                   />
@@ -384,10 +487,12 @@ const ExecutiveBoardPage: React.FC = () => {
             </div>
 
             {/* Quick reset */}
-            {(branch !== 'Tất cả' || search) && (
+            {(branch !== 'Tất cả' || cohort !== 'Tất cả' || role !== 'Tất cả' || search) && (
               <button
                 onClick={() => {
                   setBranch('Tất cả');
+                  setCohort('Tất cả');
+                  setRole('Tất cả');
                   setSearch('');
                   setCurrentPage(1);
                 }}
@@ -407,9 +512,9 @@ const ExecutiveBoardPage: React.FC = () => {
           <div className="flex items-center justify-between">
             <h2 className="text-xl font-bold text-gray-800 flex items-center gap-2">
               <UserOutlined className="text-blue-600" />
-              Danh sách Ban Chấp hành theo lớp
+              Danh sách Ban Chấp hành Chi đoàn
               <span className="text-sm font-normal text-gray-500">
-                ({filteredOfficers.length} cán bộ)
+                ({filteredOfficers.length} thành viên)
               </span>
             </h2>
           </div>
@@ -420,7 +525,7 @@ const ExecutiveBoardPage: React.FC = () => {
                 <UserOutlined style={{ fontSize: '64px' }} />
               </div>
               <p className="text-gray-500 font-medium">
-                Không tìm thấy cán bộ Đoàn phù hợp với bộ lọc.
+                Không tìm thấy thành viên BCH phù hợp với bộ lọc.
               </p>
               <p className="text-sm text-gray-400 mt-2">
                 Vui lòng điều chỉnh bộ lọc hoặc từ khóa tìm kiếm.
@@ -436,6 +541,9 @@ const ExecutiveBoardPage: React.FC = () => {
                         STT
                       </th>
                       <th className="px-4 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">
+                        Avatar
+                      </th>
+                      <th className="px-4 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">
                         Chi đoàn (lớp)
                       </th>
                       <th className="px-4 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">
@@ -448,6 +556,9 @@ const ExecutiveBoardPage: React.FC = () => {
                         Họ tên
                       </th>
                       <th className="px-4 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">
+                        Email
+                      </th>
+                      <th className="px-4 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">
                         Liên hệ (SĐT)
                       </th>
                     </tr>
@@ -456,8 +567,20 @@ const ExecutiveBoardPage: React.FC = () => {
                     {paginatedOfficers.map((o, index) => {
                       const globalIndex = (currentPage - 1) * PAGE_SIZE + index + 1;
                       return (
-                        <tr key={o.id} className="hover:bg-blue-50/60 transition-colors">
+                        <tr key={`${o.id}-${globalIndex}`} className="hover:bg-blue-50/60 transition-colors">
                           <td className="px-4 py-3 text-gray-700 font-medium">{globalIndex}</td>
+                          <td className="px-4 py-3">
+                            <Avatar
+                              src={o.avatar}
+                              size={48}
+                              className="cursor-pointer hover:ring-2 hover:ring-blue-500 transition-all"
+                              onClick={() => {
+                                setSelectedOfficer(o);
+                                setIsDetailModalOpen(true);
+                              }}
+                              icon={<UserOutlined />}
+                            />
+                          </td>
                           <td className="px-4 py-3 text-gray-700">
                             {o.branch}
                           </td>
@@ -473,11 +596,17 @@ const ExecutiveBoardPage: React.FC = () => {
                         <td className="px-4 py-3 text-gray-700 font-mono">{o.studentCode}</td>
                         <td className="px-4 py-3 text-gray-800 font-medium">
                           {o.name}
-                          <div className="flex items-center gap-1 text-xs text-gray-400">
-                            <MailOutlined />
-                            <span className="truncate max-w-[220px]" title={o.email}>
+                        </td>
+                        <td className="px-4 py-3 text-gray-700">
+                          <div className="flex items-center gap-1 text-sm">
+                            <MailOutlined className="text-gray-400" />
+                            <a
+                              href={`mailto:${o.email}`}
+                              className="text-blue-600 hover:text-blue-800 hover:underline truncate max-w-[250px]"
+                              title={o.email}
+                            >
                               {o.email}
-                            </span>
+                            </a>
                           </div>
                         </td>
                         <td className="px-4 py-3 text-gray-700">
@@ -594,6 +723,82 @@ const ExecutiveBoardPage: React.FC = () => {
           </div>
         </section>
       </div>
+
+      {/* Modal xem chi tiết */}
+      <Modal
+        title={
+          <div className="flex items-center gap-3">
+            <UserOutlined className="text-blue-600" style={{ fontSize: '24px' }} />
+            <span className="text-xl font-bold">Thông tin chi tiết Ban Chấp hành</span>
+          </div>
+        }
+        open={isDetailModalOpen}
+        onCancel={() => {
+          setIsDetailModalOpen(false);
+          setSelectedOfficer(null);
+        }}
+        footer={null}
+        width={700}
+        centered
+      >
+        {selectedOfficer && (
+          <div className="space-y-6">
+            {/* Header với avatar và tên */}
+            <div className="flex items-center gap-6 pb-6 border-b border-gray-200">
+              <Avatar
+                src={selectedOfficer.avatar}
+                size={100}
+                icon={<UserOutlined />}
+                className="ring-4 ring-blue-100"
+              />
+              <div className="flex-1">
+                <h3 className="text-2xl font-bold text-gray-800 mb-2">{selectedOfficer.name}</h3>
+                <div className="flex items-center gap-2">
+                  <span
+                    className={`inline-flex items-center gap-1 px-3 py-1 rounded-full text-sm font-semibold border ${getRoleBadge(
+                      selectedOfficer.role,
+                    )}`}
+                  >
+                    {getRoleIcon(selectedOfficer.role)} {selectedOfficer.role}
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            {/* Thông tin chi tiết */}
+            <Descriptions column={1} bordered size="small">
+              <Descriptions.Item label="Mã sinh viên" labelStyle={{ fontWeight: 600, width: '40%' }}>
+                <span className="font-mono">{selectedOfficer.studentCode}</span>
+              </Descriptions.Item>
+              <Descriptions.Item label="Chi đoàn (lớp)" labelStyle={{ fontWeight: 600 }}>
+                {selectedOfficer.branch}
+              </Descriptions.Item>
+              <Descriptions.Item label="Khóa" labelStyle={{ fontWeight: 600 }}>
+                {selectedOfficer.cohort || extractCohort(selectedOfficer)}
+              </Descriptions.Item>
+              <Descriptions.Item label="Nhiệm kỳ" labelStyle={{ fontWeight: 600 }}>
+                {selectedOfficer.term}
+              </Descriptions.Item>
+              <Descriptions.Item label="Email" labelStyle={{ fontWeight: 600 }}>
+                <a
+                  href={`mailto:${selectedOfficer.email}`}
+                  className="text-blue-600 hover:text-blue-800 hover:underline"
+                >
+                  {selectedOfficer.email}
+                </a>
+              </Descriptions.Item>
+              <Descriptions.Item label="Số điện thoại" labelStyle={{ fontWeight: 600 }}>
+                <a
+                  href={`tel:${selectedOfficer.phone.replace(/\s/g, '')}`}
+                  className="text-green-600 hover:text-green-800 hover:underline"
+                >
+                  {selectedOfficer.phone}
+                </a>
+              </Descriptions.Item>
+            </Descriptions>
+          </div>
+        )}
+      </Modal>
     </div>
   );
 };

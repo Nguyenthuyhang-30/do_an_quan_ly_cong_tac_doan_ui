@@ -6,6 +6,10 @@ import {
   HeartOutlined,
   BookOutlined,
   StarOutlined,
+  FireOutlined,
+  GlobalOutlined,
+  CalendarOutlined,
+  BulbOutlined,
 } from '@ant-design/icons';
 import ImageWithFallback from '@components/common/ImageWithFallback';
 import './SectionDevelopmentJourney.scss';
@@ -193,55 +197,55 @@ const JourneyImage: React.FC<JourneyImageProps> = ({ item, size = 'normal' }) =>
 const journeyItems: JourneyItem[] = [
   {
     id: 1,
-    title: 'Đoàn Thanh niên',
+    title: 'Hoạt động tình nguyện vì cộng đồng',
     description:
-      'Đoàn Thanh niên Cộng sản Hồ Chí Minh Đại học Đại Nam là tổ chức chính trị - xã hội của thanh niên, là đội dự bị tin cậy của Đảng Cộng sản Việt Nam. Tổ chức Đoàn tại trường luôn phát huy vai trò nòng cốt trong công tác giáo dục, rèn luyện và phát triển toàn diện cho sinh viên. Đoàn Thanh niên Đại học Đại Nam được thành lập và phát triển dưới sự lãnh đạo trực tiếp của Đảng ủy và Ban Giám hiệu nhà trường, luôn là cầu nối quan trọng giữa nhà trường và sinh viên.',
-    icon: <TeamOutlined />,
-    gradient: 'from-blue-500 to-blue-600',
-    image: '/images/thiennguyen.jpg',
-  },
-  {
-    id: 2,
-    title: 'Xây dựng tổ chức Đoàn vững mạnh',
-    description:
-      'Đoàn Thanh niên Đại học Đại Nam không ngừng củng cố và phát triển tổ chức, xây dựng các chi đoàn vững mạnh, nâng cao chất lượng đoàn viên. Tổ chức Đoàn luôn chú trọng công tác phát triển đoàn viên mới, đào tạo cán bộ Đoàn có năng lực, phẩm chất đạo đức tốt. Các hoạt động sinh hoạt chi đoàn, đại hội chi đoàn, bầu cử cán bộ Đoàn được tổ chức thường xuyên, đảm bảo tính dân chủ, công khai, minh bạch.',
-    icon: <RocketOutlined />,
-    gradient: 'from-purple-500 to-purple-600',
-    image: '/images/thiennguyen.jpg',
-  },
-  {
-    id: 3,
-    title: 'Giáo dục lý tưởng cách mạng',
-    description:
-      'Đoàn Thanh niên Đại học Đại Nam tích cực tổ chức các hoạt động giáo dục chính trị, tư tưởng, đạo đức, lối sống cho đoàn viên thanh niên. Thông qua các buổi sinh hoạt chính trị, học tập tư tưởng Hồ Chí Minh, các chương trình giáo dục truyền thống, Đoàn góp phần xây dựng thế hệ trẻ có lý tưởng cách mạng cao đẹp, có đạo đức trong sáng, có lối sống lành mạnh, có ý thức trách nhiệm với bản thân, gia đình và xã hội.',
-    icon: <BookOutlined />,
-    gradient: 'from-green-500 to-green-600',
-    image: '/images/thiennguyen.jpg',
-  },
-  {
-    id: 4,
-    title: 'Phát triển kỹ năng và năng lực',
-    description:
-      'Đoàn Thanh niên Đại học Đại Nam tổ chức nhiều hoạt động phong phú nhằm phát triển kỹ năng mềm, năng lực chuyên môn cho sinh viên. Các chương trình như hội thi, cuộc thi, workshop, talkshow, câu lạc bộ học thuật... giúp sinh viên rèn luyện kỹ năng giao tiếp, làm việc nhóm, tư duy phản biện và khả năng lãnh đạo. Đoàn cũng tạo điều kiện để sinh viên tham gia các hoạt động nghiên cứu khoa học, khởi nghiệp, phát triển tài năng.',
-    icon: <TrophyOutlined />,
-    gradient: 'from-orange-500 to-orange-600',
-    image: '/images/thiennguyen.jpg',
-  },
-  {
-    id: 5,
-    title: 'Hoạt động tình nguyện và xã hội',
-    description:
-      'Đoàn Thanh niên Đại học Đại Nam luôn tích cực tham gia các hoạt động tình nguyện, công tác xã hội, góp phần xây dựng cộng đồng. Các chương trình như hiến máu tình nguyện, tình nguyện mùa hè xanh, hỗ trợ người nghèo, bảo vệ môi trường... thể hiện tinh thần "Đâu cần thanh niên có, đâu khó có thanh niên". Thông qua các hoạt động này, đoàn viên thanh niên được rèn luyện tinh thần tương thân tương ái, ý thức trách nhiệm với cộng đồng, xã hội.',
+      'Đoàn Thanh niên Đại học Đại Nam thường xuyên tổ chức các hoạt động tình nguyện ý nghĩa như hiến máu nhân đạo, tình nguyện mùa hè xanh, hỗ trợ người nghèo, chăm sóc trẻ em có hoàn cảnh khó khăn, bảo vệ môi trường. Các hoạt động này không chỉ mang lại giá trị thiết thực cho cộng đồng mà còn rèn luyện tinh thần tương thân tương ái, ý thức trách nhiệm xã hội cho đoàn viên thanh niên.',
     icon: <HeartOutlined />,
     gradient: 'from-red-500 to-red-600',
     image: '/images/thiennguyen.jpg',
   },
   {
-    id: 6,
-    title: 'Phát huy tính tích cực, chủ động, sáng tạo của đoàn viên thanh niên',
+    id: 2,
+    title: 'Hội thi và cuộc thi học thuật',
     description:
-      'Đoàn Thanh niên Đại học Đại Nam khuyến khích và tạo môi trường để đoàn viên thanh niên phát huy tính tích cực, chủ động, sáng tạo trong học tập, nghiên cứu và hoạt động. Tổ chức Đoàn luôn tạo điều kiện để sinh viên đề xuất ý tưởng, thực hiện các dự án sáng tạo, khởi nghiệp, góp phần phát triển bản thân và xã hội. Đoàn cũng tổ chức các cuộc thi sáng tạo, hội thi tài năng, tạo sân chơi lành mạnh để sinh viên thể hiện năng lực, phát huy sở trường của mình.',
-    icon: <StarOutlined />,
+      'Đoàn tổ chức nhiều hội thi, cuộc thi học thuật sôi nổi như Olympic các môn học, cuộc thi nghiên cứu khoa học sinh viên, hội thi tài năng trẻ, cuộc thi khởi nghiệp... Các hoạt động này tạo sân chơi lành mạnh, khuyến khích tinh thần học hỏi, sáng tạo, phát triển năng lực chuyên môn và kỹ năng mềm cho sinh viên.',
+    icon: <TrophyOutlined />,
+    gradient: 'from-orange-500 to-orange-600',
+    image: '/images/thiennguyen.jpg',
+  },
+  {
+    id: 3,
+    title: 'Sinh hoạt chi đoàn và đại hội',
+    description:
+      'Các buổi sinh hoạt chi đoàn được tổ chức thường xuyên với nhiều hình thức đa dạng như sinh hoạt chủ đề, thảo luận, chia sẻ kinh nghiệm. Đại hội chi đoàn, đại hội liên chi đoàn được tổ chức định kỳ, tạo cơ hội để đoàn viên tham gia xây dựng tổ chức, bầu cử cán bộ Đoàn, đóng góp ý kiến cho các hoạt động của Đoàn.',
+    icon: <TeamOutlined />,
+    gradient: 'from-blue-500 to-blue-600',
+    image: '/images/thiennguyen.jpg',
+  },
+  {
+    id: 4,
+    title: 'Hoạt động văn hóa - thể thao',
+    description:
+      'Đoàn tổ chức nhiều hoạt động văn hóa, thể thao phong phú như các chương trình văn nghệ, liên hoan văn nghệ, giải thể thao sinh viên, các trò chơi dân gian, giao lưu văn hóa... Những hoạt động này góp phần xây dựng môi trường học tập năng động, tăng cường tình đoàn kết, gắn bó giữa các đoàn viên, tạo không gian giải trí lành mạnh sau giờ học.',
+    icon: <FireOutlined />,
+    gradient: 'from-purple-500 to-purple-600',
+    image: '/images/thiennguyen.jpg',
+  },
+  {
+    id: 5,
+    title: 'Chương trình đào tạo kỹ năng',
+    description:
+      'Đoàn thường xuyên tổ chức các workshop, talkshow, khóa đào tạo kỹ năng mềm như kỹ năng giao tiếp, làm việc nhóm, quản lý thời gian, tư duy phản biện, kỹ năng lãnh đạo, kỹ năng thuyết trình... Các chương trình này giúp sinh viên trang bị những kỹ năng cần thiết cho công việc và cuộc sống, nâng cao năng lực cạnh tranh trong thị trường lao động.',
+    icon: <BulbOutlined />,
+    gradient: 'from-green-500 to-green-600',
+    image: '/images/thiennguyen.jpg',
+  },
+  {
+    id: 6,
+    title: 'Hoạt động nghiên cứu khoa học và khởi nghiệp',
+    description:
+      'Đoàn tạo điều kiện và khuyến khích sinh viên tham gia nghiên cứu khoa học, phát triển các dự án khởi nghiệp, sáng tạo. Tổ chức các cuộc thi ý tưởng khởi nghiệp, hỗ trợ kết nối với các doanh nghiệp, nhà đầu tư, tạo môi trường để sinh viên phát huy tài năng, biến ý tưởng thành hiện thực, góp phần phát triển kinh tế - xã hội.',
+    icon: <RocketOutlined />,
     gradient: 'from-yellow-500 to-yellow-600',
     image: '/images/thiennguyen.jpg',
   },
@@ -252,7 +256,7 @@ const SectionDevelopmentJourney = () => {
     <section className="development-journey-section">
       <div className="journey-container">
         <div className="journey-header">
-          <h2 className="journey-title">HÀNH TRÌNH PHÁT TRIỂN CỦA ĐOÀN</h2>
+          <h2 className="journey-title">MỘT SỐ HOẠT ĐỘNG NỔI BẬT</h2>
           <h3 className="journey-subtitle">Đoàn Thanh niên Cộng sản Hồ Chí Minh - Đại học Đại Nam</h3>
         </div>
 

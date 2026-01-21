@@ -6,9 +6,10 @@ import {
   UserOutlined,
 } from '@ant-design/icons';
 import { useNavigate } from '@tanstack/react-router';
-import { Button, Checkbox, Col, Form, Input, Row, Tabs } from 'antd';
+import { Button, Checkbox, Col, Form, Input, Row, Tabs, Carousel } from 'antd';
 import React, { useEffect, useState } from 'react';
 import { RiAdminFill } from 'react-icons/ri';
+import ImageWithFallback from '@components/common/ImageWithFallback';
 import { useAuth } from '../../../hooks/useAuth';
 import notificationService from '../../../utils/notification';
 import './Login.scss';
@@ -229,23 +230,13 @@ export const Login: React.FC = () => {
 
           <div className="volunteer-illustration">
             <div className="illustration-content">
-              <svg
-                className="main-illustration"
-                viewBox="0 0 400 400"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <circle
-                  cx="200"
-                  cy="200"
-                  r="180"
-                  fill="rgba(255,255,255,0.1)"
-                  stroke="rgba(255,255,255,0.2)"
-                  strokeWidth="2"
-                />
-              </svg>
+              <div className="abstract-shapes">
+                <div className="shape-gradient shape-gradient-1"></div>
+                <div className="shape-gradient shape-gradient-2"></div>
+                <div className="shape-gradient shape-gradient-3"></div>
+              </div>
 
-              <h2 className="illustration-title">Đoàn Thanh niên</h2>
+              <h2 className="illustration-title">Đoàn thanh niên</h2>
               <p className="illustration-subtitle">
                 Nơi kết nối và phát triển tài năng trẻ, xây dựng tương lai công nghệ thông tin
               </p>
@@ -271,17 +262,31 @@ export const Login: React.FC = () => {
         <Col xs={24} md={12} className="form-section">
           <div className="form-container">
             <div className="header-section">
-              <div className="logo-container flex w-full justify-center">
-                <img
-                  src="/logos/doan_logo.png"
-                  alt="Youth Logo"
-                  loading="lazy"
-                  width={84}
-                  height={84}
-                  style={{ objectFit: 'contain' }}
-                />
+              <div className="logo-container">
+                <Carousel autoplay autoplaySpeed={3000} effect="fade" dots={false}>
+                  <div key="doan-logo">
+                    <div className="logo-slide">
+                      <ImageWithFallback
+                        src="/logos/doan_logo.png"
+                        alt="Đoàn Thanh niên Logo"
+                        className="logo-image"
+                        style={{ objectFit: 'contain' }}
+                      />
+                    </div>
+                  </div>
+                  <div key="dainam-logo">
+                    <div className="logo-slide">
+                      <ImageWithFallback
+                        src="/logos/dainam_logo.png"
+                        alt="Đại Nam University Logo"
+                        className="logo-image"
+                        style={{ objectFit: 'contain' }}
+                      />
+                    </div>
+                  </div>
+                </Carousel>
               </div>
-              <h1 className="main-title">Quản lý công tác đoàn</h1>
+              <h1 className="main-title">Hệ thống quản lý công tác Đoàn</h1>
               <p className="subtitle">Khoa CNTT trường Đại học Đại Nam</p>
               <div className="divider"></div>
             </div>
@@ -308,7 +313,7 @@ export const Login: React.FC = () => {
                 </svg>
                 Trở về trang chủ
               </button>
-              <p className="copyright">© 2024 Khoa Công nghệ Thông tin - Đoàn TNCS Hồ Chí Minh</p>
+              <p className="copyright">2025 Liên chi đoàn khoa CNTT - Đoàn TNCS Hồ Chí Minh</p>
             </div>
           </div>
         </Col>

@@ -81,6 +81,62 @@
       max-width: 450px;
 
       .illustration-content {
+        .abstract-shapes {
+          width: 320px;
+          height: 320px;
+          margin: 0 auto 2rem;
+          position: relative;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+
+          .shape-gradient {
+            position: absolute;
+            border-radius: 20px;
+            opacity: 0.15;
+            animation: pulse 4s ease-in-out infinite;
+
+            &.shape-gradient-1 {
+              width: 200px;
+              height: 200px;
+              background: linear-gradient(135deg, rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0.1));
+              transform: rotate(45deg);
+              animation-delay: 0s;
+            }
+
+            &.shape-gradient-2 {
+              width: 160px;
+              height: 160px;
+              background: linear-gradient(225deg, rgba(255, 255, 255, 0.25), rgba(255, 255, 255, 0.05));
+              transform: rotate(-30deg);
+              animation-delay: 1.3s;
+              top: 20%;
+              left: 15%;
+            }
+
+            &.shape-gradient-3 {
+              width: 140px;
+              height: 140px;
+              background: linear-gradient(45deg, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.05));
+              transform: rotate(60deg);
+              animation-delay: 2.6s;
+              bottom: 15%;
+              right: 20%;
+            }
+          }
+        }
+
+        @keyframes pulse {
+          0%, 100% {
+            opacity: 0.15;
+            transform: scale(1) rotate(var(--rotation, 0deg));
+          }
+          50% {
+            opacity: 0.25;
+            transform: scale(1.05) rotate(var(--rotation, 0deg));
+          }
+        }
+
         .main-illustration {
           width: 320px;
           height: 320px;
@@ -153,6 +209,65 @@
         text-align: center;
         margin-bottom: 2rem;
 
+        .logo-container {
+          width: 100%;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          margin: 0 auto 1.5rem;
+          height: 84px;
+
+          .ant-carousel {
+            width: 84px;
+            height: 84px;
+            margin: 0 auto;
+
+            .slick-slider {
+              width: 84px;
+              height: 84px;
+            }
+
+            .slick-list {
+              width: 84px;
+              height: 84px;
+            }
+
+            .slick-track {
+              width: 84px;
+              height: 84px;
+            }
+
+            .slick-slide {
+              width: 84px;
+              height: 84px;
+
+              .logo-slide {
+                width: 84px;
+                height: 84px;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+
+                .logo-image {
+                  width: 84px !important;
+                  height: 84px !important;
+                  
+                  > div {
+                    width: 84px !important;
+                    height: 84px !important;
+                  }
+
+                  img {
+                    width: 84px !important;
+                    height: 84px !important;
+                    object-fit: contain !important;
+                  }
+                }
+              }
+            }
+          }
+        }
+
         .youth-logo {
           width: 60px;
           height: 60px;
@@ -173,10 +288,11 @@
         }
 
         .main-title {
-          font-size: 2.5rem;
+          font-size: 1.75rem;
           font-weight: bold;
           color: #1f2937;
           margin-bottom: 0.5rem;
+          white-space: nowrap;
         }
 
         .subtitle {
@@ -572,7 +688,7 @@
 
         .header-section {
           .main-title {
-            font-size: 2.25rem;
+            font-size: 1.75rem;
           }
 
           .subtitle {
@@ -632,8 +748,41 @@
         .header-section {
           margin-bottom: 1.5rem;
 
+          .logo-container {
+            min-height: 70px;
+            margin-bottom: 1rem;
+
+            .ant-carousel {
+              width: 70px !important;
+              height: 70px !important;
+
+              .slick-slider,
+              .slick-list,
+              .slick-track {
+                width: 70px !important;
+                height: 70px !important;
+              }
+
+              .slick-slide {
+                width: 70px !important;
+                height: 70px !important;
+
+                > div {
+                  width: 70px !important;
+                  height: 70px !important;
+                }
+
+                img {
+                  width: 70px !important;
+                  height: 70px !important;
+                }
+              }
+            }
+          }
+
           .main-title {
-            font-size: 2rem;
+            font-size: 1.75rem;
+            white-space: nowrap;
           }
 
           .subtitle {
@@ -730,7 +879,8 @@
           margin-bottom: 1.25rem;
 
           .main-title {
-            font-size: 1.75rem;
+            font-size: 1.5rem;
+            white-space: normal;
           }
 
           .subtitle {
@@ -836,8 +986,41 @@
 
       .form-container {
         .header-section {
+          .logo-container {
+            min-height: 60px;
+            margin-bottom: 0.75rem;
+
+            .ant-carousel {
+              width: 60px !important;
+              height: 60px !important;
+
+              .slick-slider,
+              .slick-list,
+              .slick-track {
+                width: 60px !important;
+                height: 60px !important;
+              }
+
+              .slick-slide {
+                width: 60px !important;
+                height: 60px !important;
+
+                > div {
+                  width: 60px !important;
+                  height: 60px !important;
+                }
+
+                img {
+                  width: 60px !important;
+                  height: 60px !important;
+                }
+              }
+            }
+          }
+
           .main-title {
-            font-size: 1.5rem;
+            font-size: 1.25rem;
+            white-space: normal;
           }
 
           .youth-logo {
