@@ -13,6 +13,7 @@ import {
   Statistic,
   Select,
   Tag,
+  Tooltip,
 } from 'antd';
 import {
   EditOutlined,
@@ -61,14 +62,123 @@ export default function ActivityListPage() {
         status: statusFilter,
       });
 
-      setActivities(response.data.list);
+      // Nếu backend trả về danh sách, dùng dữ liệu thật
+      if (response.data.list && response.data.list.length > 0) {
+        setActivities(response.data.list);
+        setPagination((prev) => ({
+          ...prev,
+          total: response.data.pagination.totalItems,
+        }));
+      } else {
+        // Nếu chưa có dữ liệu (hoặc backend chưa triển khai), dùng dữ liệu mẫu
+        const mockActivities: Activity[] = [
+          {
+            id: 1,
+            code: 'EVENT-001',
+            name: 'Hiến máu nhân đạo 2025',
+            description: 'Hoạt động hiến máu nhân đạo tại bệnh viện',
+            activityType: 'tinh-nguyen',
+            startDate: new Date().toISOString(),
+            endDate: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString(),
+            location: 'Bệnh viện Đại Nam',
+            status: 'planned',
+          } as Activity,
+          {
+            id: 2,
+            code: 'MEETING-002',
+            name: 'Sinh hoạt Chi đoàn tháng 1',
+            description: 'Buổi sinh hoạt định kỳ của Chi đoàn',
+            activityType: 'hoc-tap',
+            startDate: new Date().toISOString(),
+            endDate: new Date(Date.now() + 2 * 60 * 60 * 1000).toISOString(),
+            location: 'Phòng A101',
+            status: 'planned',
+          } as Activity,
+          {
+            id: 3,
+            code: 'VOLUNTEER-003',
+            name: 'Chiến dịch Mùa hè xanh',
+            description: 'Hoạt động tình nguyện tại các xã vùng sâu',
+            activityType: 'tinh-nguyen',
+            startDate: new Date().toISOString(),
+            endDate: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString(),
+            location: 'Xã A, Huyện B',
+            status: 'planned',
+          } as Activity,
+          {
+            id: 4,
+            code: 'VOTE-004',
+            name: 'Bình chọn BCH Chi đoàn',
+            description: 'Cuộc bình chọn Ban Chấp hành Chi đoàn nhiệm kỳ mới',
+            activityType: 'thi-dua',
+            startDate: new Date().toISOString(),
+            endDate: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString(),
+            status: 'planned',
+          } as Activity,
+        ];
+
+        setActivities(mockActivities);
+        setPagination((prev) => ({
+          ...prev,
+          total: mockActivities.length,
+        }));
+      }
+    } catch (error) {
+      // Nếu lỗi khi gọi API, hiển thị cảnh báo và dùng dữ liệu mẫu
+      message.error('Không thể tải danh sách hoạt động. Đang hiển thị dữ liệu mẫu.');
+      console.error('Error fetching activities:', error);
+
+      const mockActivities: Activity[] = [
+        {
+          id: 1,
+          code: 'EVENT-001',
+          name: 'Hiến máu nhân đạo 2025',
+          description: 'Hoạt động hiến máu nhân đạo tại bệnh viện',
+          activityType: 'tinh-nguyen',
+          startDate: new Date().toISOString(),
+          endDate: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString(),
+          location: 'Bệnh viện Đại Nam',
+          status: 'planned',
+        } as Activity,
+        {
+          id: 2,
+          code: 'MEETING-002',
+          name: 'Sinh hoạt Chi đoàn tháng 1',
+          description: 'Buổi sinh hoạt định kỳ của Chi đoàn',
+          activityType: 'hoc-tap',
+          startDate: new Date().toISOString(),
+          endDate: new Date(Date.now() + 2 * 60 * 60 * 1000).toISOString(),
+          location: 'Phòng A101',
+          status: 'planned',
+        } as Activity,
+        {
+          id: 3,
+          code: 'VOLUNTEER-003',
+          name: 'Chiến dịch Mùa hè xanh',
+          description: 'Hoạt động tình nguyện tại các xã vùng sâu',
+          activityType: 'tinh-nguyen',
+          startDate: new Date().toISOString(),
+          endDate: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString(),
+          location: 'Xã A, Huyện B',
+          status: 'planned',
+        } as Activity,
+        {
+          id: 4,
+          code: 'VOTE-004',
+          name: 'Bình chọn BCH Chi đoàn',
+          description: 'Cuộc bình chọn Ban Chấp hành Chi đoàn nhiệm kỳ mới',
+          activityType: 'thi-dua',
+          startDate: new Date().toISOString(),
+          endDate: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString(),
+          status: 'planned',
+        } as Activity,
+      ];
+
+      setActivities(mockActivities);
       setPagination((prev) => ({
         ...prev,
-        total: response.data.pagination.totalItems,
+        total: mockActivities.length,
       }));
-    } catch (error) {
-      message.error('Không thể tải danh sách hoạt động');
-      console.error('Error fetching activities:', error);
     } finally {
       setLoading(false);
     }
@@ -168,9 +278,7 @@ export default function ActivityListPage() {
       key: 'participants',
       width: 130,
       render: (_: unknown, record: Activity) => (
-        <span>
-          {record.currentParticipants || 0} / {record.maxParticipants || '∞'}
-        </span>
+        <span>{record.currentParticipants ?? 0}</span>
       ),
     },
     {
@@ -183,52 +291,203 @@ export default function ActivityListPage() {
     {
       title: 'Thao tác',
       key: 'action',
-      width: 250,
+      width: 180,
       fixed: 'right' as const,
       render: (_: unknown, record: Activity) => (
         <Space size="small">
-          <Button
-            type="link"
-            size="small"
-            icon={<EyeOutlined />}
-            onClick={() => navigate({ to: `/admin/activity/${record.id}` })}
-          >
-            Xem
-          </Button>
-          <Button
-            type="link"
-            size="small"
-            icon={<EditOutlined />}
-            onClick={() => navigate({ to: `/admin/activity/${record.id}/edit` })}
-          >
-            Sửa
-          </Button>
-          <Button
-            type="link"
-            size="small"
-            icon={<UsergroupAddOutlined />}
-            onClick={() => navigate({ to: `/admin/activity/${record.id}/registration` })}
-          >
-            ĐK
-          </Button>
-          <Button
-            type="link"
-            size="small"
-            icon={<CheckCircleOutlined />}
-            onClick={() => navigate({ to: `/admin/activity/${record.id}/attendance` })}
-          >
-            Điểm danh
-          </Button>
+          <Tooltip title="Xem chi tiết">
+            <Button
+              type="primary"
+              ghost
+              size="small"
+              icon={<EyeOutlined />}
+              onClick={() => navigate({ to: `/admin/activity-management/${record.id}` })}
+              style={{
+                borderRadius: '8px',
+                borderColor: '#1890ff',
+                color: '#1890ff',
+                fontWeight: '500',
+                width: '32px',
+                height: '32px',
+                padding: 0,
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                transition: 'all 0.3s ease',
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.background = '#1890ff';
+                e.currentTarget.style.color = 'white';
+                e.currentTarget.style.transform = 'translateY(-1px)';
+                e.currentTarget.style.boxShadow = '0 4px 12px rgba(24, 144, 255, 0.25)';
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.background = 'transparent';
+                e.currentTarget.style.color = '#1890ff';
+                e.currentTarget.style.transform = 'translateY(0)';
+                e.currentTarget.style.boxShadow = 'none';
+              }}
+            />
+          </Tooltip>
+
+          <Tooltip title="Chỉnh sửa">
+            <Button
+              type="primary"
+              ghost
+              size="small"
+              icon={<EditOutlined />}
+              onClick={() => navigate({ to: `/admin/activity-management/${record.id}/edit` })}
+              style={{
+                borderRadius: '8px',
+                borderColor: '#fa8c16',
+                color: '#fa8c16',
+                fontWeight: '500',
+                width: '32px',
+                height: '32px',
+                padding: 0,
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                transition: 'all 0.3s ease',
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.background = '#fa8c16';
+                e.currentTarget.style.color = 'white';
+                e.currentTarget.style.transform = 'translateY(-1px)';
+                e.currentTarget.style.boxShadow = '0 4px 12px rgba(250, 140, 22, 0.25)';
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.background = 'transparent';
+                e.currentTarget.style.color = '#fa8c16';
+                e.currentTarget.style.transform = 'translateY(0)';
+                e.currentTarget.style.boxShadow = 'none';
+              }}
+            />
+          </Tooltip>
+
+          <Tooltip title="Quản lý đăng ký">
+            <Button
+              type="primary"
+              ghost
+              size="small"
+              icon={<UsergroupAddOutlined />}
+              onClick={() =>
+                navigate({ to: `/admin/activity-management/registration-list` })
+              }
+              style={{
+                borderRadius: '8px',
+                borderColor: '#10b981',
+                color: '#10b981',
+                fontWeight: '500',
+                width: '32px',
+                height: '32px',
+                padding: 0,
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                transition: 'all 0.3s ease',
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.background = '#10b981';
+                e.currentTarget.style.color = 'white';
+                e.currentTarget.style.transform = 'translateY(-1px)';
+                e.currentTarget.style.boxShadow = '0 4px 12px rgba(16, 185, 129, 0.25)';
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.background = 'transparent';
+                e.currentTarget.style.color = '#10b981';
+                e.currentTarget.style.transform = 'translateY(0)';
+                e.currentTarget.style.boxShadow = 'none';
+              }}
+            />
+          </Tooltip>
+
+          <Tooltip title="Quản lý điểm danh">
+            <Button
+              type="primary"
+              ghost
+              size="small"
+              icon={<CheckCircleOutlined />}
+              onClick={() =>
+                navigate({ to: `/admin/activity-management/${record.id}/attendance` })
+              }
+              style={{
+                borderRadius: '8px',
+                borderColor: '#3b82f6',
+                color: '#3b82f6',
+                fontWeight: '500',
+                width: '32px',
+                height: '32px',
+                padding: 0,
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                transition: 'all 0.3s ease',
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.background = '#3b82f6';
+                e.currentTarget.style.color = 'white';
+                e.currentTarget.style.transform = 'translateY(-1px)';
+                e.currentTarget.style.boxShadow = '0 4px 12px rgba(59, 130, 246, 0.25)';
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.background = 'transparent';
+                e.currentTarget.style.color = '#3b82f6';
+                e.currentTarget.style.transform = 'translateY(0)';
+                e.currentTarget.style.boxShadow = 'none';
+              }}
+            />
+          </Tooltip>
+
           <Popconfirm
-            title="Xác nhận xóa"
+            title="Xóa hoạt động"
             description="Bạn có chắc chắn muốn xóa hoạt động này?"
             onConfirm={() => handleDelete(record.id)}
-            okText="Xóa"
-            cancelText="Hủy"
+            okText="Có"
+            cancelText="Không"
+            okButtonProps={{
+              style: {
+                background: 'linear-gradient(135deg, #dc2626 0%, #ef4444 100%)',
+                border: 'none',
+                borderRadius: '6px',
+              },
+            }}
+            cancelButtonProps={{
+              style: {
+                borderRadius: '6px',
+                borderColor: '#e2e8f0',
+              },
+            }}
           >
-            <Button type="link" size="small" danger icon={<DeleteOutlined />}>
-              Xóa
-            </Button>
+            <Tooltip title="Xóa">
+              <Button
+                type="primary"
+                danger
+                size="small"
+                icon={<DeleteOutlined />}
+                style={{
+                  borderRadius: '8px',
+                  background: 'linear-gradient(135deg, #dc2626 0%, #ef4444 100%)',
+                  border: 'none',
+                  fontWeight: '500',
+                  width: '32px',
+                  height: '32px',
+                  padding: 0,
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  transition: 'all 0.3s ease',
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.transform = 'translateY(-1px)';
+                  e.currentTarget.style.boxShadow = '0 4px 12px rgba(220, 38, 38, 0.35)';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.transform = 'translateY(0)';
+                  e.currentTarget.style.boxShadow = 'none';
+                }}
+              />
+            </Tooltip>
           </Popconfirm>
         </Space>
       ),

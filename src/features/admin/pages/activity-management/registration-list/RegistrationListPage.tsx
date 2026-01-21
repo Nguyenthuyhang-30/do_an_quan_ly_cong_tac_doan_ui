@@ -431,6 +431,10 @@ export default function RegistrationListPage() {
         ),
       );
       message.success('Duyệt đăng ký thành công');
+
+      // Sau khi duyệt, chuyển sang trang Danh sách hoạt động
+      // để cán bộ dễ xem và quản lý hoạt động tương ứng
+      navigate({ to: '/admin/activity-management' });
     } catch (error) {
       message.error('Không thể duyệt đăng ký');
       console.error('Error approving registration:', error);

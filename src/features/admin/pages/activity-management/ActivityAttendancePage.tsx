@@ -22,13 +22,16 @@ import {
   LoginOutlined,
   LogoutOutlined,
   UserOutlined,
+  QrcodeOutlined,
 } from '@ant-design/icons';
 import { useNavigate, useParams } from '@tanstack/react-router';
 import ActivityService from '../../../../services/api/activity.service';
 import { AttendanceStatusBadge } from '../../../../components/common/AttendanceStatusBadge';
+import QRCodeGenerator from '../../../../components/common/QRCodeGenerator';
 import type {
   ActivityParticipant,
   ActivityAttendanceStatistics,
+  Activity,
 } from '../../../../app-types/activity';
 import dayjs from 'dayjs';
 
@@ -43,14 +46,26 @@ export default function ActivityAttendancePage() {
   const [statistics, setStatistics] = useState<ActivityAttendanceStatistics | null>(null);
   const [searchText, setSearchText] = useState('');
   const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([]);
+  const [activity, setActivity] = useState<Activity | null>(null);
+  const [qrModalVisible, setQrModalVisible] = useState(false);
 
   useEffect(() => {
     if (id) {
+      fetchActivity();
       fetchParticipants();
       fetchStatistics();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id]);
+
+  const fetchActivity = async () => {
+    try {
+      const response = await ActivityService.getById(Number(id));
+      setActivity(response);
+    } catch (error) {
+      console.error('Error fetching activity:', error);
+    }
+  };
 
   useEffect(() => {
     // Filter participants based on search
@@ -349,6 +364,13 @@ export default function ActivityAttendancePage() {
             />
           </Space>
           <Space>
+            <Button
+              type="default"
+              icon={<QrcodeOutlined />}
+              onClick={() => setQrModalVisible(true)}
+            >
+              Hiển thị QR Code
+            </Button>
             <Button icon={<ReloadOutlined />} onClick={fetchParticipants}>
               Làm mới
             </Button>
@@ -381,6 +403,14 @@ export default function ActivityAttendancePage() {
           scroll={{ x: 1600 }}
         />
       </Card>
+
+      {/* QR Code Generator Modal */}
+      <QRCodeGenerator
+        activityId={Number(id)}
+        activityName={activity?.name || 'Hoạt động'}
+        visible={qrModalVisible}
+        onClose={() => setQrModalVisible(false)}
+      />
     </div>
   );
 }

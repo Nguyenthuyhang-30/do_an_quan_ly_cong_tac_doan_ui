@@ -87,30 +87,66 @@ export default function CreateMeetingRegistrationPage() {
 
   const handleSubmit = async () => {
     try {
+      // Validate tất cả các field
       await form.validateFields();
       setLoading(true);
-      const code = 'MEETING-' + Date.now();
-      const startDate = form.getFieldValue('dateTime') || new Date().toISOString();
-      const endDate = new Date(new Date(startDate).getTime() + 2 * 60 * 60 * 1000).toISOString();
 
       const values = form.getFieldsValue();
+      console.log('Form values:', values);
 
-      await ActivityService.create({
+      // Kiểm tra các field bắt buộc
+      if (!values.title || !values.title.trim()) {
+        message.error('Vui lòng nhập tên hoạt động');
+        setLoading(false);
+        return;
+      }
+
+      if (!values.dateTime) {
+        message.error('Vui lòng chọn thời gian');
+        setLoading(false);
+        return;
+      }
+
+      const code = 'MEETING-' + Date.now();
+      const startDate = values.dateTime ? new Date(values.dateTime).toISOString() : new Date().toISOString();
+      const endDate = new Date(new Date(startDate).getTime() + 2 * 60 * 60 * 1000).toISOString();
+
+      const activityData = {
         code: code.trim(),
         name: values.title.trim(),
-        description: values.note?.trim(),
-        activityType: 'hoc-tap',
+        description: values.note?.trim() || '',
+        activityType: 'hoc-tap' as const,
         startDate: startDate,
         endDate: endDate,
-        status: 'planned',
-        location: values.location?.trim(),
-      });
+        status: 'planned' as const,
+        location: values.location?.trim() || '',
+      };
+
+      console.log('Sending activity data:', activityData);
+
+      const result = await ActivityService.create(activityData);
+      console.log('Activity created successfully:', result);
 
       message.success('Tạo phiếu đăng ký sinh hoạt thành công!');
-      navigate({ to: '/admin/activity-management/registration' });
-    } catch (error) {
-      message.error('Không thể tạo phiếu đăng ký. Vui lòng thử lại.');
+      
+      // Chuyển về trang Quản lý đăng ký hoạt động
+      setTimeout(() => {
+        navigate({ to: '/admin/activity-management/registration' });
+      }, 1000);
+    } catch (error: any) {
       console.error('Error creating meeting registration:', error);
+      
+      // Hiển thị lỗi chi tiết hơn
+      const errorMessage = error?.response?.data?.message 
+        || error?.message 
+        || 'Không thể tạo phiếu đăng ký. Vui lòng kiểm tra lại thông tin và thử lại.';
+      
+      message.error(errorMessage);
+      
+      // Nếu là lỗi validation, highlight các field bị lỗi
+      if (error?.errorFields) {
+        form.setFields(error.errorFields);
+      }
     } finally {
       setLoading(false);
     }

@@ -192,6 +192,25 @@ class ActivityService extends BaseService<Activity, CreateActivityRequest, Updat
       params as Record<string, string | number | boolean | null | undefined>,
     );
   }
+
+  /**
+   * Generate QR code token for activity
+   */
+  async generateQRCodeToken(activityId: number): Promise<{ token: string; expiresAt: string }> {
+    const response = await this.http.post<{ token: string; expiresAt: string }>(
+      `/activity/${activityId}/qr-token`,
+    );
+    return response.data;
+  }
+
+  /**
+   * Check-in via QR code
+   */
+  async checkInViaQR(activityId: number, qrToken: string): Promise<void> {
+    await this.http.post<void>(`/activity/${activityId}/qr-check-in`, {
+      token: qrToken,
+    } as unknown as Record<string, unknown>);
+  }
 }
 
 export default new ActivityService();

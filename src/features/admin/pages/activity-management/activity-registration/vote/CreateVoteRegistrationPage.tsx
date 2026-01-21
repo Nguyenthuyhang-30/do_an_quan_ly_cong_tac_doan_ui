@@ -80,28 +80,55 @@ export default function CreateVoteRegistrationPage() {
     try {
       await form.validateFields();
       setLoading(true);
+
+      const values = form.getFieldsValue();
+      console.log('Form values:', values);
+
+      // Kiểm tra các field bắt buộc
+      if (!values.title || !values.title.trim()) {
+        message.error('Vui lòng nhập tiêu đề biểu quyết');
+        setLoading(false);
+        return;
+      }
+
       const code = 'VOTE-' + Date.now();
       const now = new Date().toISOString();
       const deadline =
         form.getFieldValue('deadline') || new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString();
 
-      const values = form.getFieldsValue();
-
-      await ActivityService.create({
+      const activityData = {
         code: code.trim(),
         name: values.title.trim(),
-        description: values.description?.trim(),
-        activityType: 'thi-dua',
+        description: values.description?.trim() || '',
+        activityType: 'thi-dua' as const,
         startDate: now,
         endDate: deadline,
-        status: 'planned',
-      });
+        status: 'planned' as const,
+      };
+
+      console.log('Sending activity data:', activityData);
+
+      const result = await ActivityService.create(activityData);
+      console.log('Activity created successfully:', result);
 
       message.success('Tạo phiếu đăng ký biểu quyết thành công!');
-      navigate({ to: '/admin/activity-management/registration' });
-    } catch (error) {
-      message.error('Không thể tạo phiếu đăng ký. Vui lòng thử lại.');
+      
+      // Chuyển về trang Quản lý đăng ký hoạt động
+      setTimeout(() => {
+        navigate({ to: '/admin/activity-management/registration' });
+      }, 1000);
+    } catch (error: any) {
       console.error('Error creating vote registration:', error);
+      
+      const errorMessage = error?.response?.data?.message 
+        || error?.message 
+        || 'Không thể tạo phiếu đăng ký. Vui lòng kiểm tra lại thông tin và thử lại.';
+      
+      message.error(errorMessage);
+      
+      if (error?.errorFields) {
+        form.setFields(error.errorFields);
+      }
     } finally {
       setLoading(false);
     }

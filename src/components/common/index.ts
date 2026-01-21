@@ -22,3 +22,7 @@ export { AttendanceStatusBadge } from './AttendanceStatusBadge';
 // Upload Components
 export { FileUpload } from './FileUpload';
 export { AvatarUpload } from './AvatarUpload';
+
+// QR Code Components
+export { default as QRCodeGenerator } from './QRCodeGenerator';
+export { default as QRCodeScanner } from './QRCodeScanner';

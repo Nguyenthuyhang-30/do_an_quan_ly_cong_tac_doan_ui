@@ -2,6 +2,7 @@
 import { adminRoute } from '@routes/admin.routes';
 import { createRoute } from '@tanstack/react-router';
 import MemberListPage from '../pages/member-management/MemberListPage';
+import MemberCreatePage from '../pages/member-management/MemberCreatePage';
 
 // Parent: /admin/member-management
 export const memberManagementRouteAdmin = createRoute({
@@ -20,7 +21,7 @@ export const memberListRoute = createRoute({
 export const memberCreateRoute = createRoute({
   getParentRoute: () => memberManagementRouteAdmin,
   path: '/create',
-  component: () => <div>Member Create Page - To be implemented</div>,
+  component: MemberCreatePage,
 });
 
 // /admin/member-management/$id

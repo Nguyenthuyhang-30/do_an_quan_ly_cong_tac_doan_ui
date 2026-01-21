@@ -13,7 +13,8 @@ import {
   Tag,
   Modal,
 } from 'antd';
-import { SearchOutlined, LoginOutlined, LogoutOutlined } from '@ant-design/icons';
+import { SearchOutlined, LoginOutlined, LogoutOutlined, QrcodeOutlined } from '@ant-design/icons';
+import { useNavigate } from '@tanstack/react-router';
 import ActivityService from '../../../services/api/activity.service';
 import MemberService from '../../../services/api/member.service';
 import { ActivityStatusBadge } from '../../../components/common/ActivityStatusBadge';
@@ -29,6 +30,7 @@ import type { YouthUnionMember } from '../../../app-types/youth-union-member';
 const { Title, Text } = Typography;
 
 export default function ActivityLookupPage() {
+  const navigate = useNavigate();
   const [form] = Form.useForm();
   const [loading, setLoading] = useState(false);
   const [member, setMember] = useState<YouthUnionMember | null>(null);
@@ -237,6 +239,16 @@ export default function ActivityLookupPage() {
           <Form.Item>
             <Button type="primary" size="large" htmlType="submit" loading={loading}>
               Tra cứu
+            </Button>
+          </Form.Item>
+          <Form.Item>
+            <Button
+              type="default"
+              size="large"
+              icon={<QrcodeOutlined />}
+              onClick={() => navigate({ to: '/check-in/qr' })}
+            >
+              Quét QR Code
             </Button>
           </Form.Item>
         </Form>

@@ -80,27 +80,54 @@ export default function CreateVolunteerRegistrationPage() {
     try {
       await form.validateFields();
       setLoading(true);
-      const code = 'VOLUNTEER-' + Date.now();
 
       const values = form.getFieldsValue();
+      console.log('Form values:', values);
 
-      await ActivityService.create({
+      // Kiểm tra các field bắt buộc
+      if (!values.title || !values.title.trim()) {
+        message.error('Vui lòng nhập tên hoạt động');
+        setLoading(false);
+        return;
+      }
+
+      const code = 'VOLUNTEER-' + Date.now();
+
+      const activityData = {
         code: code.trim(),
         name: values.title.trim(),
-        description: values.description?.trim(),
-        activityType: 'tinh-nguyen',
+        description: values.description?.trim() || '',
+        activityType: 'tinh-nguyen' as const,
         startDate: values.timeRange?.[0] || new Date().toISOString(),
         endDate:
           values.timeRange?.[1] || new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString(),
-        status: 'planned',
-        location: values.location?.trim(),
-      });
+        status: 'planned' as const,
+        location: values.location?.trim() || '',
+      };
+
+      console.log('Sending activity data:', activityData);
+
+      const result = await ActivityService.create(activityData);
+      console.log('Activity created successfully:', result);
 
       message.success('Tạo phiếu đăng ký tình nguyện thành công!');
-      navigate({ to: '/admin/activity-management/registration' });
-    } catch (error) {
-      message.error('Không thể tạo phiếu đăng ký. Vui lòng thử lại.');
+      
+      // Chuyển về trang Quản lý đăng ký hoạt động
+      setTimeout(() => {
+        navigate({ to: '/admin/activity-management/registration' });
+      }, 1000);
+    } catch (error: any) {
       console.error('Error creating volunteer registration:', error);
+      
+      const errorMessage = error?.response?.data?.message 
+        || error?.message 
+        || 'Không thể tạo phiếu đăng ký. Vui lòng kiểm tra lại thông tin và thử lại.';
+      
+      message.error(errorMessage);
+      
+      if (error?.errorFields) {
+        form.setFields(error.errorFields);
+      }
     } finally {
       setLoading(false);
     }

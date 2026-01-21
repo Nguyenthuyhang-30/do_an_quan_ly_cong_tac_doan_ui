@@ -4,6 +4,7 @@ import MainLayout from '@components/layout/main/MainLayout';
 import { homeTree } from '@features/home/routes/home.route';
 import BirthdayWish from '@pages/BirthdayWish';
 import ActivityLookupPage from '@features/home/pages/ActivityLookupPage';
+import QRCheckInPage from '@features/home/pages/QRCheckInPage';
 
 const mainRoute = createRoute({
   getParentRoute: () => rootRoutes,
@@ -23,6 +24,12 @@ const activityLookupRoute = createRoute({
   component: ActivityLookupPage,
 });
 
+const qrCheckInRoute = createRoute({
+  getParentRoute: () => rootRoutes,
+  path: '/check-in/qr',
+  component: QRCheckInPage,
+});
+
 const mainTree = mainRoute.addChildren([homeTree]);
 
-export { mainTree, mainRoute, birthdayRoute, activityLookupRoute };
+export { mainTree, mainRoute, birthdayRoute, activityLookupRoute, qrCheckInRoute };
