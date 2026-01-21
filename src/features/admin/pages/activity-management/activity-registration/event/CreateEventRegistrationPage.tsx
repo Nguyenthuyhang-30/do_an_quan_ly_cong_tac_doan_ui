@@ -103,22 +103,25 @@ export default function CreateEventRegistrationPage() {
 
       const code = 'EVENT-' + Date.now();
 
-      // Xử lý timeRange - có thể là moment object hoặc string
+      // Xử lý timeRange - có thể là dayjs/moment object hoặc string
       let startDate: string;
       let endDate: string;
       
       if (values.timeRange && values.timeRange[0] && values.timeRange[1]) {
-        // Nếu là moment object, convert sang ISO string
-        if (typeof values.timeRange[0].toISOString === 'function') {
-          startDate = values.timeRange[0].toISOString();
+        const start: any = values.timeRange[0];
+        const end: any = values.timeRange[1];
+
+        // Nếu là dayjs/moment object, convert sang ISO string
+        if (start && typeof start.toISOString === 'function') {
+          startDate = start.toISOString();
         } else {
-          startDate = values.timeRange[0];
+          startDate = String(start);
         }
         
-        if (typeof values.timeRange[1].toISOString === 'function') {
-          endDate = values.timeRange[1].toISOString();
+        if (end && typeof end.toISOString === 'function') {
+          endDate = end.toISOString();
         } else {
-          endDate = values.timeRange[1];
+          endDate = String(end);
         }
       } else {
         message.error('Vui lòng chọn thời gian bắt đầu và kết thúc');

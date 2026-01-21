@@ -7,14 +7,12 @@ interface QRCodeScannerProps {
   visible: boolean;
   onClose: () => void;
   onScanSuccess: (data: string) => void;
-  activityId?: number;
 }
 
 const QRCodeScanner: React.FC<QRCodeScannerProps> = ({
   visible,
   onClose,
   onScanSuccess,
-  activityId,
 }) => {
   const scannerRef = useRef<Html5Qrcode | null>(null);
   const [scanning, setScanning] = useState(false);
@@ -52,7 +50,7 @@ const QRCodeScanner: React.FC<QRCodeScannerProps> = ({
           // Quét thành công
           handleScanSuccess(decodedText);
         },
-        (errorMessage) => {
+        () => {
           // Bỏ qua lỗi quét liên tục
         },
       );
