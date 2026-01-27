@@ -195,16 +195,32 @@ class ActivityService extends BaseService<Activity, CreateActivityRequest, Updat
 
   /**
    * Generate QR code token for activity
+   * Có 2 loại token: 'register' (đăng ký tham gia) và 'attendance' (điểm danh)
    */
-  async generateQRCodeToken(activityId: number): Promise<{ token: string; expiresAt: string }> {
+  async generateQRCodeToken(
+    activityId: number,
+    type: 'register' | 'attendance',
+  ): Promise<{ token: string; expiresAt: string }> {
     const response = await this.http.post<{ token: string; expiresAt: string }>(
       `/activity/${activityId}/qr-token`,
+      {
+        type,
+      } as unknown as Record<string, unknown>,
     );
     return response.data;
   }
 
   /**
-   * Check-in via QR code
+   * Đăng ký tham gia qua QR code
+   */
+  async registerViaQR(activityId: number, qrToken: string): Promise<void> {
+    await this.http.post<void>(`/activity/${activityId}/qr-register`, {
+      token: qrToken,
+    } as unknown as Record<string, unknown>);
+  }
+
+  /**
+   * Check-in (điểm danh) qua QR code
    */
   async checkInViaQR(activityId: number, qrToken: string): Promise<void> {
     await this.http.post<void>(`/activity/${activityId}/qr-check-in`, {

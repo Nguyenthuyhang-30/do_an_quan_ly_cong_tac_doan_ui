@@ -12,6 +12,7 @@ import Step1BasicInfo from './steps/Step1BasicInfo';
 import Step2LocationOrganizers from './steps/Step2LocationOrganizers';
 import Step3Attachments from './steps/Step3Attachments';
 import Step4Configuration from './steps/Step4Configuration';
+import Step5RegisterQR from './steps/Step5RegisterQR';
 import ActivityService from '../../../../../../services/api/activity.service';
 import type { EventFormValues } from '../../../activity/event/types';
 
@@ -21,6 +22,9 @@ export default function CreateEventRegistrationPage() {
   const [form] = Form.useForm<EventFormValues>();
   const [currentStep, setCurrentStep] = useState(0);
   const [loading, setLoading] = useState(false);
+  const [createdActivityId, setCreatedActivityId] = useState<number | null>(null);
+  const [qrRegisterUrl, setQrRegisterUrl] = useState<string | null>(null);
+  const [qrLoading, setQrLoading] = useState(false);
   const navigate = useNavigate();
 
   const steps = [
@@ -43,6 +47,13 @@ export default function CreateEventRegistrationPage() {
       title: 'Cấu hình',
       icon: <SettingOutlined />,
       content: <Step4Configuration form={form} />,
+    },
+    {
+      title: 'Hoàn thành',
+      icon: <CheckCircleOutlined />,
+      content: (
+        <Step5RegisterQR activityId={createdActivityId} qrUrl={qrRegisterUrl} loading={qrLoading} />
+      ),
     },
   ];
 
@@ -153,12 +164,32 @@ export default function CreateEventRegistrationPage() {
       const result = await ActivityService.create(activityData);
       console.log('Activity created successfully:', result);
 
-      message.success('Tạo phiếu đăng ký sự kiện thành công!');
-      
-      // Chuyển về trang Quản lý đăng ký hoạt động
-      setTimeout(() => {
-        navigate({ to: '/admin/activity-management/registration' });
-      }, 1000);
+      // Lấy id hoạt động vừa tạo
+      const activityId = (result as any)?.id ?? (result as any)?.activityId;
+      setCreatedActivityId(activityId || null);
+
+      message.success('Tạo phiếu đăng ký sự kiện thành công! Đang sinh QR đăng ký...');
+
+      // Sinh QR đăng ký tham gia
+      if (activityId) {
+        try {
+          setQrLoading(true);
+          const tokenResponse = await ActivityService.generateQRCodeToken(activityId, 'register');
+          const baseUrl = import.meta.env.VITE_PUBLIC_BASE_URL || window.location.origin;
+          const qrUrl = `${baseUrl}/dang-ky/qr?activityId=${activityId}&token=${tokenResponse.token}`;
+          setQrRegisterUrl(qrUrl);
+        } catch (qrError) {
+          console.error('Error generating register QR token:', qrError);
+          message.warning(
+            'Đã tạo phiếu đăng ký nhưng chưa sinh được QR đăng ký. Vui lòng thử lại sau.',
+          );
+        } finally {
+          setQrLoading(false);
+        }
+      }
+
+      // Chuyển sang bước Hoàn thành (hiển thị QR)
+      setCurrentStep(4);
     } catch (error: any) {
       console.error('Error creating event registration:', error);
       
@@ -228,7 +259,7 @@ export default function CreateEventRegistrationPage() {
             </Button>
           </Space>
           <Space>
-            {currentStep < steps.length - 1 ? (
+            {currentStep < steps.length - 2 ? (
               <Button
                 type="primary"
                 onClick={next}
@@ -246,7 +277,7 @@ export default function CreateEventRegistrationPage() {
               >
                 Tiếp theo
               </Button>
-            ) : (
+            ) : currentStep === steps.length - 2 ? (
               <Button
                 type="primary"
                 onClick={handleSubmit}
@@ -264,7 +295,26 @@ export default function CreateEventRegistrationPage() {
                   boxShadow: '0 4px 12px rgba(21, 26, 166, 0.25)',
                 }}
               >
-                Hoàn thành
+                Hoàn thành & sinh QR
+              </Button>
+            ) : (
+              <Button
+                type="primary"
+                onClick={() => navigate({ to: '/admin/activity-management/registration' })}
+                size="large"
+                icon={<CheckCircleOutlined />}
+                style={{
+                  background:
+                    'linear-gradient(135deg, var(--primary-color) 0%, var(--primary-light) 100%)',
+                  border: 'none',
+                  borderRadius: '8px',
+                  height: '40px',
+                  padding: '0 24px',
+                  fontWeight: '600',
+                  boxShadow: '0 4px 12px rgba(21, 26, 166, 0.25)',
+                }}
+              >
+                Về danh sách
               </Button>
             )}
           </Space>

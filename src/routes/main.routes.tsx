@@ -5,6 +5,7 @@ import { homeTree } from '@features/home/routes/home.route';
 import BirthdayWish from '@pages/BirthdayWish';
 import ActivityLookupPage from '@features/home/pages/ActivityLookupPage';
 import QRCheckInPage from '@features/home/pages/QRCheckInPage';
+import QRRegisterPage from '@features/home/pages/QRRegisterPage';
 
 const mainRoute = createRoute({
   getParentRoute: () => rootRoutes,
@@ -30,6 +31,20 @@ const qrCheckInRoute = createRoute({
   component: QRCheckInPage,
 });
 
+// Đăng ký tham gia bằng QR
+const qrRegisterRoute = createRoute({
+  getParentRoute: () => rootRoutes,
+  path: '/dang-ky/qr',
+  component: QRRegisterPage,
+});
+
 const mainTree = mainRoute.addChildren([homeTree]);
 
-export { mainTree, mainRoute, birthdayRoute, activityLookupRoute, qrCheckInRoute };
+export {
+  mainTree,
+  mainRoute,
+  birthdayRoute,
+  activityLookupRoute,
+  qrCheckInRoute,
+  qrRegisterRoute,
+};
