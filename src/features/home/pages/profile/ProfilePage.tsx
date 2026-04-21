@@ -194,7 +194,7 @@ const ProfilePage: React.FC = () => {
                 </Descriptions.Item>
               )}
 
-              {user.status && (
+              {user.status !== undefined && (
                 <Descriptions.Item
                   label={
                     <Space>
@@ -203,9 +203,16 @@ const ProfilePage: React.FC = () => {
                     </Space>
                   }
                 >
-                  <Tag color={user.status === 'active' || user.status === 1 ? 'green' : 'default'}>
-                    {user.status === 'active' || user.status === 1 ? 'Hoạt động' : 'Không hoạt động'}
-                  </Tag>
+                  {(() => {
+                    const statusMap: Record<number, { label: string; color: string }> = {
+                      0: { label: 'Không hoạt động', color: 'default' },
+                      1: { label: 'Hoạt động', color: 'green' },
+                      2: { label: 'Bị tạm khóa', color: 'red' },
+                      3: { label: 'Đang chờ duyệt', color: 'orange' },
+                    };
+                    const statusConfig = statusMap[Number(user.status)] || { label: 'Không xác định', color: 'default' };
+                    return <Tag color={statusConfig.color}>{statusConfig.label}</Tag>;
+                  })()}
                 </Descriptions.Item>
               )}
             </Descriptions>

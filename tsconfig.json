@@ -10,8 +10,11 @@
     "isolatedModules": true,
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
+    "jsx": "react-jsx",
+    "module": "ESNext",
     "baseUrl": "./src",
     "paths": {
+      "@/*": ["./*"],
       "@components/*": ["components/*"],
       "@pages/*": ["pages/*"],
       "@hooks/*": ["hooks/*"],
@@ -26,14 +29,8 @@
       "@base/*": ["base/*"],
       "@features/*": ["features/*"]
     },
-    "composite": true,
-    "rootDir": "src",
-    "outDir": "./dist",
-    "declaration": true,
-    "noImplicitAny": false
+    "noImplicitAny": false,
+    "noEmit": true
   },
-  "files": [],
-  "include": ["src"],
-  "exclude": ["node_modules", "dist"],
-  "references": [{ "path": "./tsconfig.app.json" }, { "path": "./tsconfig.node.json" }]
+  "include": ["src"]
 }

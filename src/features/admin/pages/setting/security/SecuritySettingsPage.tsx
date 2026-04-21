@@ -1,6 +1,6 @@
 // src/pages/settings/security/SecuritySettingsPage.tsx
 import React, { useState } from 'react';
-import { Card, Button, Typography, Space, message } from 'antd';
+import { Card, Button, Typography, Space, notification } from 'antd';
 import { SaveOutlined, SafetyOutlined } from '@ant-design/icons';
 import { SecuritySettings } from './types';
 import { DEFAULT_SECURITY_SETTINGS } from './mockData';
@@ -23,9 +23,19 @@ const SecuritySettingsPage: React.FC = () => {
       setLoading(true);
       // TODO: Gọi API lưu cấu hình bảo mật
       await new Promise((resolve) => setTimeout(resolve, 500));
-      message.success('Đã lưu cấu hình bảo mật thành công');
+      notification.success({
+        message: 'Thành công',
+        description: 'Đã lưu cấu hình bảo mật thành công!',
+        placement: 'topRight',
+        duration: 3,
+      });
     } catch (error) {
-      message.error('Không thể lưu cấu hình. Vui lòng thử lại.');
+      notification.error({
+        message: 'Lỗi',
+        description: 'Không thể lưu cấu hình. Vui lòng thử lại.',
+        placement: 'topRight',
+        duration: 3,
+      });
     } finally {
       setLoading(false);
     }

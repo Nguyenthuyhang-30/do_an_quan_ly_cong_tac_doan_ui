@@ -1,5 +1,7 @@
+import { Outlet } from '@tanstack/react-router';
+
 const SettingAdmin = () => {
-  return <div>Admin Settings Page</div>;
+  return <Outlet />;
 };
 
 export default SettingAdmin;

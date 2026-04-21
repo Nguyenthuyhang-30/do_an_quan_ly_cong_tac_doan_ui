@@ -67,7 +67,7 @@ class AccountService {
    * Change password for current user
    */
   async changePassword(data: ChangePasswordRequest): Promise<void> {
-    await this.http.put<void>(
+    await this.http.post<void>(
       '/account/change-password',
       data as unknown as Record<string, unknown>,
     );
@@ -77,7 +77,7 @@ class AccountService {
    * Reset password for a member (Admin only)
    */
   async resetPassword(memberId: number, data: ResetPasswordRequest): Promise<void> {
-    await this.http.put<void>(
+    await this.http.post<void>(
       `/account/${memberId}/reset-password`,
       data as unknown as Record<string, unknown>,
     );

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Card, Switch, Space, Typography, Row, Col, Button, Divider, Form, Input } from 'antd';
+import { Card, Switch, Space, Typography, Row, Col, Button, Divider, Form, Input, notification } from 'antd';
 import {
   SettingOutlined,
   BellOutlined,
@@ -8,15 +8,31 @@ import {
   UserOutlined,
 } from '@ant-design/icons';
 import { useAuth } from '@hooks/useAuth';
+import memberService from '@services/api/member.service';
+import accountService from '@services/api/account.service';
+import authService from '@services/api/auth.service';
 import './UserSettingsPage.scss';
 
 const { Title, Text } = Typography;
 
+const openNotification = (type: 'success' | 'error' | 'info', message: string, description: string) => {
+  notification[type]({
+    message,
+    description,
+    placement: 'topRight',
+    duration: 3,
+  });
+};
+
 const UserSettingsPage: React.FC = () => {
-  const { user } = useAuth();
+  const { user, refreshUser } = useAuth();
+  const [loading, setLoading] = useState(false);
+  const [passwordLoading, setPasswordLoading] = useState(false);
   const [emailNotification, setEmailNotification] = useState(true);
   const [activityNotification, setActivityNotification] = useState(true);
   const [systemNotification, setSystemNotification] = useState(false);
+  const [form] = Form.useForm();
+  const [passwordForm] = Form.useForm();
 
   if (!user) {
     return (
@@ -26,17 +42,65 @@ const UserSettingsPage: React.FC = () => {
     );
   }
 
-  const handleSaveBasic = () => {
-    // TODO: gọi API cập nhật thông tin cơ bản
-    // Hiện tại chỉ là UI demo
+  const handleSaveBasic = async (values: { fullName: string; email: string }) => {
+    if (!user?.id) return;
+
+    setLoading(true);
+    try {
+      await memberService.updateProfile(user.id, {
+        fullName: values.fullName,
+      });
+      
+      const updatedUser = {
+        ...user,
+        fullName: values.fullName,
+      };
+      authService.setUser(updatedUser);
+      refreshUser();
+      
+      form.resetFields({ fullName: values.fullName, email: user.email });
+      
+      openNotification('success', 'Thành công', 'Cập nhật thông tin thành công!');
+    } catch (error) {
+      openNotification('error', 'Lỗi', 'Không thể cập nhật thông tin. Vui lòng thử lại.');
+    } finally {
+      setLoading(false);
+    }
   };
 
-  const handleSaveSecurity = () => {
-    // TODO: gọi API đổi mật khẩu
+  const handleSaveSecurity = async (values: { currentPassword: string; newPassword: string; confirmPassword: string }) => {
+    if (values.newPassword !== values.confirmPassword) {
+      openNotification('error', 'Lỗi', 'Mật khẩu mới không khớp!');
+      return;
+    }
+
+    setPasswordLoading(true);
+    try {
+      await accountService.changePassword({
+        oldPassword: values.currentPassword,
+        newPassword: values.newPassword,
+        confirmPassword: values.confirmPassword,
+      });
+      
+      passwordForm.resetFields();
+      openNotification('success', 'Thành công', 'Đổi mật khẩu thành công!');
+    } catch (error) {
+      openNotification('error', 'Lỗi', 'Không thể đổi mật khẩu. Vui lòng thử lại.');
+    } finally {
+      setPasswordLoading(false);
+    }
   };
 
   const handleSaveNotification = () => {
-    // TODO: gọi API lưu cài đặt thông báo
+    const notificationSettings = {
+      emailNotification,
+      activityNotification,
+      systemNotification,
+    };
+    
+    localStorage.setItem('notificationSettings', JSON.stringify(notificationSettings));
+    
+    openNotification('success', 'Thành công', 'Cài đặt thông báo đã được lưu!');
   };
 
   return (
@@ -56,7 +120,12 @@ const UserSettingsPage: React.FC = () => {
               </Space>
             }
           >
-            <Form layout="vertical" onFinish={handleSaveBasic} initialValues={{ fullName: user.fullName, email: user.email }}>
+            <Form
+              form={form}
+              layout="vertical"
+              onFinish={handleSaveBasic}
+              initialValues={{ fullName: user.fullName, email: user.email }}
+            >
               <Form.Item
                 label={
                   <Space>
@@ -65,6 +134,7 @@ const UserSettingsPage: React.FC = () => {
                   </Space>
                 }
                 name="fullName"
+                rules={[{ required: true, message: 'Vui lòng nhập họ và tên' }]}
               >
                 <Input placeholder="Nhập họ và tên" />
               </Form.Item>
@@ -78,13 +148,14 @@ const UserSettingsPage: React.FC = () => {
                 }
                 name="email"
               >
-                <Input placeholder="Nhập email" />
+                <Input placeholder="Email không thể thay đổi" disabled />
               </Form.Item>
 
               <Space style={{ marginTop: 8 }}>
                 <Button
                   type="primary"
                   htmlType="submit"
+                  loading={loading}
                   style={{
                     background:
                       'linear-gradient(135deg, var(--primary-color) 0%, var(--primary-light) 100%)',
@@ -111,7 +182,11 @@ const UserSettingsPage: React.FC = () => {
               </Space>
             }
           >
-            <Form layout="vertical" onFinish={handleSaveSecurity}>
+            <Form
+              form={passwordForm}
+              layout="vertical"
+              onFinish={handleSaveSecurity}
+            >
               <Form.Item
                 label="Mật khẩu hiện tại"
                 name="currentPassword"
@@ -123,7 +198,10 @@ const UserSettingsPage: React.FC = () => {
               <Form.Item
                 label="Mật khẩu mới"
                 name="newPassword"
-                rules={[{ required: true, message: 'Vui lòng nhập mật khẩu mới' }]}
+                rules={[
+                  { required: true, message: 'Vui lòng nhập mật khẩu mới' },
+                  { min: 6, message: 'Mật khẩu phải có ít nhất 6 ký tự' },
+                ]}
               >
                 <Input.Password placeholder="Nhập mật khẩu mới" />
               </Form.Item>
@@ -140,6 +218,7 @@ const UserSettingsPage: React.FC = () => {
                 <Button
                   type="primary"
                   htmlType="submit"
+                  loading={passwordLoading}
                   style={{
                     background:
                       'linear-gradient(135deg, var(--primary-color) 0%, var(--primary-light) 100%)',
@@ -226,5 +305,3 @@ const UserSettingsPage: React.FC = () => {
 };
 
 export default UserSettingsPage;
-
-

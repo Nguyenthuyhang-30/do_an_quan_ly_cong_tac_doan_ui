@@ -5,6 +5,15 @@ import { ViteImageOptimizer } from 'vite-plugin-image-optimizer';
 import { createHtmlPlugin } from 'vite-plugin-html';
 // https://vite.dev/config/
 export default defineConfig({
+  server: {
+    port: 5173,
+    proxy: {
+      '/v1/api': {
+        target: 'http://localhost:3052',
+        changeOrigin: true,
+      },
+    },
+  },
   plugins: [
     react(),
     tailwindcss(),
@@ -14,29 +23,7 @@ export default defineConfig({
       png: { quality: 80 },
     }),
     createHtmlPlugin({
-      minify: true,
-      inject: {
-        tags: [
-          {
-            tag: 'link',
-            attrs: {
-              rel: 'preload',
-              as: 'style',
-              href: '/assets/index.css',
-            },
-            injectTo: 'head',
-          },
-          {
-            tag: 'script',
-            attrs: {
-              src: '/src/main.tsx',
-              type: 'module',
-              defer: true,
-            },
-            injectTo: 'body',
-          },
-        ],
-      },
+      minify: false,
     }),
   ],
   resolve: {

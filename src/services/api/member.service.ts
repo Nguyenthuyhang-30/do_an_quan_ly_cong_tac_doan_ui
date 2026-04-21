@@ -93,6 +93,17 @@ class MemberService extends BaseService<
     );
     return response.data;
   }
+
+  /**
+   * Update member profile (for user settings)
+   */
+  async updateProfile(id: number, data: Partial<UpdateMemberRequest>): Promise<YouthUnionMember> {
+    const response = await this.http.put<YouthUnionMember>(
+      `/member/${id}`,
+      data as unknown as Record<string, unknown>,
+    );
+    return response.data;
+  }
 }
 
 export default new MemberService();

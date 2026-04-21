@@ -101,6 +101,18 @@ class AuthService {
   }
 
   /**
+   * Get fresh user data from server
+   */
+  async getCurrentUserFromServer(): Promise<User> {
+    const response = await this.http.get<{ data: { member: User } }>('/account/me');
+    if (response.data?.data?.member) {
+      this.setUser(response.data.data.member);
+      return response.data.data.member;
+    }
+    throw new Error('Failed to get user data from server');
+  }
+
+  /**
    * Request password reset
    */
   async forgotPassword(data: ForgotPasswordRequest): Promise<void> {
@@ -173,9 +185,9 @@ class AuthService {
   }
 
   /**
-   * Set user
+   * Set user (public method for updating user data)
    */
-  private setUser(user: User): void {
+  setUser(user: User): void {
     localStorage.setItem(this.USER_KEY, JSON.stringify(user));
   }
 
