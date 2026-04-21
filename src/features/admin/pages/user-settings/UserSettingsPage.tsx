@@ -58,7 +58,7 @@ const UserSettingsPage: React.FC = () => {
       authService.setUser(updatedUser);
       refreshUser();
       
-      form.resetFields({ fullName: values.fullName, email: user.email });
+      form.resetFields();
       
       openNotification('success', 'Thành công', 'Cập nhật thông tin thành công!');
     } catch (error) {

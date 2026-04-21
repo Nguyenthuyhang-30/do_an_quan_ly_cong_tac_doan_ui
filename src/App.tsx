@@ -12,11 +12,6 @@ const App: React.FC = () => {
     <ErrorBoundary>
       <ConfigProvider
         locale={viVN}
-        notification={{
-          placement: 'topRight',
-          duration: 3,
-          maxCount: 3,
-        }}
       >
         <AntApp>
           <AuthProvider>
